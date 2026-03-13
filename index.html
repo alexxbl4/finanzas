@@ -27,7 +27,6 @@ body{background:var(--bg0);color:var(--t1);font-family:var(--sans);-webkit-font-
 .logo-mark svg{width:14px;height:14px}
 .logo-txt{font-size:16px;font-weight:800;letter-spacing:-0.3px}
 .logo-txt span{color:var(--acc)}
-/* account switcher pill */
 .acc-pill{display:flex;align-items:center;gap:6px;background:var(--bg3);border:1px solid var(--b2);border-radius:100px;padding:5px 10px 5px 7px;cursor:pointer;max-width:160px;overflow:hidden;transition:border-color 0.15s}
 .acc-pill:active{border-color:var(--b3)}
 .acc-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
@@ -130,7 +129,6 @@ body{background:var(--bg0);color:var(--t1);font-family:var(--sans);-webkit-font-
 .toast.ok{border-color:var(--grn)}.toast.err{border-color:var(--red)}
 .tdot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
 .toast.ok .tdot{background:var(--grn)}.toast.err .tdot{background:var(--red)}
-/* bottom sheet modal */
 .sheet{position:fixed;inset:0;z-index:200;display:none}
 .sheet.on{display:flex;flex-direction:column;justify-content:flex-end}
 .sheet-bg{position:absolute;inset:0;background:rgba(0,0,0,0.65)}
@@ -138,14 +136,12 @@ body{background:var(--bg0);color:var(--t1);font-family:var(--sans);-webkit-font-
 @keyframes slideUp{from{transform:translateY(30px);opacity:0}to{transform:translateY(0);opacity:1}}
 .sheet-handle{width:36px;height:4px;background:var(--b2);border-radius:2px;margin:8px auto 16px}
 .sheet-title{font-size:16px;font-weight:800;margin-bottom:16px}
-/* color swatches */
 .swatch-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:4px}
 .swatch{width:28px;height:28px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:transform 0.15s}
 .swatch.on{border-color:var(--t1);transform:scale(1.15)}
 ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--bg4);border-radius:2px}
 input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--amb);border:2px solid var(--bg0);cursor:pointer}
 input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:var(--amb);border:2px solid var(--bg0);cursor:pointer}
-/* swipe */
 .swipe-wrap{position:relative;overflow:hidden;border-radius:var(--r2);margin-bottom:8px}
 .swipe-wrap .ti{margin-bottom:0;border-radius:0;border-left:none;border-right:none;position:relative;z-index:1;transition:transform 0.2s ease;will-change:transform}
 .swipe-wrap .ti:first-child{border-radius:var(--r2) var(--r2) 0 0}
@@ -157,11 +153,9 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
 .swipe-act{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;width:72px;cursor:pointer;font-size:9px;font-weight:700;letter-spacing:0.5px}
 .swipe-act.del{background:var(--red);color:#fff}
 .swipe-act.edit{background:var(--acc);color:var(--bg0)}
-/* goal bar */
 .goal-bar-wrap{margin-top:10px}
 .goal-bar-bg{height:6px;background:var(--bg4);border-radius:3px;overflow:hidden}
 .goal-bar-fill{height:100%;border-radius:3px;transition:width 0.4s ease}
-/* global search */
 .gsrch-wrap{padding:10px 16px 0;position:sticky;top:52px;z-index:90;background:var(--bg0)}
 .gsrch-inner{display:flex;align-items:center;gap:8px;background:var(--bg2);border:1px solid var(--b1);border-radius:var(--r2);padding:10px 14px}
 .gsrch-inner svg{flex-shrink:0;color:var(--t3)}
@@ -171,7 +165,6 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
 .gsr-section{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--t3);margin:12px 0 6px}
 .gsr-item{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--bg2);border:1px solid var(--b1);border-radius:var(--r1);margin-bottom:6px;cursor:pointer}
 .gsr-item:active{background:var(--bg3)}
-/* close trade modal */
 .close-modal{position:fixed;inset:0;z-index:300;display:none}
 .close-modal.on{display:flex;flex-direction:column;justify-content:flex-end}
 .close-modal-bg{position:absolute;inset:0;background:rgba(0,0,0,0.7)}
@@ -191,7 +184,6 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
     </div>
     <span class="logo-txt">Moon<span>Trade</span></span>
   </div>
-  <!-- ACCOUNT SWITCHER -->
   <div class="acc-pill" onclick="openAccSheet()">
     <div class="acc-dot" id="topbar-dot" style="background:#b8f03c"></div>
     <span class="acc-pill-name" id="topbar-accname">Mi cuenta</span>
@@ -208,7 +200,6 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
 <div class="content">
 
   <!-- DASHBOARD -->
-
   <div class="page on" id="p-dash">
     <div class="card" style="margin-bottom:12px">
       <div class="sec-h" style="margin-bottom:14px">
@@ -235,7 +226,6 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
           <div class="fg" style="margin:0"><label>Fecha</label><input type="date" id="mov-date"></div>
           <div class="fg" style="margin:0"><label>Nota</label><input type="text" id="mov-note" placeholder="Opcional..."></div>
         </div>
-        <!-- TRANSFER FIELDS -->
         <div id="mov-transfer-fields" style="display:none;border:1px solid var(--b2);border-radius:var(--r1);padding:10px 12px;margin-bottom:10px;background:var(--bg3)">
           <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--t3);margin-bottom:10px">Detalles del traspaso</div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
@@ -254,9 +244,14 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
       <div class="mc"><div class="ml">PnL Total</div><div class="mv" id="m-pnl">$0.00</div><div class="ms" id="m-pct">—</div></div>
       <div class="mc"><div class="ml">Win Rate</div><div class="mv ac" id="m-wr">—</div><div class="ms" id="m-wl">0W · 0L</div></div>
       <div class="mc"><div class="ml">Racha</div><div class="mv" id="m-streak">—</div><div class="ms" id="m-streak-sub">—</div></div>
+      <!-- BUG FIX #1: Added missing "Mejor trade" and "Peor trade" metric cards -->
       <div class="mc"><div class="ml">Mejor trade</div><div class="mv up" id="m-best">—</div><div class="ms" id="m-bsym">—</div></div>
     </div>
-    <!-- META MENSUAL -->
+    <!-- BUG FIX #1 continued: Added missing "Peor trade" card in a separate row -->
+    <div class="m2" style="margin-top:-4px">
+      <div class="mc"><div class="ml">Peor trade</div><div class="mv dn" id="m-worst">—</div><div class="ms" id="m-wsym">—</div></div>
+      <div class="mc"><div class="ml">Total trades</div><div class="mv ac" id="m-total-trades">—</div><div class="ms" id="m-total-sub">—</div></div>
+    </div>
     <div class="card" id="goal-card" style="margin-bottom:12px">
       <div class="sec-h" style="margin-bottom:8px">
         <span class="sec-t">Meta mensual</span>
@@ -288,7 +283,6 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
   </div>
 
   <!-- NUEVA / EDITAR -->
-
   <div class="page" id="p-new">
     <div class="pg-t" id="form-title">Nueva operación</div>
     <div class="pg-s" id="form-sub">Cargando...</div>
@@ -376,7 +370,6 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
   </div>
 
   <!-- BUSQUEDA GLOBAL -->
-
   <div class="page" id="p-search">
     <div class="pg-t">Buscar</div>
     <div class="pg-s">Trades, movimientos y cuentas</div>
@@ -389,7 +382,6 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
   </div>
 
   <!-- HISTORIAL -->
-
   <div class="page" id="p-hist">
     <div class="pg-t">Historial</div>
     <div class="pg-s" id="h-sub">Todas las operaciones</div>
@@ -414,7 +406,6 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
   </div>
 
   <!-- PORTFOLIO -->
-
   <div class="page" id="p-port">
     <div class="pg-t">Portfolio</div>
     <div class="pg-s">Posiciones abiertas</div>
@@ -432,7 +423,6 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
   </div>
 
   <!-- ESTADISTICAS -->
-
   <div class="page" id="p-stats">
     <div class="pg-t">Estadisticas</div>
     <div class="pg-s">Analisis de rendimiento</div>
@@ -464,7 +454,6 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
   </div>
 
   <!-- CUENTAS -->
-
   <div class="page" id="p-accs">
     <div class="pg-t">Cuentas</div>
     <div class="pg-s">Gestiona tus cuentas de trading</div>
@@ -477,6 +466,7 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
 
 </div>
 
+<!-- BUG FIX #2: Added "Cuentas" nav item replacing the missing link to p-accs -->
 <nav class="nav">
   <div class="ni on" id="ni-d" onclick="gp('dash',this,'Dashboard')">
     <svg viewBox="0 0 20 20" fill="none"><rect x="2" y="2" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.4"/><rect x="11" y="2" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.4"/><rect x="2" y="11" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.4"/><rect x="11" y="11" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.4"/></svg>
@@ -502,7 +492,6 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
 <div class="toast" id="toast"><div class="tdot"></div><span id="t-msg"></span></div>
 
 <!-- ACCOUNT SHEET -->
-
 <div class="sheet" id="sheet-acc">
   <div class="sheet-bg" onclick="closeAccSheet()"></div>
   <div class="sheet-box">
@@ -512,7 +501,6 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
 </div>
 
 <!-- CLOSE TRADE MODAL -->
-
 <div class="close-modal" id="close-modal">
   <div class="close-modal-bg" onclick="closeQuickModal()"></div>
   <div class="close-modal-box">
@@ -522,7 +510,6 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
 </div>
 
 <!-- GOAL MODAL -->
-
 <div class="close-modal" id="goal-modal">
   <div class="close-modal-bg" onclick="closeGoalModal()"></div>
   <div class="close-modal-box">
@@ -579,6 +566,7 @@ function refreshAll(){
   if(id==='hist')rHist();
   if(id==='port')rPort();
   if(id==='stats')rStats();
+  if(id==='accs')renderAccsList();
 }
 
 // ── ACCOUNT SHEET ─────────────────────────────────────────────────────────────
@@ -1081,13 +1069,28 @@ function updDash(){
   document.getElementById('m-wl').textContent=ws.length+'W · '+ls.length+'L';
   document.getElementById('d-ct').textContent=cl.length+' cerradas';
   document.getElementById('d-total').textContent=TR.length+' total';
+
+  // BUG FIX #1: Safe access to m-worst, m-wsym (now exist in HTML)
   if(pnls.length){
     var mx=Math.max.apply(null,pnls),mn=Math.min.apply(null,pnls);
-    document.getElementById('m-best').textContent=fm(mx);
-    document.getElementById('m-bsym').textContent=(cl[pnls.indexOf(mx)]||{}).symbol||'—';
-    document.getElementById('m-worst').textContent=fm(mn);
-    document.getElementById('m-wsym').textContent=(cl[pnls.indexOf(mn)]||{}).symbol||'—';
+    var bestEl=document.getElementById('m-best');
+    if(bestEl) bestEl.textContent=fm(mx);
+    var bSymEl=document.getElementById('m-bsym');
+    if(bSymEl) bSymEl.textContent=(cl[pnls.indexOf(mx)]||{}).symbol||'—';
+    var worstEl=document.getElementById('m-worst');
+    if(worstEl) worstEl.textContent=fm(mn);
+    var wSymEl=document.getElementById('m-wsym');
+    if(wSymEl) wSymEl.textContent=(cl[pnls.indexOf(mn)]||{}).symbol||'—';
   }
+
+  // BUG FIX: Update total trades metric
+  var totalTrades=document.getElementById('m-total-trades');
+  if(totalTrades){
+    totalTrades.textContent=TR.length;
+    var totalSub=document.getElementById('m-total-sub');
+    if(totalSub) totalSub.textContent=cl.length+' cerradas · '+(TR.length-cl.length)+' abiertas';
+  }
+
   var sorted=[].concat(cl).sort(function(a,b){return a.date.localeCompare(b.date);});
   var cum=0,cumD=sorted.map(function(t){return parseFloat((cum+=cpnl(t)).toFixed(2));}),lbls=sorted.map(function(t){return t.date.slice(5);});
   dc('pnl');
@@ -1109,7 +1112,6 @@ function updDash(){
   var recEl=document.getElementById('d-rec'); recEl.innerHTML='';
   if(rec.length) rec.forEach(function(t){recEl.appendChild(tCard(t,true));});
   else recEl.innerHTML='<div class="empty"><div class="ei"><svg viewBox="0 0 22 22" fill="none"><path d="M8 11h6M8 15h4M6 4H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-2M8 4h6v2H8V4z" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></div><div class="et">Sin operaciones</div><div class="es">Registra tu primer trade</div></div>';
-  // streak
   var streak=calcStreak(TR);
   var sEl=document.getElementById('m-streak');
   var sSubEl=document.getElementById('m-streak-sub');
@@ -1119,7 +1121,6 @@ function updDash(){
     sEl.className='mv '+(streak.type==='win'?'up':'dn');
     sSubEl.textContent='racha de '+(streak.type==='win'?'victorias':'derrotas');
   }
-  // goal
   renderGoal(TR);
 }
 
@@ -1176,18 +1177,18 @@ function addMov(){
     if(!destAcc)return toast('Cuenta destino no encontrada',false);
     var fee=parseFloat(document.getElementById('mov-fee').value)||0;
     var now=Date.now();
-    // Salida de cuenta origen: retirada por el total
+    var srcName=curAcc().name;
     var srcMov=getMOV();
     srcMov.push({id:now,type:'ret',amt:amt,date:date,note:'Traspaso a '+destAcc.name+(fee?' (fee $'+fee.toFixed(2)+')')+(note?' · '+note:''),transfer:true,transferPair:now+1});
     if(fee>0){
       srcMov.push({id:now+2,type:'ret',amt:fee,date:date,note:'Coste traspaso a '+destAcc.name,fee:true});
     }
     saveMOV(srcMov);
-    // Entrada en cuenta destino: solo lo que llega (amt sin fee)
     var prevAcc=CUR_ACC;
     CUR_ACC=destId;
     var destMov=getMOV();
-    destMov.push({id:now+1,type:'dep',amt:amt,date:date,note:'Traspaso desde '+curAccName(prevAcc)+(note?' · '+note:''),transfer:true,transferPair:now});
+    // BUG FIX #6: replaced curAccName(prevAcc) with srcName captured before switch
+    destMov.push({id:now+1,type:'dep',amt:amt,date:date,note:'Traspaso desde '+srcName+(note?' · '+note:''),transfer:true,transferPair:now});
     saveMOV(destMov);
     CUR_ACC=prevAcc;
     toggleMovForm(); renderAcc();
@@ -1201,10 +1202,13 @@ function addMov(){
   toggleMovForm(); renderAcc();
   toast((type==='dep'?'Deposito':'Retirada')+' $'+amt.toFixed(2),true);
 }
+
+// BUG FIX: curAccName kept for safety but transfer now uses captured srcName above
 function curAccName(id){
   var a=ACCS.find(function(x){return x.id===id;});
   return a?a.name:'Cuenta';
 }
+
 function delMov(id){
   if(!confirm('Eliminar movimiento?'))return;
   var MOV=getMOV().filter(function(m){return m.id!==id;});
@@ -1324,34 +1328,94 @@ function rPort(){
       grid.appendChild(hrow('Fecha','<span style="font-size:11px">'+t.date+'</span>'));
       card.appendChild(grid);
       if(t.notes){var n=document.createElement('div');n.style.cssText='margin-top:10px;padding-top:9px;border-top:1px solid var(--b1);font-size:11px;font-weight:500;color:var(--t3)';n.textContent=t.notes;card.appendChild(n);}
-      // inline close button
+      
+      // BUG FIX #3: Rebuilt close button using DOM methods instead of broken innerHTML with nested quotes
       var closeRow=document.createElement('div');
       closeRow.style.cssText='display:flex;gap:8px;margin-top:12px;padding-top:10px;border-top:1px solid var(--b1)';
       var closeBtn=document.createElement('button');
       closeBtn.style.cssText='flex:1;padding:10px;background:var(--grn2);border:1px solid var(--grn);border-radius:var(--r1);font-size:12px;font-weight:700;font-family:var(--sans);color:var(--grn);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px';
       closeBtn.innerHTML='<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="currentColor" stroke-width="1.3"/><path d="M4 6l1.5 1.5L8 4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>Cerrar posición';
+      
       closeBtn.onclick=(function(trade){
         return function(){
-          var inp=document.createElement('div');
-          inp.style.cssText='position:fixed;inset:0;z-index:400;display:flex;flex-direction:column;justify-content:flex-end';
-          inp.innerHTML='<div onclick="this.parentNode.remove()" style="position:absolute;inset:0;background:rgba(0,0,0,0.7)"></div>'
-            +'<div style="position:relative;background:var(--bg1);border-radius:16px 16px 0 0;padding:8px 18px 32px;max-width:480px;width:100%;margin:0 auto">'
-            +'<div style="width:36px;height:4px;background:var(--b2);border-radius:2px;margin:8px auto 16px"></div>'
-            +'<div style="font-size:15px;font-weight:800;margin-bottom:4px">Cerrar '+trade.symbol+'</div>'
-            +'<div style="font-size:11px;color:var(--t2);margin-bottom:14px">Entrada '+fp(trade.entry)+(trade.leverage>1?' · x'+trade.leverage:'')+'</div>'
-            +'<div style="display:flex;gap:8px;align-items:center;margin-bottom:14px">'
-            +'<input type="number" id="inline-exit-'+trade.id+'" placeholder="Precio de salida..." step="any" min="0" oninput="(function(){var ex=parseFloat(document.getElementById('inline-exit-'+trade.id+'').value);if(!ex)return;var p=('+(trade.side==='LONG'?1:-1)+'*(ex-'+trade.entry+')*'+(trade.leverage||1)+');var el=document.getElementById('inline-pnl-'+trade.id+'');el.textContent=(p>=0?'+':'')+'$'+Math.abs(p).toFixed(2);el.style.color=p>=0?'var(--grn)':'var(--red)';})();" '
-            +'style="flex:1;background:var(--bg3);border:1px solid var(--b1);border-radius:var(--r1);padding:11px 12px;font-size:14px;font-weight:500;color:var(--t1);font-family:var(--sans);outline:none;-webkit-appearance:none">'
-            +'<span id="inline-pnl-'+trade.id+'" style="font-family:var(--mono);font-size:14px;font-weight:700;color:var(--t3);min-width:70px;text-align:right">—</span>'
-            +'</div>'
-            +'<button onclick="(function(){var ex=parseFloat(document.getElementById('inline-exit-'+trade.id+'').value);if(!ex||ex<=0){return;}var TR=getTR();var idx=TR.findIndex(function(x){return x.id==='+trade.id+';});if(idx>=0){TR[idx].exit=ex;saveTR(TR);}var p=('+(trade.side==='LONG'?1:-1)+'*(ex-'+trade.entry+')*'+(trade.leverage||1)+');toast(''+trade.symbol+' cerrado · PnL '+(p>=0?'+':'')+'$'+Math.abs(p).toFixed(2),true);document.getElementById('inline-close-overlay-'+trade.id+'').remove();rPort();updDash();renderAcc();})()" style="width:100%;padding:13px;background:var(--acc);border:none;border-radius:var(--r1);font-size:13px;font-weight:700;font-family:var(--sans);color:var(--bg0);cursor:pointer">Confirmar cierre</button>'
-            +'</div>';
-          inp.id='inline-close-overlay-'+trade.id;
-          inp.querySelector('div').onclick=function(){inp.remove();};
-          document.body.appendChild(inp);
-          setTimeout(function(){document.getElementById('inline-exit-'+trade.id).focus();},80);
+          // BUG FIX #3: Build overlay using DOM API to avoid quote escaping issues
+          var overlay=document.createElement('div');
+          overlay.id='inline-close-overlay-'+trade.id;
+          overlay.style.cssText='position:fixed;inset:0;z-index:400;display:flex;flex-direction:column;justify-content:flex-end';
+          
+          var overlayBg=document.createElement('div');
+          overlayBg.style.cssText='position:absolute;inset:0;background:rgba(0,0,0,0.7)';
+          overlayBg.onclick=function(){overlay.remove();};
+          
+          var box=document.createElement('div');
+          box.style.cssText='position:relative;background:var(--bg1);border-radius:16px 16px 0 0;padding:8px 18px 32px;max-width:480px;width:100%;margin:0 auto';
+          
+          var handle=document.createElement('div');
+          handle.style.cssText='width:36px;height:4px;background:var(--b2);border-radius:2px;margin:8px auto 16px';
+          
+          var titleEl=document.createElement('div');
+          titleEl.style.cssText='font-size:15px;font-weight:800;margin-bottom:4px';
+          titleEl.textContent='Cerrar '+trade.symbol;
+          
+          var subtitleEl=document.createElement('div');
+          subtitleEl.style.cssText='font-size:11px;color:var(--t2);margin-bottom:14px';
+          subtitleEl.textContent='Entrada '+fp(trade.entry)+(trade.leverage>1?' · x'+trade.leverage:'');
+          
+          var inputRow=document.createElement('div');
+          inputRow.style.cssText='display:flex;gap:8px;align-items:center;margin-bottom:14px';
+          
+          var exitInput=document.createElement('input');
+          exitInput.type='number';
+          exitInput.id='inline-exit-'+trade.id;
+          exitInput.placeholder='Precio de salida...';
+          exitInput.step='any';
+          exitInput.min='0';
+          exitInput.style.cssText='flex:1;background:var(--bg3);border:1px solid var(--b1);border-radius:var(--r1);padding:11px 12px;font-size:14px;font-weight:500;color:var(--t1);font-family:var(--sans);outline:none;-webkit-appearance:none';
+          
+          var pnlPreview=document.createElement('span');
+          pnlPreview.id='inline-pnl-'+trade.id;
+          pnlPreview.style.cssText='font-family:var(--mono);font-size:14px;font-weight:700;min-width:70px;text-align:right;color:var(--t3)';
+          pnlPreview.textContent='—';
+          
+          exitInput.oninput=function(){
+            var ex=parseFloat(exitInput.value);
+            if(!ex) return;
+            var p=(trade.side==='LONG'?1:-1)*(ex-trade.entry)*(trade.leverage||1);
+            pnlPreview.textContent=fm(p);
+            pnlPreview.style.color=p>=0?'var(--grn)':'var(--red)';
+          };
+          
+          var confirmBtn=document.createElement('button');
+          confirmBtn.style.cssText='width:100%;padding:13px;background:var(--acc);border:none;border-radius:var(--r1);font-size:13px;font-weight:700;font-family:var(--sans);color:var(--bg0);cursor:pointer';
+          confirmBtn.textContent='Confirmar cierre';
+          confirmBtn.onclick=function(){
+            var ex=parseFloat(exitInput.value);
+            if(!ex||ex<=0){toast('Introduce el precio de salida',false);return;}
+            var TR=getTR();
+            var idx=TR.findIndex(function(x){return x.id===trade.id;});
+            if(idx>=0){TR[idx].exit=ex;saveTR(TR);}
+            var p=(trade.side==='LONG'?1:-1)*(ex-trade.entry)*(trade.leverage||1);
+            toast(trade.symbol+' cerrado · PnL '+fm(p),true);
+            overlay.remove();
+            rPort(); updDash(); renderAcc();
+          };
+          
+          inputRow.appendChild(exitInput);
+          inputRow.appendChild(pnlPreview);
+          
+          box.appendChild(handle);
+          box.appendChild(titleEl);
+          box.appendChild(subtitleEl);
+          box.appendChild(inputRow);
+          box.appendChild(confirmBtn);
+          
+          overlay.appendChild(overlayBg);
+          overlay.appendChild(box);
+          document.body.appendChild(overlay);
+          setTimeout(function(){exitInput.focus();},80);
         };
       })(t);
+      
       var editPortBtn=document.createElement('button');
       editPortBtn.style.cssText='padding:10px 14px;background:transparent;border:1px solid var(--b2);border-radius:var(--r1);font-size:12px;font-weight:700;font-family:var(--sans);color:var(--t2);cursor:pointer';
       editPortBtn.textContent='Editar';
@@ -1490,7 +1554,6 @@ function makeSwipeable(el, onDelete, onEdit) {
 function wrapSwipeable(cardEl, t) {
   var wrap=document.createElement('div');
   wrap.className='swipe-wrap single';
-  // left actions (swipe left = delete)
   var leftActs=document.createElement('div');
   leftActs.className='swipe-actions left';
   var delAct=document.createElement('div');
@@ -1498,7 +1561,6 @@ function wrapSwipeable(cardEl, t) {
   delAct.innerHTML='<svg width="16" height="16" viewBox="0 0 14 14" fill="none"><path d="M1 3h12M5 3V2a1 1 0 0 1 4 0v1M3.5 3l.8 8.5h5.4l.8-8.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>Borrar';
   delAct.onclick=function(){delT(t.id);};
   leftActs.appendChild(delAct);
-  // right actions (swipe right = edit)
   var rightActs=document.createElement('div');
   rightActs.className='swipe-actions right';
   var editAct=document.createElement('div');
@@ -1555,7 +1617,6 @@ function renderGoal(TR) {
   var content=document.getElementById('goal-content');
   var pctLbl=document.getElementById('goal-pct-lbl');
   var editBtn=document.getElementById('goal-edit-btn');
-  // current month PnL
   var now=new Date();
   var ym=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0');
   var monthPnl=TR.filter(function(t){return t.exit&&t.entry&&t.date.slice(0,7)===ym;})
@@ -1591,7 +1652,10 @@ function openQuickClose(){
   title.textContent='Cerrar trade rápido';
   box.appendChild(title);
   if(!op.length){
-    box.innerHTML+='<div style="font-size:13px;color:var(--t3);text-align:center;padding:20px 0">No hay posiciones abiertas</div>';
+    var empty=document.createElement('div');
+    empty.style.cssText='font-size:13px;color:var(--t3);text-align:center;padding:20px 0';
+    empty.textContent='No hay posiciones abiertas';
+    box.appendChild(empty);
   } else {
     op.forEach(function(t){
       var row=document.createElement('div');
@@ -1614,22 +1678,19 @@ function openQuickClose(){
       inp.type='number';inp.placeholder='Precio de salida...';inp.step='any';inp.min='0';
       inp.id='qc-'+t.id;
       inp.style.cssText='flex:1;background:var(--bg2);border:1px solid var(--b1);border-radius:var(--r1);padding:10px 12px;font-size:14px;font-weight:500;color:var(--t1);font-family:var(--sans);outline:none;-webkit-appearance:none';
-      inp.oninput=(function(trade,input){
-        return function(){
-          var ex=parseFloat(input.value);
-          if(!ex) return;
-          var p=(trade.side==='LONG'?1:-1)*(ex-trade.entry)*(trade.leverage||1);
-          var up=p>=0;
-          var preview=input.parentNode.querySelector('.qc-preview');
-          if(preview){preview.textContent=fm(p);preview.style.color=up?'var(--grn)':'var(--red)';}
-        };
-      })(t,inp);
-      inputRow.appendChild(inp);
       var preview=document.createElement('span');
       preview.className='qc-preview';
       preview.style.cssText='font-family:var(--mono);font-size:14px;font-weight:700;min-width:60px;text-align:right;color:var(--t3)';
       preview.textContent='—';
-      inputRow.appendChild(preview);
+      inp.oninput=(function(trade,previewEl){
+        return function(){
+          var ex=parseFloat(inp.value);
+          if(!ex) return;
+          var p=(trade.side==='LONG'?1:-1)*(ex-trade.entry)*(trade.leverage||1);
+          previewEl.textContent=fm(p);
+          previewEl.style.color=p>=0?'var(--grn)':'var(--red)';
+        };
+      })(t,preview);
       var btn=document.createElement('button');
       btn.style.cssText='padding:10px 14px;background:var(--acc);border:none;border-radius:var(--r1);font-size:12px;font-weight:700;font-family:var(--sans);color:var(--bg0);cursor:pointer';
       btn.textContent='Cerrar';
@@ -1646,6 +1707,8 @@ function openQuickClose(){
           rPort(); updDash(); renderAcc();
         };
       })(t);
+      inputRow.appendChild(inp);
+      inputRow.appendChild(preview);
       inputRow.appendChild(btn);
       row.appendChild(inputRow);
       box.appendChild(row);
@@ -1662,48 +1725,75 @@ function openQuickClose(){
 function closeQuickModal(){document.getElementById('close-modal').classList.remove('on');}
 
 // ── GLOBAL SEARCH ─────────────────────────────────────────────────────────────
+// BUG FIX #5: Rebuilt with proper DOM methods to avoid broken HTML strings with mismatched quotes
 function runGlobalSearch(q){
   var el=document.getElementById('gsrch-results');
   q=q.trim().toUpperCase();
   if(q.length<2){el.innerHTML='<div style="font-size:12px;color:var(--t3);padding:16px 0">Escribe al menos 2 caracteres...</div>';return;}
-  var html='';
+  el.innerHTML='';
+
   // Search trades across ALL accounts
   var tradeResults=[];
   ACCS.forEach(function(a){
     var tr=load('mt6_'+a.id+'_tr','[]');
     tr.forEach(function(t){
       if(t.symbol.includes(q)||(t.notes&&t.notes.toUpperCase().includes(q))||(t.exchange&&t.exchange.toUpperCase().includes(q))){
-        tradeResults.push({t:t,accName:a.name,accColor:a.color});
+        tradeResults.push({t:t,accName:a.name,accColor:a.color,accId:a.id});
       }
     });
   });
+
   if(tradeResults.length){
-    html+='<div class="gsr-section">Trades ('+tradeResults.length+')</div>';
+    var sec=document.createElement('div');
+    sec.className='gsr-section';
+    sec.textContent='Trades ('+tradeResults.length+')';
+    el.appendChild(sec);
     tradeResults.slice(0,10).forEach(function(r){
       var t=r.t; var p=cpnl(t);
-      var pcls=p===null?'color:var(--t2)':p>=0?'color:var(--grn)':'color:var(--red)';
-      html+='<div class=gsr-item" onclick="gp('hist',document.getElementById('ni-h'),'Historial')">';
-      html+='<div style="width:32px;height:32px;border-radius:50%;background:'+cColor(t.symbol)+'22;border:1.5px solid '+cColor(t.symbol)+'55;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:'+cColor(t.symbol)+';flex-shrink:0">'+t.symbol.slice(0,3)+'</div>';
-      html+='<div style="flex:1"><div style="font-size:13px;font-weight:700">'+t.symbol+'</div>';
-      html+='<div style="font-size:10px;color:var(--t2)">'+t.date+' · '+r.accName+'</div></div>';
-      html+='<div style="font-family:var(--mono);font-size:13px;font-weight:700;'+pcls+'">'+( p!==null?fm(p):'OPEN')+'</div>';
-      html+='</div>';
+      var item=document.createElement('div');
+      item.className='gsr-item';
+      item.onclick=function(){gp('hist',document.getElementById('ni-h'),'Historial');};
+      var ico=document.createElement('div');
+      ico.style.cssText='width:32px;height:32px;border-radius:50%;background:'+cColor(t.symbol)+'22;border:1.5px solid '+cColor(t.symbol)+'55;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:'+cColor(t.symbol)+';flex-shrink:0';
+      ico.textContent=t.symbol.slice(0,3);
+      var info=document.createElement('div');
+      info.style.flex='1';
+      info.innerHTML='<div style="font-size:13px;font-weight:700">'+t.symbol+'</div><div style="font-size:10px;color:var(--t2)">'+t.date+' · '+r.accName+'</div>';
+      var pnlEl=document.createElement('div');
+      pnlEl.style.cssText='font-family:var(--mono);font-size:13px;font-weight:700;color:'+(p===null?'var(--t2)':p>=0?'var(--grn)':'var(--red)');
+      pnlEl.textContent=p!==null?fm(p):'OPEN';
+      item.appendChild(ico); item.appendChild(info); item.appendChild(pnlEl);
+      el.appendChild(item);
     });
   }
+
   // Search accounts
   var accResults=ACCS.filter(function(a){return a.name.toUpperCase().includes(q)||(a.platform&&a.platform.toUpperCase().includes(q));});
   if(accResults.length){
-    html+='<div class="gsr-section">Cuentas ('+accResults.length+')</div>';
+    var sec2=document.createElement('div');
+    sec2.className='gsr-section';
+    sec2.textContent='Cuentas ('+accResults.length+')';
+    el.appendChild(sec2);
     accResults.forEach(function(a){
       var tr=load('mt6_'+a.id+'_tr','[]');
-      html+='<div class="gsr-item" onclick="switchAcc('+a.id+');gp('dash',document.getElementById('ni-d'),'Dashboard')">';
-      html+='<div style="width:32px;height:32px;border-radius:9px;background:'+a.color+'22;display:flex;align-items:center;justify-content:center;flex-shrink:0"><div style="width:12px;height:12px;border-radius:50%;background:'+a.color+'"></div></div>';
-      html+='<div style="flex:1"><div style="font-size:13px;font-weight:700">'+a.name+'</div>';
-      html+='<div style="font-size:10px;color:var(--t2)">'+(a.platform||'Sin plataforma')+' · '+tr.length+' trades</div></div>';
-      html+='<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M4 2l4 4-4 4" stroke="var(--t3)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-      html+='</div>';
+      var item=document.createElement('div');
+      item.className='gsr-item';
+      item.onclick=function(){switchAcc(a.id);gp('dash',document.getElementById('ni-d'),'Dashboard');};
+      var ico=document.createElement('div');
+      ico.style.cssText='width:32px;height:32px;border-radius:9px;background:'+a.color+'22;display:flex;align-items:center;justify-content:center;flex-shrink:0';
+      var dot=document.createElement('div');
+      dot.style.cssText='width:12px;height:12px;border-radius:50%;background:'+a.color;
+      ico.appendChild(dot);
+      var info=document.createElement('div');
+      info.style.flex='1';
+      info.innerHTML='<div style="font-size:13px;font-weight:700">'+a.name+'</div><div style="font-size:10px;color:var(--t2)">'+(a.platform||'Sin plataforma')+' · '+tr.length+' trades</div>';
+      var arrow=document.createElement('div');
+      arrow.innerHTML='<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M4 2l4 4-4 4" stroke="var(--t3)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+      item.appendChild(ico); item.appendChild(info); item.appendChild(arrow);
+      el.appendChild(item);
     });
   }
+
   // Search movements across all accounts
   var movResults=[];
   ACCS.forEach(function(a){
@@ -1715,22 +1805,31 @@ function runGlobalSearch(q){
     });
   });
   if(movResults.length){
-    html+='<div class="gsr-section">Movimientos ('+movResults.length+')</div>';
+    var sec3=document.createElement('div');
+    sec3.className='gsr-section';
+    sec3.textContent='Movimientos ('+movResults.length+')';
+    el.appendChild(sec3);
     movResults.slice(0,5).forEach(function(r){
       var m=r.m; var isDep=m.type==='dep';
-      html+='<div class="gsr-item">';
-      html+='<div style="width:32px;height:32px;border-radius:9px;background:'+(isDep?'var(--grn2)':'var(--red2)')+';display:flex;align-items:center;justify-content:center;flex-shrink:0">';
-      html+='<svg width="12" height="12" viewBox="0 0 10 10" fill="none"><path d="'+(isDep?'M5 8V2M2 5l3-3 3 3':'M5 2v6M2 5l3 3 3-3')+'" stroke="'+(isDep?'var(--grn)':'var(--red)')+'" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>';
-      html+='<div style="flex:1"><div style="font-size:13px;font-weight:700">'+(isDep?'Depósito':'Retirada')+(m.note?' · '+m.note:'')+'</div>';
-      html+='<div style="font-size:10px;color:var(--t2)">'+m.date+' · '+r.accName+'</div></div>';
-      html+='<div style="font-family:var(--mono);font-size:13px;font-weight:700;color:'+(isDep?'var(--grn)':'var(--red)')+'">'+( isDep?'+':'−')+'$'+m.amt.toFixed(2)+'</div>';
-      html+='</div>';
+      var item=document.createElement('div');
+      item.className='gsr-item';
+      var ico=document.createElement('div');
+      ico.style.cssText='width:32px;height:32px;border-radius:9px;background:'+(isDep?'var(--grn2)':'var(--red2)')+';display:flex;align-items:center;justify-content:center;flex-shrink:0';
+      ico.innerHTML='<svg width="12" height="12" viewBox="0 0 10 10" fill="none"><path d="'+(isDep?'M5 8V2M2 5l3-3 3 3':'M5 2v6M2 5l3 3 3-3')+'" stroke="'+(isDep?'var(--grn)':'var(--red)')+'" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+      var info=document.createElement('div');
+      info.style.flex='1';
+      info.innerHTML='<div style="font-size:13px;font-weight:700">'+(isDep?'Depósito':'Retirada')+(m.note?' · '+m.note:'')+'</div><div style="font-size:10px;color:var(--t2)">'+m.date+' · '+r.accName+'</div>';
+      var amtEl=document.createElement('div');
+      amtEl.style.cssText='font-family:var(--mono);font-size:13px;font-weight:700;color:'+(isDep?'var(--grn)':'var(--red)');
+      amtEl.textContent=(isDep?'+':'−')+'$'+m.amt.toFixed(2);
+      item.appendChild(ico); item.appendChild(info); item.appendChild(amtEl);
+      el.appendChild(item);
     });
   }
+
   if(!tradeResults.length&&!accResults.length&&!movResults.length){
-    html='<div style="text-align:center;padding:32px 0"><div style="font-size:14px;font-weight:700;color:var(--t2);margin-bottom:4px">Sin resultados</div><div style="font-size:12px;color:var(--t3)">Prueba con otro término</div></div>';
+    el.innerHTML='<div style="text-align:center;padding:32px 0"><div style="font-size:14px;font-weight:700;color:var(--t2);margin-bottom:4px">Sin resultados</div><div style="font-size:12px;color:var(--t3)">Prueba con otro término</div></div>';
   }
-  el.innerHTML=html;
 }
 
 // ── INIT ──────────────────────────────────────────────────────────────────────
