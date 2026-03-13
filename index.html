@@ -324,7 +324,7 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
         <div class="fg"><label>Precio entrada ($)</label><input type="number" id="f-entry" placeholder="0.00" step="any" min="0" oninput="lp()"></div>
         <div class="fg"><label>Precio salida ($) <span style="font-size:8px;color:var(--t3);font-weight:400;text-transform:none;letter-spacing:0">vacío=abierta</span></label><input type="number" id="f-exit" placeholder="0.00" step="any" min="0" oninput="lp()"></div>
       </div>
-      <div class="fg"><label>Tamaño posición (USDT) <span style="font-size:8px;color:var(--t3);font-weight:400;text-transform:none;letter-spacing:0">capital sin apalancamiento</span></label><input type="number" id="f-size" placeholder="Ej: 100" step="any" min="0" oninput="lp()"></div>
+      <div class="fg"><label>PnL <span style="font-size:8px;color:var(--t3);font-weight:400;text-transform:none;letter-spacing:0">opcional — déjalo vacío si está abierta</span></label><input type="number" id="f-pnl" placeholder="Ej: 25.50 o -10" step="any" oninput="lp()"></div>
       <div class="fg">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
           <label style="margin:0">Apalancamiento</label>
@@ -790,6 +790,7 @@ function fp(v){
   return '$'+n.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:n<1?6:n<100?3:2});
 }
 function cpnl(t){
+  if(t.pnl!==undefined&&t.pnl!==null&&t.pnl!=='')return parseFloat(t.pnl);
   if(!t.exit||!t.entry)return null;
   var dir=(t.side==='LONG'?1:-1); var sz=t.monto||100; var lv=t.leverage||1; return parseFloat((dir*(t.exit-t.entry)/t.entry*sz*lv).toFixed(2));
 }
@@ -841,7 +842,7 @@ function openEditForm(id){
   setSide(t.side);
   document.getElementById('f-entry').value=t.entry||'';
   document.getElementById('f-exit').value=t.exit||'';
-  document.getElementById('f-size').value=t.monto||'';
+  document.getElementById('f-pnl').value=(t.pnl!==undefined&&t.pnl!==null)?t.pnl:'';
   document.getElementById('f-lv').value=t.leverage||1;
   document.getElementById('lv-val').textContent=t.leverage||1;
   document.getElementById('f-exch').value=t.exchange||'';
@@ -865,7 +866,7 @@ function resetForm(){
   document.getElementById('sym-name').textContent='Seleccionar cripto...';
   document.getElementById('sym-name').style.color='var(--t2)';
   document.getElementById('sym-picker').style.display='none';
-  ['f-entry','f-exit','f-no','f-size'].forEach(function(i){document.getElementById(i).value='';});
+  ['f-entry','f-exit','f-no','f-pnl'].forEach(function(i){document.getElementById(i).value='';});
   document.getElementById('f-exch').value='';
   document.getElementById('f-lv').value='1';
   document.getElementById('lv-val').textContent='1';
@@ -897,7 +898,7 @@ function saveTrade(){
   var timeEntry=document.getElementById('f-time-entry').value||'';
   var timeExit=document.getElementById('f-time-exit').value||'';
   if(!entry||entry<=0)return toast('Introduce el precio de entrada',false);
-  var sz=parseFloat(document.getElementById('f-size').value)||100; var t={id:editId||Date.now(),symbol:selSym,side:side,entry:entry,exit:exit,monto:sz,leverage:lv,exchange:exch,notes:no,date:dt,timeEntry:timeEntry,timeExit:timeExit};
+  var pnlv=document.getElementById('f-pnl').value.trim(); var pnlManual=pnlv!==''?parseFloat(pnlv):undefined; var t={id:editId||Date.now(),symbol:selSym,side:side,entry:entry,exit:exit,pnl:pnlManual,leverage:lv,exchange:exch,notes:no,date:dt,timeEntry:timeEntry,timeExit:timeExit};
   var TR=getTR();
   if(editId){
     var idx=TR.findIndex(function(x){return x.id===editId;});
@@ -914,20 +915,21 @@ function saveTrade(){
   gp('hist',document.getElementById('ni-h'),'Historial');
 }
 function lp(){
-  var entry=parseFloat(document.getElementById('f-entry').value);
-  var exit=parseFloat(document.getElementById('f-exit').value);
-  var lv=parseInt(document.getElementById('f-lv').value)||1;
   var pb=document.getElementById('prev-box');
-  if(!entry||!exit){pb.style.display='none';return;}
-  var sz=parseFloat(document.getElementById('f-size').value)||100; var pnl=(side==='LONG'?1:-1)*(exit-entry)/entry*sz*lv;
-  var pct=(exit-entry)/entry*(side==='LONG'?1:-1)*lv*100;
-  var up=pnl>=0;
-  pb.style.display='block';
-  var pp=document.getElementById('prev-pnl');
-  pp.textContent=fm(pnl); pp.style.color=up?'var(--grn)':'var(--red)';
-  var pc=document.getElementById('prev-pct');
-  pc.textContent=(pct>=0?'+':'')+pct.toFixed(2)+'%'; pc.style.color=up?'var(--grn)':'var(--red)';
-  document.getElementById('prev-exp').textContent=fp(sz*lv);
+  var pnlv=document.getElementById('f-pnl').value.trim();
+  var entry=parseFloat(document.getElementById('f-entry').value);
+  if(pnlv!==''){
+    var pnl=parseFloat(pnlv);
+    if(isNaN(pnl)){pb.style.display='none';return;}
+    var up=pnl>=0;
+    pb.style.display='block';
+    var pp=document.getElementById('prev-pnl');
+    pp.textContent=fm(pnl); pp.style.color=up?'var(--grn)':'var(--red)';
+    document.getElementById('prev-pct').textContent='';
+    document.getElementById('prev-exp').textContent=entry?fp(entry):'—';
+    return;
+  }
+  pb.style.display='none';
 }
 
 // ── CRYPTO PICKER ─────────────────────────────────────────────────────────────
