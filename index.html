@@ -200,6 +200,7 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
 <div class="content">
 
   <!-- DASHBOARD -->
+
   <div class="page on" id="p-dash">
     <div class="card" style="margin-bottom:12px">
       <div class="sec-h" style="margin-bottom:14px">
@@ -283,6 +284,7 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
   </div>
 
   <!-- NUEVA / EDITAR -->
+
   <div class="page" id="p-new">
     <div class="pg-t" id="form-title">Nueva operación</div>
     <div class="pg-s" id="form-sub">Cargando...</div>
@@ -370,6 +372,7 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
   </div>
 
   <!-- BUSQUEDA GLOBAL -->
+
   <div class="page" id="p-search">
     <div class="pg-t">Buscar</div>
     <div class="pg-s">Trades, movimientos y cuentas</div>
@@ -382,6 +385,7 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
   </div>
 
   <!-- HISTORIAL -->
+
   <div class="page" id="p-hist">
     <div class="pg-t">Historial</div>
     <div class="pg-s" id="h-sub">Todas las operaciones</div>
@@ -406,6 +410,7 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
   </div>
 
   <!-- PORTFOLIO -->
+
   <div class="page" id="p-port">
     <div class="pg-t">Portfolio</div>
     <div class="pg-s">Posiciones abiertas</div>
@@ -423,6 +428,7 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
   </div>
 
   <!-- ESTADISTICAS -->
+
   <div class="page" id="p-stats">
     <div class="pg-t">Estadisticas</div>
     <div class="pg-s">Analisis de rendimiento</div>
@@ -454,6 +460,7 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
   </div>
 
   <!-- CUENTAS -->
+
   <div class="page" id="p-accs">
     <div class="pg-t">Cuentas</div>
     <div class="pg-s">Gestiona tus cuentas de trading</div>
@@ -467,6 +474,7 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
 </div>
 
 <!-- BUG FIX #2: Added "Cuentas" nav item replacing the missing link to p-accs -->
+
 <nav class="nav">
   <div class="ni on" id="ni-d" onclick="gp('dash',this,'Dashboard')">
     <svg viewBox="0 0 20 20" fill="none"><rect x="2" y="2" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.4"/><rect x="11" y="2" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.4"/><rect x="2" y="11" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.4"/><rect x="11" y="11" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.4"/></svg>
@@ -492,6 +500,7 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
 <div class="toast" id="toast"><div class="tdot"></div><span id="t-msg"></span></div>
 
 <!-- ACCOUNT SHEET -->
+
 <div class="sheet" id="sheet-acc">
   <div class="sheet-bg" onclick="closeAccSheet()"></div>
   <div class="sheet-box">
@@ -501,6 +510,7 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
 </div>
 
 <!-- CLOSE TRADE MODAL -->
+
 <div class="close-modal" id="close-modal">
   <div class="close-modal-bg" onclick="closeQuickModal()"></div>
   <div class="close-modal-box">
@@ -510,6 +520,7 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
 </div>
 
 <!-- GOAL MODAL -->
+
 <div class="close-modal" id="goal-modal">
   <div class="close-modal-bg" onclick="closeGoalModal()"></div>
   <div class="close-modal-box">
@@ -779,7 +790,7 @@ function fp(v){
 }
 function cpnl(t){
   if(!t.exit||!t.entry)return null;
-  return (t.side==='LONG'?1:-1)*(t.exit-t.entry)*(t.leverage||1);
+  var dir=(t.side==='LONG'?1:-1); var sz=t.monto||100; var lv=t.leverage||1; return parseFloat((dir*(t.exit-t.entry)/t.entry*sz*lv).toFixed(2));
 }
 
 // ── TOAST ─────────────────────────────────────────────────────────────────────
@@ -829,6 +840,7 @@ function openEditForm(id){
   setSide(t.side);
   document.getElementById('f-entry').value=t.entry||'';
   document.getElementById('f-exit').value=t.exit||'';
+  document.getElementById('f-size').value=t.monto||'';
   document.getElementById('f-lv').value=t.leverage||1;
   document.getElementById('lv-val').textContent=t.leverage||1;
   document.getElementById('f-exch').value=t.exchange||'';
@@ -852,7 +864,7 @@ function resetForm(){
   document.getElementById('sym-name').textContent='Seleccionar cripto...';
   document.getElementById('sym-name').style.color='var(--t2)';
   document.getElementById('sym-picker').style.display='none';
-  ['f-entry','f-exit','f-no'].forEach(function(i){document.getElementById(i).value='';});
+  ['f-entry','f-exit','f-no','f-size'].forEach(function(i){document.getElementById(i).value='';});
   document.getElementById('f-exch').value='';
   document.getElementById('f-lv').value='1';
   document.getElementById('lv-val').textContent='1';
@@ -884,7 +896,7 @@ function saveTrade(){
   var timeEntry=document.getElementById('f-time-entry').value||'';
   var timeExit=document.getElementById('f-time-exit').value||'';
   if(!entry||entry<=0)return toast('Introduce el precio de entrada',false);
-  var t={id:editId||Date.now(),symbol:selSym,side:side,entry:entry,exit:exit,monto:entry,leverage:lv,exchange:exch,notes:no,date:dt,timeEntry:timeEntry,timeExit:timeExit};
+  var sz=parseFloat(document.getElementById('f-size').value)||100; var t={id:editId||Date.now(),symbol:selSym,side:side,entry:entry,exit:exit,monto:sz,leverage:lv,exchange:exch,notes:no,date:dt,timeEntry:timeEntry,timeExit:timeExit};
   var TR=getTR();
   if(editId){
     var idx=TR.findIndex(function(x){return x.id===editId;});
@@ -906,15 +918,15 @@ function lp(){
   var lv=parseInt(document.getElementById('f-lv').value)||1;
   var pb=document.getElementById('prev-box');
   if(!entry||!exit){pb.style.display='none';return;}
-  var pnl=(side==='LONG'?1:-1)*(exit-entry)*lv;
-  var pct=(pnl/entry)*100;
+  var sz=parseFloat(document.getElementById('f-size').value)||100; var pnl=(side==='LONG'?1:-1)*(exit-entry)/entry*sz*lv;
+  var pct=(exit-entry)/entry*(side==='LONG'?1:-1)*lv*100;
   var up=pnl>=0;
   pb.style.display='block';
   var pp=document.getElementById('prev-pnl');
   pp.textContent=fm(pnl); pp.style.color=up?'var(--grn)':'var(--red)';
   var pc=document.getElementById('prev-pct');
   pc.textContent=(pct>=0?'+':'')+pct.toFixed(2)+'%'; pc.style.color=up?'var(--grn)':'var(--red)';
-  document.getElementById('prev-exp').textContent=fp(entry*lv);
+  document.getElementById('prev-exp').textContent=fp(sz*lv);
 }
 
 // ── CRYPTO PICKER ─────────────────────────────────────────────────────────────
