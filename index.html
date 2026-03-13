@@ -1179,7 +1179,7 @@ function addMov(){
     var now=Date.now();
     var srcName=curAcc().name;
     var srcMov=getMOV();
-    srcMov.push({id:now,type:'ret',amt:amt,date:date,note:'Traspaso a '+destAcc.name+(fee?' (fee $'+fee.toFixed(2)+')')+(note?' · '+note:''),transfer:true,transferPair:now+1});
+    srcMov.push({id:now,type:'ret',amt:amt,date:date,note:'Traspaso a '+destAcc.name+(fee?' (fee $'+fee.toFixed(2)+')':'')+(note?' · '+note:''),transfer:true,transferPair:now+1});
     if(fee>0){
       srcMov.push({id:now+2,type:'ret',amt:fee,date:date,note:'Coste traspaso a '+destAcc.name,fee:true});
     }
@@ -1192,7 +1192,7 @@ function addMov(){
     saveMOV(destMov);
     CUR_ACC=prevAcc;
     toggleMovForm(); renderAcc();
-    toast('Traspaso $'+amt.toFixed(2)+(fee?' (fee $'+fee.toFixed(2)+')')+'',true);
+    toast('Traspaso $'+amt.toFixed(2)+(fee?' (fee $'+fee.toFixed(2)+')':'')+'',true);
     return;
   }
 
