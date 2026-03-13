@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="es">
 <head>
 <meta charset="UTF-8">
@@ -154,7 +153,6 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
 <div class="content">
 
   <!-- DASHBOARD -->
-
   <div class="page on" id="p-dash">
     <div class="card" style="margin-bottom:12px">
       <div class="sec-h" style="margin-bottom:14px">
@@ -189,36 +187,32 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
       <div id="mov-list"></div>
     </div>
 
-```
-<div class="m2">
-  <div class="mc"><div class="ml">PnL Total</div><div class="mv" id="m-pnl">$0.00</div><div class="ms" id="m-pct">—</div></div>
-  <div class="mc"><div class="ml">Win Rate</div><div class="mv ac" id="m-wr">—</div><div class="ms" id="m-wl">0W · 0L</div></div>
-  <div class="mc"><div class="ml">Mejor trade</div><div class="mv up" id="m-best">—</div><div class="ms" id="m-bsym">—</div></div>
-  <div class="mc"><div class="ml">Peor trade</div><div class="mv dn" id="m-worst">—</div><div class="ms" id="m-wsym">—</div></div>
-</div>
+    <div class="m2">
+      <div class="mc"><div class="ml">PnL Total</div><div class="mv" id="m-pnl">$0.00</div><div class="ms" id="m-pct">—</div></div>
+      <div class="mc"><div class="ml">Win Rate</div><div class="mv ac" id="m-wr">—</div><div class="ms" id="m-wl">0W · 0L</div></div>
+      <div class="mc"><div class="ml">Mejor trade</div><div class="mv up" id="m-best">—</div><div class="ms" id="m-bsym">—</div></div>
+      <div class="mc"><div class="ml">Peor trade</div><div class="mv dn" id="m-worst">—</div><div class="ms" id="m-wsym">—</div></div>
+    </div>
 
-<div class="card">
-  <div class="sec-h"><span class="sec-t">PnL Acumulado</span><span class="sec-b" id="d-ct">0 cerradas</span></div>
-  <div class="cw" style="height:160px"><canvas id="c-pnl"></canvas></div>
-</div>
-<div class="card">
-  <div class="sec-h"><span class="sec-t">Por activo</span></div>
-  <div class="drow">
-    <div class="cw" style="height:110px"><canvas id="c-don"></canvas></div>
-    <div id="d-leg"></div>
-  </div>
-</div>
-<div class="sec-h" style="margin-top:4px">
-  <span class="sec-t">Últimas operaciones</span>
-  <span class="sec-b" id="d-total">0 total</span>
-</div>
-<div id="d-rec"></div>
-```
-
+    <div class="card">
+      <div class="sec-h"><span class="sec-t">PnL Acumulado</span><span class="sec-b" id="d-ct">0 cerradas</span></div>
+      <div class="cw" style="height:160px"><canvas id="c-pnl"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="sec-h"><span class="sec-t">Por activo</span></div>
+      <div class="drow">
+        <div class="cw" style="height:110px"><canvas id="c-don"></canvas></div>
+        <div id="d-leg"></div>
+      </div>
+    </div>
+    <div class="sec-h" style="margin-top:4px">
+      <span class="sec-t">Últimas operaciones</span>
+      <span class="sec-b" id="d-total">0 total</span>
+    </div>
+    <div id="d-rec"></div>
   </div>
 
   <!-- NUEVA / EDITAR -->
-
   <div class="page" id="p-new">
     <div class="pg-t" id="form-title">Nueva operación</div>
     <div class="pg-s">Rápido y sencillo</div>
@@ -246,81 +240,77 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
         </div>
       </div>
 
-```
-  <!-- DIRECCIÓN -->
-  <div class="fg">
-    <label>Dirección</label>
-    <div class="stgl">
-      <button class="sb sl" id="btn-l" onclick="setSide('LONG')">
-        <svg width="9" height="9" viewBox="0 0 9 9"><path d="M4.5 0l4.5 9H0z" fill="currentColor"/></svg>LONG
-      </button>
-      <button class="sb" id="btn-s" onclick="setSide('SHORT')">
-        <svg width="9" height="9" viewBox="0 0 9 9"><path d="M4.5 9l4.5-9H0z" fill="currentColor"/></svg>SHORT
-      </button>
+      <!-- DIRECCIÓN -->
+      <div class="fg">
+        <label>Dirección</label>
+        <div class="stgl">
+          <button class="sb sl" id="btn-l" onclick="setSide('LONG')">
+            <svg width="9" height="9" viewBox="0 0 9 9"><path d="M4.5 0l4.5 9H0z" fill="currentColor"/></svg>LONG
+          </button>
+          <button class="sb" id="btn-s" onclick="setSide('SHORT')">
+            <svg width="9" height="9" viewBox="0 0 9 9"><path d="M4.5 9l4.5-9H0z" fill="currentColor"/></svg>SHORT
+          </button>
+        </div>
+      </div>
+
+      <!-- PRECIOS -->
+      <div class="f2">
+        <div class="fg"><label>Precio entrada ($)</label><input type="number" id="f-entry" placeholder="0.00" step="any" min="0" oninput="lp()"></div>
+        <div class="fg"><label>Precio salida ($) <span style="font-size:8px;color:var(--t3);font-weight:400;text-transform:none;letter-spacing:0">vacío=abierta</span></label><input type="number" id="f-exit" placeholder="0.00" step="any" min="0" oninput="lp()"></div>
+      </div>
+
+      <!-- APALANCAMIENTO -->
+      <div class="fg">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+          <label style="margin:0">Apalancamiento</label>
+          <div style="font-family:var(--mono);font-size:18px;font-weight:700;color:var(--amb)">×<span id="lv-val">1</span></div>
+        </div>
+        <input type="range" id="f-lv" min="1" max="100" value="1" step="1"
+          style="width:100%;height:4px;-webkit-appearance:none;appearance:none;background:var(--bg4);border-radius:2px;outline:none;cursor:pointer"
+          oninput="document.getElementById('lv-val').textContent=this.value;lp()">
+        <div style="display:flex;justify-content:space-between;margin-top:5px">
+          <span style="font-size:9px;font-weight:600;color:var(--t3)">×1</span>
+          <span style="font-size:9px;font-weight:600;color:var(--t3)">×25</span>
+          <span style="font-size:9px;font-weight:600;color:var(--t3)">×50</span>
+          <span style="font-size:9px;font-weight:600;color:var(--t3)">×75</span>
+          <span style="font-size:9px;font-weight:600;color:var(--t3)">×100</span>
+        </div>
+      </div>
+
+      <!-- PREVIEW -->
+      <div id="prev-box" style="display:none;background:var(--bg3);border:1px solid var(--b2);border-radius:var(--r2);padding:14px;margin-bottom:14px">
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px">
+          <div><div style="font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--t3);margin-bottom:4px">PnL est.</div><div style="font-family:var(--mono);font-size:16px;font-weight:700" id="prev-pnl">—</div></div>
+          <div><div style="font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--t3);margin-bottom:4px">Retorno</div><div style="font-family:var(--mono);font-size:16px;font-weight:700" id="prev-pct">—</div></div>
+          <div><div style="font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--t3);margin-bottom:4px">Exposición</div><div style="font-family:var(--mono);font-size:16px;font-weight:700;color:var(--t2)" id="prev-exp">—</div></div>
+        </div>
+      </div>
+
+      <!-- PLATAFORMA + FECHA -->
+      <div class="f2">
+        <div class="fg"><label>Plataforma</label>
+          <select id="f-exch">
+            <option value="">— —</option>
+            <option value="GRVT">GRVT</option>
+            <option value="MEXC">MEXC</option>
+            <option value="BINGX">BINGX</option>
+            <option value="HYPERLIQUID">HYPERLIQUID</option>
+          </select>
+        </div>
+        <div class="fg"><label>Fecha</label><input type="date" id="f-dt"></div>
+      </div>
+      <div class="fg"><label>Notas <span style="font-size:8px;color:var(--t3);font-weight:400;text-transform:none;letter-spacing:0">opcional</span></label><textarea id="f-no" placeholder="Setup, estrategia..."></textarea></div>
+
+      <div class="btn-row">
+        <button class="btn btn-a" id="form-save-btn" onclick="saveTrade()">Guardar</button>
+        <button class="btn btn-g" style="width:auto;padding:14px 16px" onclick="cancelForm()">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M1 1l11 11M12 1L1 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </button>
+      </div>
     </div>
-  </div>
-
-  <!-- PRECIOS -->
-  <div class="f2">
-    <div class="fg"><label>Precio entrada ($)</label><input type="number" id="f-entry" placeholder="0.00" step="any" min="0" oninput="lp()"></div>
-    <div class="fg"><label>Precio salida ($) <span style="font-size:8px;color:var(--t3);font-weight:400;text-transform:none;letter-spacing:0">vacío=abierta</span></label><input type="number" id="f-exit" placeholder="0.00" step="any" min="0" oninput="lp()"></div>
-  </div>
-
-  <!-- APALANCAMIENTO -->
-  <div class="fg">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-      <label style="margin:0">Apalancamiento</label>
-      <div style="font-family:var(--mono);font-size:18px;font-weight:700;color:var(--amb)">×<span id="lv-val">1</span></div>
-    </div>
-    <input type="range" id="f-lv" min="1" max="100" value="1" step="1"
-      style="width:100%;height:4px;-webkit-appearance:none;appearance:none;background:var(--bg4);border-radius:2px;outline:none;cursor:pointer"
-      oninput="document.getElementById('lv-val').textContent=this.value;lp()">
-    <div style="display:flex;justify-content:space-between;margin-top:5px">
-      <span style="font-size:9px;font-weight:600;color:var(--t3)">×1</span>
-      <span style="font-size:9px;font-weight:600;color:var(--t3)">×25</span>
-      <span style="font-size:9px;font-weight:600;color:var(--t3)">×50</span>
-      <span style="font-size:9px;font-weight:600;color:var(--t3)">×75</span>
-      <span style="font-size:9px;font-weight:600;color:var(--t3)">×100</span>
-    </div>
-  </div>
-
-  <!-- PREVIEW -->
-  <div id="prev-box" style="display:none;background:var(--bg3);border:1px solid var(--b2);border-radius:var(--r2);padding:14px;margin-bottom:14px">
-    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px">
-      <div><div style="font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--t3);margin-bottom:4px">PnL est.</div><div style="font-family:var(--mono);font-size:16px;font-weight:700" id="prev-pnl">—</div></div>
-      <div><div style="font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--t3);margin-bottom:4px">Retorno</div><div style="font-family:var(--mono);font-size:16px;font-weight:700" id="prev-pct">—</div></div>
-      <div><div style="font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--t3);margin-bottom:4px">Exposición</div><div style="font-family:var(--mono);font-size:16px;font-weight:700;color:var(--t2)" id="prev-exp">—</div></div>
-    </div>
-  </div>
-
-  <!-- PLATAFORMA + FECHA -->
-  <div class="f2">
-    <div class="fg"><label>Plataforma</label>
-      <select id="f-exch">
-        <option value="">— —</option>
-        <option value="GRVT">GRVT</option>
-        <option value="MEXC">MEXC</option>
-        <option value="BINGX">BINGX</option>
-        <option value="HYPERLIQUID">HYPERLIQUID</option>
-      </select>
-    </div>
-    <div class="fg"><label>Fecha</label><input type="date" id="f-dt"></div>
-  </div>
-  <div class="fg"><label>Notas <span style="font-size:8px;color:var(--t3);font-weight:400;text-transform:none;letter-spacing:0">opcional</span></label><textarea id="f-no" placeholder="Setup, estrategia..."></textarea></div>
-
-  <div class="btn-row">
-    <button class="btn btn-a" id="form-save-btn" onclick="saveTrade()">Guardar</button>
-    <button class="btn btn-g" style="width:auto;padding:14px 16px" onclick="cancelForm()">
-      <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M1 1l11 11M12 1L1 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-    </button>
-  </div>
-</div>
-```
-
   </div>
 
   <!-- HISTORIAL -->
-
   <div class="page" id="p-hist">
     <div class="pg-t">Historial</div>
     <div class="pg-s" id="h-sub">Todas las operaciones</div>
@@ -345,7 +335,6 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
   </div>
 
   <!-- PORTFOLIO -->
-
   <div class="page" id="p-port">
     <div class="pg-t">Portfolio</div>
     <div class="pg-s">Posiciones abiertas</div>
@@ -359,7 +348,6 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
   </div>
 
   <!-- ESTADÍSTICAS -->
-
   <div class="page" id="p-stats">
     <div class="pg-t">Estadísticas</div>
     <div class="pg-s">Análisis de rendimiento</div>
@@ -400,7 +388,6 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
 <div class="toast" id="toast"><div class="tdot"></div><span id="t-msg"></span></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
-
 <script>
 // ── DATA ──────────────────────────────────────────────────────────────────────
 function load(k,d){try{return JSON.parse(localStorage.getItem(k)||d)}catch(e){return JSON.parse(d)}}
@@ -1066,6 +1053,5 @@ document.getElementById('mov-date').value=new Date().toISOString().split('T')[0]
 renderAcc();
 updDash();
 </script>
-
 </body>
 </html>
