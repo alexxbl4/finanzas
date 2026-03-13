@@ -182,6 +182,11 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
         <path d="M9.5 4.5 7 7l-2-1.4" stroke="#07090e" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
     </div>
+      <div style="background:var(--bg3);border:1px solid var(--b2);border-radius:var(--r2);padding:14px;margin-bottom:14px">
+        <div style="font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--t3);margin-bottom:6px">Saldo actual</div>
+        <div style="font-family:var(--mono);font-size:26px;font-weight:800" id="acc-saldo">—</div>
+        <div style="font-family:var(--mono);font-size:10px;color:var(--t3);margin-top:4px" id="acc-saldo-sub">Capital + PnL</div>
+      </div>
     <span class="logo-txt">Moon<span>Trade</span></span>
   </div>
   <div class="acc-pill" onclick="openAccSheet()">
@@ -218,6 +223,11 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
           <div style="font-family:var(--mono);font-size:20px;font-weight:700" id="acc-perf">—</div>
           <div style="font-family:var(--mono);font-size:10px;margin-top:3px" id="acc-perf-sub">—</div>
         </div>
+      </div>
+      <div style="background:var(--bg3);border:1px solid var(--b2);border-radius:var(--r2);padding:14px;margin-bottom:6px">
+        <div style="font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--t3);margin-bottom:6px">Saldo actual</div>
+        <div style="font-family:var(--mono);font-size:26px;font-weight:800" id="acc-saldo">—</div>
+        <div style="font-family:var(--mono);font-size:10px;color:var(--t3);margin-top:4px" id="acc-saldo-sub">Capital + PnL</div>
       </div>
       <div id="mov-form" style="display:none;border-top:1px solid var(--b1);padding-top:12px;margin-bottom:12px">
         <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--t3);margin-bottom:10px">Añadir movimiento</div>
@@ -496,6 +506,10 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
     <svg viewBox="0 0 20 20" fill="none"><path d="M3 17V9M7 17V7M11 17V11M15 17V4M19 17H1" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
     <span>Stats</span>
   </div>
+  <div class="ni" id="ni-g" onclick="gp('global',this,'Global')">
+    <svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="8" stroke="currentColor" stroke-width="1.4"/><path d="M2 10h16M10 2c-2 2-3 5-3 8s1 6 3 8M10 2c2 2 3 5 3 8s-1 6-3 8" stroke="currentColor" stroke-width="1.4"/></svg>
+    <span>Global</span>
+  </div>
 </nav>
 
 <div class="toast" id="toast"><div class="tdot"></div><span id="t-msg"></span></div>
@@ -579,6 +593,7 @@ function refreshAll(){
   if(id==='port')rPort();
   if(id==='stats')rStats();
   if(id==='accs')renderAccsList();
+  if(id==='global')rGlobal();
 }
 
 // ── ACCOUNT SHEET ─────────────────────────────────────────────────────────────
@@ -820,6 +835,7 @@ function gp(id,el,title){
   if(id==='port')rPort();
   if(id==='stats')rStats();
   if(id==='accs')renderAccsList();
+  if(id==='global')rGlobal();
 }
 
 // ── FORM ──────────────────────────────────────────────────────────────────────
@@ -1236,14 +1252,17 @@ function renderAcc(){
   var tradePnl=TR.filter(function(t){return t.exit&&t.entry;}).reduce(function(a,t){return a+cpnl(t);},0);
   var depEl=document.getElementById('acc-dep'),depSub=document.getElementById('acc-dep-sub');
   var perfEl=document.getElementById('acc-perf'),perfSub=document.getElementById('acc-perf-sub');
-  if(!MOV.length){depEl.textContent='—';depSub.textContent='Sin movimientos';perfEl.textContent='—';perfEl.style.color='var(--t2)';perfSub.textContent='—';perfSub.style.color='var(--t3)';}
+  var saldoEl=document.getElementById('acc-saldo'),saldoSub=document.getElementById('acc-saldo-sub');
+  if(!MOV.length){depEl.textContent='—';depSub.textContent='Sin movimientos';perfEl.textContent='—';perfEl.style.color='var(--t2)';perfSub.textContent='—';perfSub.style.color='var(--t3)';if(saldoEl){saldoEl.textContent='—';saldoEl.style.color='var(--t2)';saldoSub.textContent='Capital + PnL';}}
   else{
-    depEl.textContent=(totalDep>=0?'$':'$')+Math.abs(totalDep).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+    depEl.textContent='$'+Math.abs(totalDep).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
     depSub.textContent=nDep+' deposito'+(nDep!==1?'s':'')+(nRet?' · '+nRet+' retirada'+(nRet!==1?'s':''):'');
-    perfEl.textContent=(tradePnl>=0?'+':'')+(tradePnl<0?'−':'')+'$'+Math.abs(tradePnl).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+    perfEl.textContent=(tradePnl>=0?'+':'−')+'$'+Math.abs(tradePnl).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
     perfEl.style.color=tradePnl>=0?'var(--grn)':'var(--red)';
-    if(totalDep>0){var roi=tradePnl/totalDep*100;perfSub.textContent=(roi>=0?'+':'')+roi.toFixed(2)+'% sobre capital';perfSub.style.color=roi>=0?'var(--grn)':'var(--red)';}
+    if(totalDep>0){var roi=tradePnl/totalDep*100;perfSub.textContent=(roi>=0?'+':'')+roi.toFixed(2)+'% ROI';perfSub.style.color=roi>=0?'var(--grn)':'var(--red)';}
     else{perfSub.textContent='PnL de trades cerrados';perfSub.style.color='var(--t3)';}
+    var saldo=totalDep+tradePnl;
+    if(saldoEl){saldoEl.textContent='$'+Math.abs(saldo).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});saldoEl.style.color=saldo>=0?'var(--t1)':'var(--red)';saldoSub.textContent='Inicial $'+Math.abs(totalDep).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})+' + PnL '+(tradePnl>=0?'+':'')+'$'+tradePnl.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});}
   }
   var sorted=[].concat(MOV).sort(function(a,b){return b.date.localeCompare(a.date);});
   var ml=document.getElementById('mov-list'); ml.innerHTML='';
@@ -1847,6 +1866,50 @@ function runGlobalSearch(q){
   }
 }
 
+
+// ── GLOBAL VIEW ───────────────────────────────────────────────────────────────
+function rGlobal(){
+  var totalCap=0, totalPnl=0, totalTr=0;
+  var listEl=document.getElementById('gl-accs-list');
+  listEl.innerHTML='';
+  ACCS.forEach(function(a){
+    var tr=load('mt6_'+a.id+'_tr','[]');
+    var mov=load('mt6_'+a.id+'_mov','[]');
+    var cap=mov.reduce(function(x,m){return x+(m.type==='dep'?m.amt:-m.amt);},0);
+    var pnl=tr.filter(function(t){return t.exit&&t.entry;}).reduce(function(x,t){return x+cpnl(t);},0);
+    var saldo=cap+pnl;
+    totalCap+=cap; totalPnl+=pnl; totalTr+=tr.length;
+    var card=document.createElement('div');
+    card.className='card';
+    card.style.marginBottom='8px';
+    card.style.cursor='pointer';
+    card.style.borderLeft='3px solid '+a.color;
+    card.onclick=function(){switchAcc(a.id);gp('dash',document.getElementById('ni-d'),'Dashboard');};
+    card.innerHTML='<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">'
+      +'<div><div style="font-size:14px;font-weight:800">'+a.name+'</div>'
+      +(a.platform?'<div style="font-size:10px;color:var(--t3)">'+a.platform+'</div>':'')+'</div>'
+      +'<div style="text-align:right"><div style="font-family:var(--mono);font-size:18px;font-weight:800;color:'+(saldo>=0?'var(--t1)':'var(--red)')+'">$'+Math.abs(saldo).toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2})+'</div>'
+      +'<div style="font-size:9px;color:var(--t3)">saldo actual</div></div></div>'
+      +'<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px">'
+      +'<div><div style="font-size:8px;color:var(--t3);font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:2px">Capital</div><div style="font-family:var(--mono);font-size:13px;font-weight:700">$'+Math.abs(cap).toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2})+'</div></div>'
+      +'<div><div style="font-size:8px;color:var(--t3);font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:2px">PnL</div><div style="font-family:var(--mono);font-size:13px;font-weight:700;color:'+(pnl>=0?'var(--grn)':'var(--red)')+'">'+(pnl>=0?'+':'')+'$'+pnl.toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2})+'</div></div>'
+      +'<div><div style="font-size:8px;color:var(--t3);font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:2px">Trades</div><div style="font-family:var(--mono);font-size:13px;font-weight:700">'+tr.length+'</div></div>'
+      +'</div>';
+    listEl.appendChild(card);
+  });
+  var totalSaldo=totalCap+totalPnl;
+  var saldoEl=document.getElementById('gl-saldo');
+  saldoEl.textContent='$'+Math.abs(totalSaldo).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+  saldoEl.style.color=totalSaldo>=0?'var(--t1)':'var(--red)';
+  document.getElementById('gl-saldo-sub').textContent='Capital $'+Math.abs(totalCap).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})+' + PnL '+(totalPnl>=0?'+':'')+'$'+totalPnl.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+  var capEl=document.getElementById('gl-cap');
+  capEl.textContent='$'+Math.abs(totalCap).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+  var pnlEl=document.getElementById('gl-pnl');
+  pnlEl.textContent=(totalPnl>=0?'+':'')+'$'+totalPnl.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+  pnlEl.style.color=totalPnl>=0?'var(--grn)':'var(--red)';
+  document.getElementById('gl-tr').textContent=totalTr;
+}
+
 // ── INIT ──────────────────────────────────────────────────────────────────────
 document.getElementById('f-dt').value=new Date().toISOString().split('T')[0];
 document.getElementById('mov-date').value=new Date().toISOString().split('T')[0];
@@ -1854,6 +1917,33 @@ updateTopbar();
 renderAcc();
 updDash();
 </script>
+
+  <!-- GLOBAL PAGE -->
+
+  <div class="page" id="p-global">
+    <div class="pg-t">Global</div>
+    <div class="pg-s">Todas las cuentas</div>
+    <div class="card" style="margin-bottom:10px">
+      <div style="font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--t3);margin-bottom:6px">Saldo total</div>
+      <div style="font-family:var(--mono);font-size:28px;font-weight:800" id="gl-saldo">—</div>
+      <div style="font-family:var(--mono);font-size:10px;color:var(--t3);margin-top:4px" id="gl-saldo-sub">—</div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:10px">
+      <div class="card" style="padding:12px">
+        <div style="font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--t3);margin-bottom:5px">Capital total</div>
+        <div style="font-family:var(--mono);font-size:16px;font-weight:700" id="gl-cap">—</div>
+      </div>
+      <div class="card" style="padding:12px">
+        <div style="font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--t3);margin-bottom:5px">PnL total</div>
+        <div style="font-family:var(--mono);font-size:16px;font-weight:700" id="gl-pnl">—</div>
+      </div>
+      <div class="card" style="padding:12px">
+        <div style="font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--t3);margin-bottom:5px">Trades</div>
+        <div style="font-family:var(--mono);font-size:16px;font-weight:700" id="gl-tr">—</div>
+      </div>
+    </div>
+    <div id="gl-accs-list"></div>
+  </div>
 
 </body>
 </html>
