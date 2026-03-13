@@ -261,7 +261,25 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
   <!-- ACTIVO + DIRECCIÓN -->
   <div class="fg">
     <label>Activo</label>
-    <input type="text" id="f-sym" placeholder="BTC, ETH, SOL..." autocomplete="off" oninput="this.value=this.value.toUpperCase()">
+    <div id="sym-selected" onclick="openSymPicker()" style="display:flex;align-items:center;gap:10px;background:var(--bg3);border:1px solid var(--b1);border-radius:var(--r1);padding:10px 14px;cursor:pointer;transition:border-color 0.15s">
+      <div id="sym-logo" style="width:28px;height:28px;border-radius:50%;background:var(--bg4);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:10px;font-weight:700;color:var(--t3)">?</div>
+      <span id="sym-name" style="font-size:14px;font-weight:600;color:var(--t2)">Seleccionar cripto...</span>
+      <svg style="margin-left:auto;color:var(--t3)" width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+  </div>
+
+  <!-- CRYPTO PICKER MODAL -->
+  <div id="sym-picker" style="display:none;border:1px solid var(--b2);border-radius:var(--r2);background:var(--bg2);margin-bottom:4px;overflow:hidden">
+    <div style="padding:10px 12px;border-bottom:1px solid var(--b1)">
+      <input type="text" id="sym-search" placeholder="Buscar..." autocomplete="off"
+        style="width:100%;background:var(--bg3);border:1px solid var(--b1);border-radius:var(--r1);padding:8px 12px;font-size:13px;font-weight:500;color:var(--t1);font-family:var(--sans);outline:none"
+        oninput="filterSyms(this.value)">
+    </div>
+    <div style="padding:8px 12px 4px;border-bottom:1px solid var(--b1)">
+      <div style="font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--t3);margin-bottom:6px">Favoritos</div>
+      <div id="sym-favs" style="display:flex;flex-wrap:wrap;gap:6px"></div>
+    </div>
+    <div id="sym-list" style="max-height:220px;overflow-y:auto;padding:8px 0"></div>
   </div>
   <div class="fg">
     <label>Dirección</label>
@@ -558,7 +576,8 @@ function setSide(s){
   document.getElementById('btn-s').className='sb'+(s==='SHORT'?' ss':'');
 }
 function clrForm(){
-  ['f-sym','f-monto','f-pnl','f-no'].forEach(function(i){document.getElementById(i).value=''});
+  ['f-monto','f-pnl','f-no'].forEach(function(i){document.getElementById(i).value=''});
+  resetSym();
   document.getElementById('f-exch').value='';
   document.getElementById('f-dt').value=new Date().toISOString().split('T')[0];
   document.getElementById('f-lv').value='1';
@@ -567,7 +586,7 @@ function clrForm(){
   document.getElementById('prev-box').style.display='none';
 }
 function addTrade(){
-  var sym=document.getElementById('f-sym').value.trim().toUpperCase();
+  var sym=selSym;
   var monto=parseFloat(document.getElementById('f-monto').value);
   var pnlv=document.getElementById('f-pnl').value.trim();
   var pnl=pnlv!==''?parseFloat(pnlv):null;
@@ -575,7 +594,7 @@ function addTrade(){
   var exch=document.getElementById('f-exch').value;
   var no=document.getElementById('f-no').value.trim();
   var dt=document.getElementById('f-dt').value||new Date().toISOString().split('T')[0];
-  if(!sym)return toast('El activo es obligatorio',false);
+  if(!sym)return toast('Selecciona un activo',false);
   if(!monto||monto<=0)return toast('Introduce el monto de entrada',false);
   var t={id:Date.now(),symbol:sym,side:side,monto:monto,leverage:lv,pnl:pnl,exchange:exch,notes:no,date:dt};
   TR.unshift(t);saveTrades();
@@ -612,7 +631,7 @@ function tCard(t,compact){
   return '<div class="ti">'+
     '<div class="tr1">'+
       '<div class="tsw">'+
-        '<div class="tic">'+t.symbol.slice(0,3)+'</div>'+
+        '<div class="tic" style="background:'+getCryptoColor(t.symbol)+'22;border-color:'+getCryptoColor(t.symbol)+'44;overflow:hidden">'+logoHtml(t.symbol,28).replace(/^<div[^>]*>/,'').replace(/<\/div>$/,'')+'</div>'+
         '<div>'+
           '<div class="tsym">'+t.symbol+'</div>'+
           '<div class="tmeta">'+t.date+(t.exchange?' · '+t.exchange:'')+'</div>'+
@@ -656,7 +675,7 @@ function updDash(){
   var bS={};TR.forEach(function(t){bS[t.symbol]=(bS[t.symbol]||0)+1});
   var sk=Object.keys(bS),sv=sk.map(function(s){return bS[s]}),tot2=sv.reduce(function(a,b){return a+b},0);
   dc('don');
-  if(sk.length){CH['don']=new Chart(document.getElementById('c-don'),{type:'doughnut',data:{labels:sk,datasets:[{data:sv,backgroundColor:PAL.slice(0,sk.length),borderWidth:0,borderRadius:3}]},options:{responsive:true,maintainAspectRatio:false,cutout:'70%',plugins:{legend:{display:false}}}});document.getElementById('d-leg').innerHTML=sk.slice(0,6).map(function(s,i){return'<div class="lgi"><div class="lgd" style="background:'+PAL[i]+'"></div><span class="lgn">'+s+'</span><span class="lgc">'+bS[s]+' · '+((bS[s]/tot2)*100).toFixed(0)+'%</span></div>'}).join('')}else{document.getElementById('d-leg').innerHTML=''}
+  if(sk.length){CH['don']=new Chart(document.getElementById('c-don'),{type:'doughnut',data:{labels:sk,datasets:[{data:sv,backgroundColor:PAL.slice(0,sk.length),borderWidth:0,borderRadius:3}]},options:{responsive:true,maintainAspectRatio:false,cutout:'70%',plugins:{legend:{display:false}}}});document.getElementById('d-leg').innerHTML=sk.slice(0,6).map(function(s){return'<div class="lgi">'+logoHtml(s,20)+'<span class="lgn">'+s+'</span><span class="lgc">'+bS[s]+' · '+((bS[s]/tot2)*100).toFixed(0)+'%</span></div>'}).join('')}else{document.getElementById('d-leg').innerHTML=''}
   var rec=TR.slice(0,5);
   document.getElementById('d-rec').innerHTML=rec.length?rec.map(function(t){return tCard(t,true)}).join(''):'<div class="empty"><div class="ei"><svg viewBox="0 0 22 22" fill="none"><path d="M8 11h6M8 15h4M6 4H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-2M8 4h6v2H8V4z" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></div><div class="et">Sin operaciones</div><div class="es">Registra tu primer trade</div></div>'
 }
@@ -684,7 +703,7 @@ function rPort(){
   if(!op.length){pl.innerHTML='';pe.style.display='block'}
   else{
     pe.style.display='none';
-    pl.innerHTML=op.map(function(t){return'<div class="hc"><div class="hh"><div class="hsym">'+t.symbol+'</div><div class="hbadges"><span class="badge b'+t.side.toLowerCase()+'">'+t.side+'</span>'+(t.leverage>1?'<span class="lev">×'+t.leverage+'</span>':'')+(t.exchange?'<span style="font-size:10px;font-weight:600;color:var(--t3)">'+t.exchange+'</span>':'')+'</div></div><div class="hg"><div><div class="hl">Monto entrada</div><div class="hv">$'+t.monto.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})+'</div></div><div><div class="hl">Apalancamiento</div><div class="hv" style="color:var(--amb)">×'+t.leverage+'</div></div><div><div class="hl">Exposición</div><div class="hv">$'+(t.monto*t.leverage).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})+'</div></div><div><div class="hl">Fecha</div><div class="hv" style="font-size:11px">'+t.date+'</div></div></div>'+(t.notes?'<div style="margin-top:10px;padding-top:9px;border-top:1px solid var(--b1);font-size:11px;font-weight:500;color:var(--t3)">'+t.notes+'</div>':'')+'</div>'}).join('')
+    pl.innerHTML=op.map(function(t){return'<div class="hc"><div class="hh"><div style="display:flex;align-items:center;gap:10px">'+logoHtml(t.symbol,36)+'<div class="hsym">'+t.symbol+'</div></div><div class="hbadges"><span class="badge b'+t.side.toLowerCase()+'">'+t.side+'</span>'+(t.leverage>1?'<span class="lev">×'+t.leverage+'</span>':'')+(t.exchange?'<span style="font-size:10px;font-weight:600;color:var(--t3)">'+t.exchange+'</span>':'')+'</div></div><div class="hg"><div><div class="hl">Monto entrada</div><div class="hv">$'+t.monto.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})+'</div></div><div><div class="hl">Apalancamiento</div><div class="hv" style="color:var(--amb)">×'+t.leverage+'</div></div><div><div class="hl">Exposición</div><div class="hv">$'+(t.monto*t.leverage).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})+'</div></div><div><div class="hl">Fecha</div><div class="hv" style="font-size:11px">'+t.date+'</div></div></div>'+(t.notes?'<div style="margin-top:10px;padding-top:9px;border-top:1px solid var(--b1);font-size:11px;font-weight:500;color:var(--t3)">'+t.notes+'</div>':'')+'</div>'}).join('')
   }
   var bS={};op.forEach(function(t){bS[t.symbol]=(bS[t.symbol]||0)+(t.monto||0);});
   var sk=Object.keys(bS),sv=sk.map(function(s){return parseFloat(bS[s].toFixed(2))});
@@ -708,6 +727,156 @@ function rStats(){
   dc('mon');CH['mon']=new Chart(document.getElementById('c-mon'),{type:'bar',data:{labels:ms.length?ms.map(function(m){return m.slice(5)+'/'+m.slice(2,4)}):['—'],datasets:[{data:mv.length?mv:[0],backgroundColor:'rgba(184,240,60,0.65)',borderWidth:0,borderRadius:5}]},options:co(function(v){return String(v)})})
 }
 document.getElementById('f-dt').value=new Date().toISOString().split('T')[0];
+
+// ── CRYPTO PICKER ─────────────────────────────────────────────────────────────
+var CRYPTOS=[
+  {s:'BTC',n:'Bitcoin',c:'#f7931a'},
+  {s:'ETH',n:'Ethereum',c:'#627eea'},
+  {s:'SOL',n:'Solana',c:'#9945ff'},
+  {s:'BNB',n:'BNB',c:'#f3ba2f'},
+  {s:'XRP',n:'XRP',c:'#346aa9'},
+  {s:'ADA',n:'Cardano',c:'#0033ad'},
+  {s:'AVAX',n:'Avalanche',c:'#e84142'},
+  {s:'DOGE',n:'Dogecoin',c:'#c2a633'},
+  {s:'DOT',n:'Polkadot',c:'#e6007a'},
+  {s:'LINK',n:'Chainlink',c:'#2a5ada'},
+  {s:'MATIC',n:'Polygon',c:'#8247e5'},
+  {s:'LTC',n:'Litecoin',c:'#bfbbbb'},
+  {s:'ATOM',n:'Cosmos',c:'#2e3148'},
+  {s:'UNI',n:'Uniswap',c:'#ff007a'},
+  {s:'NEAR',n:'NEAR',c:'#00c08b'},
+  {s:'OP',n:'Optimism',c:'#ff0420'},
+  {s:'ARB',n:'Arbitrum',c:'#28a0f0'},
+  {s:'SUI',n:'Sui',c:'#4da2ff'},
+  {s:'APT',n:'Aptos',c:'#2dd8a3'},
+  {s:'INJ',n:'Injective',c:'#00b4d8'},
+  {s:'SEI',n:'Sei',c:'#9d4edd'},
+  {s:'TIA',n:'Celestia',c:'#7b2d8b'},
+  {s:'JUP',n:'Jupiter',c:'#c8f560'},
+  {s:'WIF',n:'dogwifhat',c:'#da9135'},
+  {s:'PEPE',n:'Pepe',c:'#4caf50'},
+  {s:'BONK',n:'Bonk',c:'#f97316'},
+  {s:'FLOKI',n:'Floki',c:'#f5a623'},
+  {s:'SHIB',n:'Shiba Inu',c:'#e2503a'},
+  {s:'FTM',n:'Fantom',c:'#1969ff'},
+  {s:'HYPE',n:'Hyperliquid',c:'#b8f03c'},
+  {s:'WLD',n:'Worldcoin',c:'#000000'},
+  {s:'PYTH',n:'Pyth',c:'#7142cf'},
+  {s:'JTO',n:'Jito',c:'#17a34a'},
+  {s:'RNDR',n:'Render',c:'#e74c3c'},
+  {s:'FET',n:'Fetch.ai',c:'#2f73b9'},
+  {s:'IMX',n:'Immutable',c:'#17b5cb'},
+  {s:'SAND',n:'The Sandbox',c:'#04adef'},
+  {s:'MANA',n:'Decentraland',c:'#ff2d55'},
+  {s:'AAVE',n:'Aave',c:'#b6509e'},
+  {s:'CRV',n:'Curve',c:'#40649f'},
+  {s:'MKR',n:'Maker',c:'#1aab9b'},
+  {s:'SNX',n:'Synthetix',c:'#5fcdf9'},
+  {s:'LDO',n:'Lido',c:'#f27b50'},
+  {s:'RPL',n:'Rocket Pool',c:'#f5793b'},
+  {s:'GMX',n:'GMX',c:'#3890e4'},
+  {s:'GRT',n:'The Graph',c:'#6747ed'},
+  {s:'DYDX',n:'dYdX',c:'#6966ff'},
+  {s:'1INCH',n:'1inch',c:'#d82122'},
+  {s:'BLUR',n:'Blur',c:'#f97316'},
+  {s:'PENDLE',n:'Pendle',c:'#79e8ca'}
+];
+
+function getCryptoColor(sym){
+  var c=CRYPTOS.find(function(x){return x.s===sym});
+  return c?c.c:'#6e8299';
+}
+function getCryptoName(sym){
+  var c=CRYPTOS.find(function(x){return x.s===sym});
+  return c?c.n:sym;
+}
+function logoHtml(sym,size){
+  size=size||32;
+  var col=getCryptoColor(sym);
+  var img='https://cdn.jsdelivr.net/gh/spothq/cryptocurrency-icons@master/32/color/'+sym.toLowerCase()+'.png';
+  return '<div style="width:'+size+'px;height:'+size+'px;border-radius:50%;background:'+col+'22;border:1.5px solid '+col+'44;display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0">'+
+    '<img src="'+img+'" width="'+(size-8)+'" height="'+(size-8)+'" style="object-fit:contain" '+
+    'onerror="this.style.display=\'none\';this.nextSibling.style.display=\'flex\'" '+
+    'onload="this.nextSibling.style.display=\'none\'">'+
+    '<span style="display:flex;align-items:center;justify-content:center;font-size:'+(size<=24?8:10)+'px;font-weight:700;color:'+col+';font-family:var(--mono)">'+sym.slice(0,3)+'</span>'+
+  '</div>';
+}
+
+var selSym='';
+var FAVS=[];
+try{FAVS=JSON.parse(localStorage.getItem('mt4_favs')||'[]')}catch(e){}
+function saveFavs(){try{localStorage.setItem('mt4_favs',JSON.stringify(FAVS))}catch(e){}}
+
+function resetSym(){
+  selSym='';
+  document.getElementById('sym-logo').innerHTML='?';
+  document.getElementById('sym-logo').style.background='var(--bg4)';
+  document.getElementById('sym-name').textContent='Seleccionar cripto...';
+  document.getElementById('sym-name').style.color='var(--t2)';
+  document.getElementById('sym-picker').style.display='none';
+}
+function selectSym(sym){
+  selSym=sym;
+  var col=getCryptoColor(sym);
+  var logoEl=document.getElementById('sym-logo');
+  logoEl.innerHTML=logoHtml(sym,28).replace(/^<div[^>]*>/,'').replace(/<\/div>$/,'');
+  logoEl.style.background=col+'22';
+  logoEl.style.border='1.5px solid '+col+'44';
+  document.getElementById('sym-name').textContent=sym+' · '+getCryptoName(sym);
+  document.getElementById('sym-name').style.color='var(--t1)';
+  document.getElementById('sym-picker').style.display='none';
+}
+function openSymPicker(){
+  var pk=document.getElementById('sym-picker');
+  var isOpen=pk.style.display==='block';
+  pk.style.display=isOpen?'none':'block';
+  if(!isOpen){
+    document.getElementById('sym-search').value='';
+    filterSyms('');
+    renderFavs();
+    setTimeout(function(){document.getElementById('sym-search').focus()},60);
+  }
+}
+function toggleFav(sym,e){
+  e.stopPropagation();
+  var i=FAVS.indexOf(sym);
+  if(i>=0)FAVS.splice(i,1);else{FAVS.unshift(sym);if(FAVS.length>12)FAVS=FAVS.slice(0,12);}
+  saveFavs();renderFavs();filterSyms(document.getElementById('sym-search').value||'');
+}
+function renderFavs(){
+  var el=document.getElementById('sym-favs');
+  if(!FAVS.length){el.innerHTML='<span style="font-size:11px;color:var(--t3);padding:2px 0">Ninguno — pulsa ★ para añadir</span>';return;}
+  el.innerHTML=FAVS.map(function(s){
+    return '<div onclick="selectSym(\''+s+'\')" style="display:flex;align-items:center;gap:5px;padding:5px 9px;border-radius:8px;background:var(--bg3);border:1px solid var(--b1);cursor:pointer">'+
+      logoHtml(s,20)+
+      '<span style="font-size:11px;font-weight:700;font-family:var(--mono)">'+s+'</span>'+
+    '</div>';
+  }).join('');
+}
+function filterSyms(q){
+  q=q.toUpperCase().trim();
+  var list=q?CRYPTOS.filter(function(c){return c.s.includes(q)||c.n.toUpperCase().includes(q);}):CRYPTOS;
+  var el=document.getElementById('sym-list');
+  el.innerHTML=list.map(function(c){
+    var isFav=FAVS.indexOf(c.s)>=0;
+    return '<div onclick="selectSym(\''+c.s+'\')" style="display:flex;align-items:center;gap:10px;padding:9px 14px;cursor:pointer;transition:background 0.1s" '+
+      'onmouseover="this.style.background=\'var(--bg3)\'" onmouseout="this.style.background=\'\'">'+
+      logoHtml(c.s,32)+
+      '<div style="flex:1"><div style="font-size:13px;font-weight:700">'+c.s+'</div><div style="font-size:10px;font-weight:500;color:var(--t2)">'+c.n+'</div></div>'+
+      '<button onclick="toggleFav(\''+c.s+'\',event)" style="background:none;border:none;cursor:pointer;font-size:16px;color:'+(isFav?'var(--amb)':'var(--t3)')+';padding:4px 6px;line-height:1" title="Favorito">★</button>'+
+    '</div>';
+  }).join('');
+}
+
+// close picker on outside click
+document.addEventListener('click',function(e){
+  var pk=document.getElementById('sym-picker');
+  var sel=document.getElementById('sym-selected');
+  if(pk&&sel&&!pk.contains(e.target)&&!sel.contains(e.target)){
+    pk.style.display='none';
+  }
+});
+
 renderAcc();
 updDash();
 </script>
