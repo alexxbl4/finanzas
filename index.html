@@ -143,6 +143,8 @@ body{
 .tdot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
 .toast.ok .tdot{background:var(--grn)}.toast.err .tdot{background:var(--red)}
 ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--bg4);border-radius:2px}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--amb);border:2px solid var(--bg0);cursor:pointer}
+input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:var(--amb);border:2px solid var(--bg0);cursor:pointer}
 </style>
 </head>
 <body>
@@ -252,48 +254,99 @@ body{
 
   <div class="page" id="p-new">
     <div class="pg-t">Nueva operación</div>
-    <div class="pg-s">Registra los detalles del trade</div>
-    <div class="prev-box" id="prev-box">
-      <div class="prev-lbl">Vista previa · PnL estimado</div>
-      <div class="prev-pnl" id="prev-pnl">—</div>
-      <div class="prev-grid" id="prev-grid"></div>
+    <div class="pg-s">Rápido y sencillo</div>
+
+```
+<div class="card">
+  <!-- ACTIVO + DIRECCIÓN -->
+  <div class="fg">
+    <label>Activo</label>
+    <input type="text" id="f-sym" placeholder="BTC, ETH, SOL..." autocomplete="off" oninput="this.value=this.value.toUpperCase()">
+  </div>
+  <div class="fg">
+    <label>Dirección</label>
+    <div class="stgl">
+      <button class="sb sl" id="btn-l" onclick="setSide('LONG')">
+        <svg width="9" height="9" viewBox="0 0 9 9"><path d="M4.5 0l4.5 9H0z" fill="currentColor"/></svg>LONG
+      </button>
+      <button class="sb" id="btn-s" onclick="setSide('SHORT')">
+        <svg width="9" height="9" viewBox="0 0 9 9"><path d="M4.5 9l4.5-9H0z" fill="currentColor"/></svg>SHORT
+      </button>
     </div>
-    <div class="card">
-      <div class="fg"><label>Activo</label><input type="text" id="f-sym" placeholder="BTC, ETH, SOL..." autocomplete="off" oninput="this.value=this.value.toUpperCase();lp()"></div>
-      <div class="fg"><label>Dirección</label>
-        <div class="stgl">
-          <button class="sb sl" id="btn-l" onclick="setSide('LONG')">
-            <svg width="9" height="9" viewBox="0 0 9 9"><path d="M4.5 0l4.5 9H0z" fill="currentColor"/></svg>LONG
-          </button>
-          <button class="sb" id="btn-s" onclick="setSide('SHORT')">
-            <svg width="9" height="9" viewBox="0 0 9 9"><path d="M4.5 9l4.5-9H0z" fill="currentColor"/></svg>SHORT
-          </button>
-        </div>
+  </div>
+
+  <!-- MONTO -->
+  <div class="fg">
+    <label>Monto de entrada ($)</label>
+    <input type="number" id="f-monto" placeholder="500" step="any" min="0" oninput="lp()">
+  </div>
+
+  <!-- APALANCAMIENTO SLIDER -->
+  <div class="fg">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+      <label style="margin:0">Apalancamiento</label>
+      <div style="font-family:var(--mono);font-size:18px;font-weight:700;color:var(--amb)">×<span id="lv-val">1</span></div>
+    </div>
+    <input type="range" id="f-lv" min="1" max="100" value="1" step="1"
+      style="width:100%;height:4px;-webkit-appearance:none;appearance:none;background:var(--bg4);border-radius:2px;outline:none;cursor:pointer"
+      oninput="document.getElementById('lv-val').textContent=this.value;lp()">
+    <div style="display:flex;justify-content:space-between;margin-top:5px">
+      <span style="font-size:9px;font-weight:600;color:var(--t3)">×1</span>
+      <span style="font-size:9px;font-weight:600;color:var(--t3)">×25</span>
+      <span style="font-size:9px;font-weight:600;color:var(--t3)">×50</span>
+      <span style="font-size:9px;font-weight:600;color:var(--t3)">×75</span>
+      <span style="font-size:9px;font-weight:600;color:var(--t3)">×100</span>
+    </div>
+  </div>
+
+  <!-- PNL -->
+  <div class="fg">
+    <label>PnL ($) <span style="font-size:9px;color:var(--t3);font-weight:500;text-transform:none;letter-spacing:0">positivo = ganancia · negativo = pérdida</span></label>
+    <input type="number" id="f-pnl" placeholder="ej: 120 o -45" step="any" oninput="lp()">
+  </div>
+
+  <!-- LIVE PREVIEW -->
+  <div id="prev-box" style="display:none;background:var(--bg3);border:1px solid var(--b2);border-radius:var(--r2);padding:14px;margin-bottom:14px">
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px">
+      <div>
+        <div style="font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--t3);margin-bottom:4px">PnL</div>
+        <div style="font-family:var(--mono);font-size:16px;font-weight:700" id="prev-pnl">—</div>
       </div>
-      <div class="f2">
-        <div class="fg"><label>Entrada ($)</label><input type="number" id="f-en" placeholder="0.00" step="any" min="0" oninput="lp()"></div>
-        <div class="fg"><label>Salida ($)</label><input type="number" id="f-ex" placeholder="vacío = abierta" step="any" min="0" oninput="lp()"></div>
-        <div class="fg"><label>Cantidad</label><input type="number" id="f-qt" placeholder="0.00" step="any" min="0" oninput="lp()"></div>
-        <div class="fg"><label>Leverage</label><input type="number" id="f-lv" value="1" min="1" max="200" oninput="lp()"></div>
-        <div class="fg"><label>Plataforma</label>
-          <select id="f-exch">
-            <option value="">— Seleccionar —</option>
-            <option value="GRVT">GRVT</option>
-            <option value="MEXC">MEXC</option>
-            <option value="BINGX">BINGX</option>
-            <option value="HYPERLIQUID">HYPERLIQUID</option>
-          </select>
-        </div>
-        <div class="fg"><label>Fecha</label><input type="date" id="f-dt"></div>
+      <div>
+        <div style="font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--t3);margin-bottom:4px">% retorno</div>
+        <div style="font-family:var(--mono);font-size:16px;font-weight:700" id="prev-pct">—</div>
       </div>
-      <div class="fg"><label>Notas / Estrategia</label><textarea id="f-no" placeholder="Setup, razón de entrada, gestión del riesgo..."></textarea></div>
-      <div class="btn-row">
-        <button class="btn btn-a" onclick="addTrade()">Guardar operación</button>
-        <button class="btn btn-g" style="width:auto;padding:14px 16px" onclick="clrForm()">
-          <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M1 1l11 11M12 1L1 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-        </button>
+      <div>
+        <div style="font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--t3);margin-bottom:4px">Exposición</div>
+        <div style="font-family:var(--mono);font-size:16px;font-weight:700;color:var(--t2)" id="prev-exp">—</div>
       </div>
     </div>
+  </div>
+
+  <!-- PLATAFORMA + FECHA -->
+  <div class="f2">
+    <div class="fg"><label>Plataforma</label>
+      <select id="f-exch">
+        <option value="">— —</option>
+        <option value="GRVT">GRVT</option>
+        <option value="MEXC">MEXC</option>
+        <option value="BINGX">BINGX</option>
+        <option value="HYPERLIQUID">HYPERLIQUID</option>
+      </select>
+    </div>
+    <div class="fg"><label>Fecha</label><input type="date" id="f-dt"></div>
+  </div>
+  <div class="fg"><label>Notas <span style="font-size:8px;color:var(--t3);font-weight:500;text-transform:none;letter-spacing:0">opcional</span></label><textarea id="f-no" placeholder="Setup, estrategia..." style="min-height:56px"></textarea></div>
+
+  <div class="btn-row">
+    <button class="btn btn-a" onclick="addTrade()">Guardar</button>
+    <button class="btn btn-g" style="width:auto;padding:14px 16px" onclick="clrForm()">
+      <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M1 1l11 11M12 1L1 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+</div>
+```
+
   </div>
 
   <!-- HISTORIAL -->
@@ -421,9 +474,8 @@ function renderAcc(){
     else{totalDep-=m.amt;nRet++;}
   });
   // PnL from closed trades
-  var tradePnl=TR.filter(function(t){return t.exit;}).reduce(function(a,t){
-    var p=(t.side==='LONG'?1:-1)*(t.exit-t.entry)*t.qty*(t.leverage||1);
-    return a+p;
+  var tradePnl=TR.filter(function(t){return t.pnl!==null&&t.pnl!==undefined;}).reduce(function(a,t){
+    return a+t.pnl;
   },0);
   // Real performance = tradePnl (what the market gave/took), independent of deposits
   // Show: total deposited, trade PnL, and % return on capital
@@ -481,9 +533,9 @@ function renderAcc(){
 }
 var TR=loadTrades(),MOV=loadMov(),filt='all',side='LONG',CH={};
 var PAL=['#b8f03c','#2dda7a','#5b9cf6','#f0a830','#f05050','#a78bfa','#38bdf8','#fb7185','#4ade80','#facc15'];
-function cpnl(t){if(!t.exit)return null;return(t.side==='LONG'?1:-1)*(t.exit-t.entry)*t.qty*(t.leverage||1)}
+// PnL is stored directly on trade now (t.pnl)
+function cpnl(t){if(t.pnl===undefined||t.pnl===null)return null;return t.pnl}
 function fm(v,sg){if(sg===undefined)sg=true;if(v===null||v===undefined)return'—';var a=Math.abs(v);var s=a>=10000?'$'+(a/1000).toFixed(1)+'k':a>=1000?'$'+a.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}):'$'+a.toFixed(2);return sg?((v<0?'−':'+')+s):s}
-function fp(v){if(!v&&v!==0)return'—';var n=parseFloat(v);return'$'+n.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:n<1?6:n<100?3:2})}
 function dc(id){if(CH[id]){CH[id].destroy();delete CH[id]}}
 function co(yf){return{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{grid:{color:'rgba(255,255,255,0.03)'},ticks:{color:'#35485a',font:{family:"'JetBrains Mono'",size:9},callback:yf}},x:{grid:{display:false},ticks:{color:'#35485a',font:{family:"'JetBrains Mono'",size:9},maxTicksLimit:6}}}}}
 var TT;
@@ -504,49 +556,50 @@ function setSide(s){
   side=s;
   document.getElementById('btn-l').className='sb'+(s==='LONG'?' sl':'');
   document.getElementById('btn-s').className='sb'+(s==='SHORT'?' ss':'');
-  lp()
 }
 function clrForm(){
-  ['f-sym','f-en','f-ex','f-qt','f-no'].forEach(function(i){document.getElementById(i).value=''});
+  ['f-sym','f-monto','f-pnl','f-no'].forEach(function(i){document.getElementById(i).value=''});
   document.getElementById('f-exch').value='';
-  document.getElementById('f-lv').value='1';
   document.getElementById('f-dt').value=new Date().toISOString().split('T')[0];
+  document.getElementById('f-lv').value='1';
+  document.getElementById('lv-val').textContent='1';
   setSide('LONG');
-  document.getElementById('prev-box').style.display='none'
+  document.getElementById('prev-box').style.display='none';
 }
 function addTrade(){
   var sym=document.getElementById('f-sym').value.trim().toUpperCase();
-  var en=parseFloat(document.getElementById('f-en').value);
-  var exv=document.getElementById('f-ex').value.trim();
-  var ex=exv?parseFloat(exv):null;
-  var qt=parseFloat(document.getElementById('f-qt').value);
-  var lv=parseFloat(document.getElementById('f-lv').value)||1;
-  var exch=document.getElementById('f-exch').value.trim();
+  var monto=parseFloat(document.getElementById('f-monto').value);
+  var pnlv=document.getElementById('f-pnl').value.trim();
+  var pnl=pnlv!==''?parseFloat(pnlv):null;
+  var lv=parseInt(document.getElementById('f-lv').value)||1;
+  var exch=document.getElementById('f-exch').value;
   var no=document.getElementById('f-no').value.trim();
   var dt=document.getElementById('f-dt').value||new Date().toISOString().split('T')[0];
   if(!sym)return toast('El activo es obligatorio',false);
-  if(!en||en<=0)return toast('Precio de entrada inválido',false);
-  if(!qt||qt<=0)return toast('Cantidad inválida',false);
-  var t={id:Date.now(),symbol:sym,side:side,entry:en,exit:ex,qty:qt,leverage:lv,exchange:exch,notes:no,date:dt};
+  if(!monto||monto<=0)return toast('Introduce el monto de entrada',false);
+  var t={id:Date.now(),symbol:sym,side:side,monto:monto,leverage:lv,pnl:pnl,exchange:exch,notes:no,date:dt};
   TR.unshift(t);saveTrades();
-  var p=cpnl(t);
-  toast(p!==null?'Guardado · PnL '+fm(p):'Operación abierta registrada',true);
-  clrForm()
+  renderAcc();
+  toast(pnl!==null?'Guardado · PnL '+fm(pnl):'Operación abierta guardada',true);
+  clrForm();
 }
 function lp(){
-  var en=parseFloat(document.getElementById('f-en').value);
-  var ex=parseFloat(document.getElementById('f-ex').value);
-  var qt=parseFloat(document.getElementById('f-qt').value);
-  var lv=parseFloat(document.getElementById('f-lv').value)||1;
+  var monto=parseFloat(document.getElementById('f-monto').value);
+  var pnlv=document.getElementById('f-pnl').value.trim();
+  var lv=parseInt(document.getElementById('f-lv').value)||1;
   var pb=document.getElementById('prev-box');
-  if(!en||!ex||!qt){pb.style.display='none';return}
-  var p=(side==='LONG'?1:-1)*(ex-en)*qt*lv;
-  var pct=((ex-en)/en*100*(side==='LONG'?1:-1)).toFixed(2);
-  var up=p>=0;
+  if(!monto||pnlv===''){pb.style.display='none';return}
+  var pnl=parseFloat(pnlv);
+  if(isNaN(pnl)){pb.style.display='none';return}
+  var up=pnl>=0;
+  var pct=(pnl/(monto))*100;
+  var exp=monto*lv;
   pb.style.display='block';
-  var pe=document.getElementById('prev-pnl');
-  pe.textContent=fm(p);pe.style.color=up?'var(--grn)':'var(--red)';
-  document.getElementById('prev-grid').innerHTML='<div><div class="prev-fl">Retorno</div><div class="prev-fv" style="color:'+(up?'var(--grn)':'var(--red)')+'">'+(up?'+':'')+pct+'%</div></div><div><div class="prev-fl">Coste</div><div class="prev-fv">'+fm(en*qt,false)+'</div></div>'+(lv>1?'<div><div class="prev-fl">Lev.</div><div class="prev-fv" style="color:var(--amb)">×'+lv+'</div></div>':'')
+  var pp=document.getElementById('prev-pnl');
+  pp.textContent=fm(pnl);pp.style.color=up?'var(--grn)':'var(--red)';
+  var pc=document.getElementById('prev-pct');
+  pc.textContent=(pct>=0?'+':'')+pct.toFixed(2)+'%';pc.style.color=up?'var(--grn)':'var(--red)';
+  document.getElementById('prev-exp').textContent='$'+exp.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
 }
 function tCard(t,compact){
   if(compact===undefined)compact=false;
@@ -555,16 +608,41 @@ function tCard(t,compact){
   var stat=p===null?'<span class="badge bo">OPEN</span>':p>=0?'<span class="badge bw">WIN</span>':'<span class="badge blo">LOSS</span>';
   var lbg=t.leverage>1?'<span class="lev">×'+t.leverage+'</span>':'';
   var del=!compact?'<button class="btn-del" onclick="delT('+t.id+')"><svg viewBox="0 0 14 14" fill="none"><path d="M1 3h12M5 3V2a1 1 0 0 1 4 0v1M3.5 3l.8 8.5h5.4l.8-8.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>':'';
-  return '<div class="ti"><div class="tr1"><div class="tsw"><div class="tic">'+t.symbol.slice(0,3)+'</div><div><div class="tsym">'+t.symbol+'</div><div class="tmeta">'+t.date+(t.exchange?' · '+t.exchange:'')+'</div></div></div><div style="text-align:right"><div class="tpnl '+pcls+'">'+(p!==null?fm(p):'—')+'</div><div style="margin-top:3px">'+stat+'</div></div></div><div class="tr2"><div class="pr"><div class="pi"><div class="pl">Entrada</div><div class="pv">'+fp(t.entry)+'</div></div><div style="color:var(--t3);font-size:10px;margin-top:8px">→</div><div class="pi"><div class="pl">Salida</div><div class="pv">'+(t.exit?fp(t.exit):'<span style="color:var(--amb);font-size:11px">abierta</span>')+'</div></div><div class="pi"><div class="pl">Qty</div><div class="pv">'+t.qty+'</div></div></div><div class="tact"><span class="badge b'+t.side.toLowerCase()+'">'+t.side+'</span>'+lbg+del+'</div></div>'+(t.notes&&!compact?'<div style="font-size:11px;font-weight:500;color:var(--t3);padding-top:8px;border-top:1px solid var(--b1);margin-top:4px">'+t.notes+'</div>':'')+'</div>'
+  var pct=t.monto&&p!==null?((p/t.monto)*100).toFixed(1)+'%':'';
+  return '<div class="ti">'+
+    '<div class="tr1">'+
+      '<div class="tsw">'+
+        '<div class="tic">'+t.symbol.slice(0,3)+'</div>'+
+        '<div>'+
+          '<div class="tsym">'+t.symbol+'</div>'+
+          '<div class="tmeta">'+t.date+(t.exchange?' · '+t.exchange:'')+'</div>'+
+        '</div>'+
+      '</div>'+
+      '<div style="text-align:right">'+
+        '<div class="tpnl '+pcls+'">'+(p!==null?fm(p):'—')+'</div>'+
+        '<div style="margin-top:3px">'+stat+'</div>'+
+      '</div>'+
+    '</div>'+
+    '<div class="tr2">'+
+      '<div class="pr">'+
+        '<div class="pi"><div class="pl">Monto</div><div class="pv">$'+t.monto.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})+'</div></div>'+
+        (t.leverage>1?'<div class="pi"><div class="pl">Lev.</div><div class="pv" style="color:var(--amb)">×'+t.leverage+'</div></div>':'')+
+        (pct?'<div class="pi"><div class="pl">Retorno</div><div class="pv" style="color:'+(p>=0?'var(--grn)':'var(--red)')+'">'+  (p>=0?'+':'')+pct+'</div></div>':'')+
+      '</div>'+
+      '<div class="tact"><span class="badge b'+t.side.toLowerCase()+'">'+t.side+'</span>'+del+'</div>'+
+    '</div>'+
+    (t.notes&&!compact?'<div style="font-size:11px;font-weight:500;color:var(--t3);padding-top:8px;border-top:1px solid var(--b1);margin-top:4px">'+t.notes+'</div>':'')+
+  '</div>'
 }
 function updDash(){
-  var cl=TR.filter(function(t){return t.exit});
-  var pnls=cl.map(cpnl).filter(function(p){return p!==null});
+  // trades with pnl filled = closed; pnl===null = open
+  var cl=TR.filter(function(t){return t.pnl!==null&&t.pnl!==undefined});
+  var pnls=cl.map(function(t){return t.pnl});
   var ws=pnls.filter(function(p){return p>0}),ls=pnls.filter(function(p){return p<0});
   var tot=pnls.reduce(function(a,b){return a+b},0);
   var pe=document.getElementById('m-pnl');
   pe.textContent=fm(tot);pe.className='mv '+(tot>=0?'up':'dn');
-  var inv=cl.reduce(function(a,t){return a+t.entry*t.qty},0);
+  var inv=cl.reduce(function(a,t){return a+(t.monto||0)},0);
   document.getElementById('m-pct').textContent=inv>0?(tot>=0?'+':'')+(tot/inv*100).toFixed(2)+'% ROI':'—';
   document.getElementById('m-wr').textContent=pnls.length?((ws.length/pnls.length)*100).toFixed(1)+'%':'—';
   document.getElementById('m-wl').textContent=ws.length+'W · '+ls.length+'L';
@@ -572,7 +650,7 @@ function updDash(){
   document.getElementById('d-total').textContent=TR.length+' total';
   if(pnls.length){var mx=Math.max.apply(null,pnls),mn=Math.min.apply(null,pnls);document.getElementById('m-best').textContent=fm(mx);document.getElementById('m-bsym').textContent=(cl[pnls.indexOf(mx)]||{}).symbol||'—';document.getElementById('m-worst').textContent=fm(mn);document.getElementById('m-wsym').textContent=(cl[pnls.indexOf(mn)]||{}).symbol||'—'}
   var sorted=[].concat(cl).sort(function(a,b){return a.date.localeCompare(b.date)});
-  var cum=0,cumD=sorted.map(function(t){return parseFloat((cum+=cpnl(t)).toFixed(2))}),lbls=sorted.map(function(t){return t.date.slice(5)});
+  var cum=0,cumD=sorted.map(function(t){return parseFloat((cum+=t.pnl).toFixed(2))}),lbls=sorted.map(function(t){return t.date.slice(5)});
   dc('pnl');
   CH['pnl']=new Chart(document.getElementById('c-pnl'),{type:'line',data:{labels:lbls.length?lbls:['—'],datasets:[{data:cumD.length?cumD:[0],borderColor:tot>=0?'#2dda7a':'#f05050',backgroundColor:tot>=0?'rgba(45,218,122,0.06)':'rgba(240,80,80,0.06)',borderWidth:2,fill:true,tension:0.4,pointRadius:cumD.length>25?0:3,pointBackgroundColor:tot>=0?'#2dda7a':'#f05050',pointBorderColor:'#0d1219',pointBorderWidth:2}]},options:Object.assign({},co(function(v){return'$'+v.toFixed(0)}),{plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return' '+fm(c.parsed.y)}}}}})});
   var bS={};TR.forEach(function(t){bS[t.symbol]=(bS[t.symbol]||0)+1});
@@ -589,10 +667,10 @@ function rHist(){
     if(s&&!t.symbol.includes(s))return false;
     if(filt==='long'&&t.side!=='LONG')return false;
     if(filt==='short'&&t.side!=='SHORT')return false;
-    if(filt==='open'&&t.exit)return false;
-    if(filt==='closed'&&!t.exit)return false;
-    if(filt==='win'){var p=cpnl(t);if(p===null||p<=0)return false}
-    if(filt==='loss'){var p=cpnl(t);if(p===null||p>=0)return false}
+    if(filt==='open'&&(t.pnl!==null&&t.pnl!==undefined))return false;
+    if(filt==='closed'&&(t.pnl===null||t.pnl===undefined))return false;
+    if(filt==='win'){if(t.pnl===null||t.pnl===undefined||t.pnl<=0)return false}
+    if(filt==='loss'){if(t.pnl===null||t.pnl===undefined||t.pnl>=0)return false}
     return true
   });
   document.getElementById('h-sub').textContent=fd.length+' operaciones encontradas';
@@ -601,23 +679,23 @@ function rHist(){
 }
 function delT(id){if(!confirm('¿Eliminar esta operación?'))return;TR=TR.filter(function(t){return t.id!==id});saveTrades();rHist();updDash();renderAcc()}
 function rPort(){
-  var op=TR.filter(function(t){return!t.exit});
+  var op=TR.filter(function(t){return t.pnl===null||t.pnl===undefined;});
   var pl=document.getElementById('p-list'),pe=document.getElementById('p-emp');
   if(!op.length){pl.innerHTML='';pe.style.display='block'}
   else{
     pe.style.display='none';
-    pl.innerHTML=op.map(function(t){return'<div class="hc"><div class="hh"><div class="hsym">'+t.symbol+'</div><div class="hbadges"><span class="badge b'+t.side.toLowerCase()+'">'+t.side+'</span>'+(t.leverage>1?'<span class="lev">×'+t.leverage+'</span>':'')+(t.exchange?'<span style="font-size:10px;font-weight:600;color:var(--t3)">'+t.exchange+'</span>':'')+'</div></div><div class="hg"><div><div class="hl">Precio entrada</div><div class="hv">'+fp(t.entry)+'</div></div><div><div class="hl">Cantidad</div><div class="hv">'+t.qty+'</div></div><div><div class="hl">Coste total</div><div class="hv">'+fm(t.entry*t.qty,false)+'</div></div><div><div class="hl">Fecha</div><div class="hv" style="font-size:11px">'+t.date+'</div></div></div>'+(t.notes?'<div style="margin-top:10px;padding-top:9px;border-top:1px solid var(--b1);font-size:11px;font-weight:500;color:var(--t3)">'+t.notes+'</div>':'')+'</div>'}).join('')
+    pl.innerHTML=op.map(function(t){return'<div class="hc"><div class="hh"><div class="hsym">'+t.symbol+'</div><div class="hbadges"><span class="badge b'+t.side.toLowerCase()+'">'+t.side+'</span>'+(t.leverage>1?'<span class="lev">×'+t.leverage+'</span>':'')+(t.exchange?'<span style="font-size:10px;font-weight:600;color:var(--t3)">'+t.exchange+'</span>':'')+'</div></div><div class="hg"><div><div class="hl">Monto entrada</div><div class="hv">$'+t.monto.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})+'</div></div><div><div class="hl">Apalancamiento</div><div class="hv" style="color:var(--amb)">×'+t.leverage+'</div></div><div><div class="hl">Exposición</div><div class="hv">$'+(t.monto*t.leverage).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})+'</div></div><div><div class="hl">Fecha</div><div class="hv" style="font-size:11px">'+t.date+'</div></div></div>'+(t.notes?'<div style="margin-top:10px;padding-top:9px;border-top:1px solid var(--b1);font-size:11px;font-weight:500;color:var(--t3)">'+t.notes+'</div>':'')+'</div>'}).join('')
   }
-  var bS={};op.forEach(function(t){bS[t.symbol]=(bS[t.symbol]||0)+t.entry*t.qty});
+  var bS={};op.forEach(function(t){bS[t.symbol]=(bS[t.symbol]||0)+(t.monto||0);});
   var sk=Object.keys(bS),sv=sk.map(function(s){return parseFloat(bS[s].toFixed(2))});
   dc('exp');CH['exp']=new Chart(document.getElementById('c-exp'),{type:'bar',data:{labels:sk.length?sk:['—'],datasets:[{data:sv.length?sv:[0],backgroundColor:PAL.slice(0,sk.length),borderWidth:0,borderRadius:5}]},options:co(function(v){return'$'+v.toLocaleString()})})
 }
 function rStats(){
-  var cl=TR.filter(function(t){return t.exit});
-  var pnls=cl.map(cpnl),ws=pnls.filter(function(p){return p>0}),ls=pnls.filter(function(p){return p<0});
+  var cl=TR.filter(function(t){return t.pnl!==null&&t.pnl!==undefined;});
+  var pnls=cl.map(function(t){return t.pnl;}),ws=pnls.filter(function(p){return p>0}),ls=pnls.filter(function(p){return p<0});
   var tot=pnls.reduce(function(a,b){return a+b},0),gw=ws.reduce(function(a,b){return a+b},0),gl=Math.abs(ls.reduce(function(a,b){return a+b},0));
   var pf=gl>0?(gw/gl).toFixed(2):gw>0?'∞':'—';
-  document.getElementById('s-gen').innerHTML=[['Operaciones totales',TR.length,''],['Cerradas',cl.length,''],['Abiertas',TR.filter(function(t){return!t.exit}).length,''],['Win rate',pnls.length?((ws.length/pnls.length)*100).toFixed(1)+'%':'—','ac'],['Profit factor',pf,''],['PnL total',fm(tot),tot>=0?'up':'dn'],['Media por trade',pnls.length?fm(tot/pnls.length):'—',tot>=0?'up':'dn'],['Avg. ganadora',ws.length?fm(gw/ws.length):'—','up'],['Avg. perdedora',ls.length?fm(ls.reduce(function(a,b){return a+b},0)/ls.length):'—','dn'],['Mejor trade',ws.length?fm(Math.max.apply(null,ws)):'—','up'],['Peor trade',ls.length?fm(Math.min.apply(null,ls)):'—','dn']].map(function(r){return'<div class="sr"><span class="sl2">'+r[0]+'</span><span class="sv '+r[2]+'">'+r[1]+'</span></div>'}).join('');
+  document.getElementById('s-gen').innerHTML=[['Operaciones totales',TR.length,''],['Cerradas',cl.length,''],['Abiertas',TR.filter(function(t){return t.pnl===null||t.pnl===undefined;}).length,''],['Win rate',pnls.length?((ws.length/pnls.length)*100).toFixed(1)+'%':'—','ac'],['Profit factor',pf,''],['PnL total',fm(tot),tot>=0?'up':'dn'],['Media por trade',pnls.length?fm(tot/pnls.length):'—',tot>=0?'up':'dn'],['Avg. ganadora',ws.length?fm(gw/ws.length):'—','up'],['Avg. perdedora',ls.length?fm(ls.reduce(function(a,b){return a+b},0)/ls.length):'—','dn'],['Mejor trade',ws.length?fm(Math.max.apply(null,ws)):'—','up'],['Peor trade',ls.length?fm(Math.min.apply(null,ls)):'—','dn']].map(function(r){return'<div class="sr"><span class="sl2">'+r[0]+'</span><span class="sv '+r[2]+'">'+r[1]+'</span></div>'}).join('');
   var lo=cl.filter(function(t){return t.side==='LONG'}),sh=cl.filter(function(t){return t.side==='SHORT'});
   var lp=lo.map(cpnl),sp=sh.map(cpnl);
   dc('ls');CH['ls']=new Chart(document.getElementById('c-ls'),{type:'doughnut',data:{labels:['LONG','SHORT'],datasets:[{data:[lo.length||0,sh.length||0],backgroundColor:['#2dda7a','#f05050'],borderWidth:0,borderRadius:3}]},options:{responsive:true,maintainAspectRatio:false,cutout:'65%',plugins:{legend:{display:false}}}});
