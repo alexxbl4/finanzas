@@ -166,28 +166,86 @@ body{
   <!-- DASHBOARD -->
 
   <div class="page on" id="p-dash">
-    <div class="m2">
-      <div class="mc"><div class="ml">PnL Total</div><div class="mv" id="m-pnl">$0.00</div><div class="ms" id="m-pct">—</div></div>
-      <div class="mc"><div class="ml">Win Rate</div><div class="mv ac" id="m-wr">—</div><div class="ms" id="m-wl">0W · 0L</div></div>
-      <div class="mc"><div class="ml">Mejor trade</div><div class="mv up" id="m-best">—</div><div class="ms" id="m-bsym">—</div></div>
-      <div class="mc"><div class="ml">Peor trade</div><div class="mv dn" id="m-worst">—</div><div class="ms" id="m-wsym">—</div></div>
+
+```
+<div class="card" style="margin-bottom:12px">
+  <div class="sec-h" style="margin-bottom:14px">
+    <span class="sec-t">Mi cuenta</span>
+    <button onclick="toggleMovForm()" id="mov-btn" style="background:none;border:1px solid var(--b2);border-radius:6px;padding:4px 10px;font-size:9px;font-weight:700;font-family:var(--sans);color:var(--t2);cursor:pointer;letter-spacing:0.5px;text-transform:uppercase">+ Movimiento</button>
+  </div>
+
+  <!-- METRICS -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
+    <div>
+      <div style="font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--t3);margin-bottom:5px">Total depositado</div>
+      <div style="font-family:var(--mono);font-size:20px;font-weight:700;color:var(--t1)" id="acc-dep">—</div>
+      <div style="font-family:var(--mono);font-size:10px;color:var(--t3);margin-top:3px" id="acc-dep-sub">—</div>
     </div>
-    <div class="card">
-      <div class="sec-h"><span class="sec-t">PnL Acumulado</span><span class="sec-b" id="d-ct">0 cerradas</span></div>
-      <div class="cw" style="height:160px"><canvas id="c-pnl"></canvas></div>
+    <div>
+      <div style="font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--t3);margin-bottom:5px">PnL real</div>
+      <div style="font-family:var(--mono);font-size:20px;font-weight:700" id="acc-perf">—</div>
+      <div style="font-family:var(--mono);font-size:10px;color:var(--t3);margin-top:3px" id="acc-perf-sub">—</div>
     </div>
-    <div class="card">
-      <div class="sec-h"><span class="sec-t">Por activo</span></div>
-      <div class="drow">
-        <div class="cw" style="height:110px"><canvas id="c-don"></canvas></div>
-        <div id="d-leg"></div>
+  </div>
+
+  <!-- FORM -->
+  <div id="mov-form" style="display:none;border-top:1px solid var(--b1);padding-top:12px;margin-bottom:12px">
+    <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--t3);margin-bottom:10px">Añadir movimiento</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px">
+      <div class="fg" style="margin:0">
+        <label>Tipo</label>
+        <select id="mov-type">
+          <option value="dep">Depósito</option>
+          <option value="ret">Retirada</option>
+        </select>
+      </div>
+      <div class="fg" style="margin:0">
+        <label>Cantidad ($)</label>
+        <input type="number" id="mov-amt" placeholder="0.00" step="any" min="0">
+      </div>
+      <div class="fg" style="margin:0">
+        <label>Fecha</label>
+        <input type="date" id="mov-date">
+      </div>
+      <div class="fg" style="margin:0">
+        <label>Nota <span style="font-size:8px;color:var(--t3)">opcional</span></label>
+        <input type="text" id="mov-note" placeholder="Descripción...">
       </div>
     </div>
-    <div class="sec-h" style="margin-top:4px">
-      <span class="sec-t">Últimas operaciones</span>
-      <span class="sec-b" id="d-total">0 total</span>
+    <div style="display:flex;gap:8px">
+      <button onclick="addMov()" style="flex:1;padding:11px;background:var(--acc);color:var(--bg0);border:none;border-radius:var(--r1);font-size:12px;font-weight:700;font-family:var(--sans);cursor:pointer">Guardar</button>
+      <button onclick="toggleMovForm()" style="padding:11px 14px;background:transparent;color:var(--t2);border:1px solid var(--b2);border-radius:var(--r1);font-size:12px;font-weight:700;font-family:var(--sans);cursor:pointer">Cancelar</button>
     </div>
-    <div id="d-rec"></div>
+  </div>
+
+  <!-- MOVEMENTS LIST -->
+  <div id="mov-list"></div>
+</div>
+
+<div class="m2">
+  <div class="mc"><div class="ml">PnL Total</div><div class="mv" id="m-pnl">$0.00</div><div class="ms" id="m-pct">—</div></div>
+  <div class="mc"><div class="ml">Win Rate</div><div class="mv ac" id="m-wr">—</div><div class="ms" id="m-wl">0W · 0L</div></div>
+  <div class="mc"><div class="ml">Mejor trade</div><div class="mv up" id="m-best">—</div><div class="ms" id="m-bsym">—</div></div>
+  <div class="mc"><div class="ml">Peor trade</div><div class="mv dn" id="m-worst">—</div><div class="ms" id="m-wsym">—</div></div>
+</div>
+<div class="card">
+  <div class="sec-h"><span class="sec-t">PnL Acumulado</span><span class="sec-b" id="d-ct">0 cerradas</span></div>
+  <div class="cw" style="height:160px"><canvas id="c-pnl"></canvas></div>
+</div>
+<div class="card">
+  <div class="sec-h"><span class="sec-t">Por activo</span></div>
+  <div class="drow">
+    <div class="cw" style="height:110px"><canvas id="c-don"></canvas></div>
+    <div id="d-leg"></div>
+  </div>
+</div>
+<div class="sec-h" style="margin-top:4px">
+  <span class="sec-t">Últimas operaciones</span>
+  <span class="sec-b" id="d-total">0 total</span>
+</div>
+<div id="d-rec"></div>
+```
+
   </div>
 
   <!-- NUEVA -->
@@ -323,7 +381,105 @@ body{
 <script>
 function loadTrades(){try{return JSON.parse(localStorage.getItem('mt4')||'[]')}catch(e){return[]}}
 function saveTrades(){try{localStorage.setItem('mt4',JSON.stringify(TR))}catch(e){}}
-var TR=loadTrades(),filt='all',side='LONG',CH={};
+function loadMov(){try{return JSON.parse(localStorage.getItem('mt4_mov')||'[]')}catch(e){return[]}}
+function saveMov(){try{localStorage.setItem('mt4_mov',JSON.stringify(MOV))}catch(e){}}
+function toggleMovForm(){
+  var form=document.getElementById('mov-form');
+  var btn=document.getElementById('mov-btn');
+  var open=form.style.display==='block';
+  form.style.display=open?'none':'block';
+  btn.textContent=open?'+ Movimiento':'Cancelar';
+  if(!open){
+    document.getElementById('mov-date').value=new Date().toISOString().split('T')[0];
+    document.getElementById('mov-amt').value='';
+    document.getElementById('mov-note').value='';
+    document.getElementById('mov-type').value='dep';
+  }
+}
+function addMov(){
+  var type=document.getElementById('mov-type').value;
+  var amt=parseFloat(document.getElementById('mov-amt').value);
+  var date=document.getElementById('mov-date').value||new Date().toISOString().split('T')[0];
+  var note=document.getElementById('mov-note').value.trim();
+  if(!amt||amt<=0)return toast('Introduce una cantidad válida',false);
+  MOV.push({id:Date.now(),type:type,amt:amt,date:date,note:note});
+  saveMov();
+  toggleMovForm();
+  renderAcc();
+  toast((type==='dep'?'Depósito':'Retirada')+' registrado · $'+amt.toFixed(2),true);
+}
+function delMov(id){
+  if(!confirm('¿Eliminar movimiento?'))return;
+  MOV=MOV.filter(function(m){return m.id!==id});
+  saveMov();renderAcc();
+}
+function renderAcc(){
+  // Total deposited (deposits - withdrawals)
+  var totalDep=0,nDep=0,nRet=0;
+  MOV.forEach(function(m){
+    if(m.type==='dep'){totalDep+=m.amt;nDep++;}
+    else{totalDep-=m.amt;nRet++;}
+  });
+  // PnL from closed trades
+  var tradePnl=TR.filter(function(t){return t.exit;}).reduce(function(a,t){
+    var p=(t.side==='LONG'?1:-1)*(t.exit-t.entry)*t.qty*(t.leverage||1);
+    return a+p;
+  },0);
+  // Real performance = tradePnl (what the market gave/took), independent of deposits
+  // Show: total deposited, trade PnL, and % return on capital
+  var depEl=document.getElementById('acc-dep');
+  var depSub=document.getElementById('acc-dep-sub');
+  var perfEl=document.getElementById('acc-perf');
+  var perfSub=document.getElementById('acc-perf-sub');
+
+  if(MOV.length===0){
+    depEl.textContent='—';depSub.textContent='Sin movimientos';
+    perfEl.textContent='—';perfSub.textContent='—';
+  } else {
+    depEl.textContent=(totalDep>=0?'$':'−$')+Math.abs(totalDep).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+    depEl.style.color='var(--t1)';
+    depSub.textContent=nDep+' depósito'+(nDep!==1?'s':'')+(nRet?' · '+nRet+' retirada'+(nRet!==1?'s':''):'');
+
+    perfEl.textContent=(tradePnl>=0?'+':'−')+'$'+Math.abs(tradePnl).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+    perfEl.style.color=tradePnl>=0?'var(--grn)':'var(--red)';
+    if(totalDep>0){
+      var roi=(tradePnl/totalDep*100);
+      perfSub.textContent=(roi>=0?'+':'')+roi.toFixed(2)+'% sobre capital';
+      perfSub.style.color=roi>=0?'var(--grn)':'var(--red)';
+    } else {
+      perfSub.textContent='PnL de trades cerrados';
+      perfSub.style.color='var(--t3)';
+    }
+  }
+
+  // Render movements list
+  var sorted=[].concat(MOV).sort(function(a,b){return b.date.localeCompare(a.date)});
+  var ml=document.getElementById('mov-list');
+  if(!sorted.length){ml.innerHTML='';return;}
+  ml.innerHTML='<div style="border-top:1px solid var(--b1);padding-top:10px;margin-top:4px">'+
+    sorted.map(function(m){
+      var isDep=m.type==='dep';
+      return '<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--b1)">'+
+        '<div style="display:flex;align-items:center;gap:9px">'+
+          '<div style="width:28px;height:28px;border-radius:7px;background:'+(isDep?'var(--grn2)':'var(--red2)')+';display:flex;align-items:center;justify-content:center;flex-shrink:0">'+
+            '<svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="'+(isDep?'M5 8V2M2 5l3-3 3 3':'M5 2v6M2 5l3 3 3-3')+'" stroke="'+(isDep?'var(--grn)':'var(--red)')+'" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>'+
+          '</div>'+
+          '<div>'+
+            '<div style="font-size:12px;font-weight:600">'+(isDep?'Depósito':'Retirada')+(m.note?' · <span style="color:var(--t2);font-weight:500">'+m.note+'</span>':'')+'</div>'+
+            '<div style="font-size:10px;font-weight:500;color:var(--t3);margin-top:1px">'+m.date+'</div>'+
+          '</div>'+
+        '</div>'+
+        '<div style="display:flex;align-items:center;gap:8px">'+
+          '<span style="font-family:var(--mono);font-size:13px;font-weight:700;color:'+(isDep?'var(--grn)':'var(--red)')+'">'+(isDep?'+':'−')+'$'+m.amt.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})+'</span>'+
+          '<button onclick="delMov('+m.id+')" style="background:none;border:none;color:var(--t3);cursor:pointer;padding:4px;display:flex;align-items:center;border-radius:5px">'+
+            '<svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M1 3h12M5 3V2a1 1 0 0 1 4 0v1M3.5 3l.8 8.5h5.4l.8-8.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>'+
+          '</button>'+
+        '</div>'+
+      '</div>';
+    }).join('')+
+  '</div>';
+}
+var TR=loadTrades(),MOV=loadMov(),filt='all',side='LONG',CH={};
 var PAL=['#b8f03c','#2dda7a','#5b9cf6','#f0a830','#f05050','#a78bfa','#38bdf8','#fb7185','#4ade80','#facc15'];
 function cpnl(t){if(!t.exit)return null;return(t.side==='LONG'?1:-1)*(t.exit-t.entry)*t.qty*(t.leverage||1)}
 function fm(v,sg){if(sg===undefined)sg=true;if(v===null||v===undefined)return'—';var a=Math.abs(v);var s=a>=10000?'$'+(a/1000).toFixed(1)+'k':a>=1000?'$'+a.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}):'$'+a.toFixed(2);return sg?((v<0?'−':'+')+s):s}
@@ -339,7 +495,7 @@ function gp(id,el,title){
   el.classList.add('on');
   document.getElementById('tb-lbl').textContent=title;
   document.querySelector('.content').scrollTop=0;
-  if(id==='dash')updDash();
+  if(id==='dash'){updDash();renderAcc()}
   if(id==='hist')rHist();
   if(id==='port')rPort();
   if(id==='stats')rStats()
@@ -443,7 +599,7 @@ function rHist(){
   document.getElementById('h-emp').style.display=fd.length?'none':'block';
   document.getElementById('h-list').innerHTML=fd.map(function(t){return tCard(t,false)}).join('')
 }
-function delT(id){if(!confirm('¿Eliminar esta operación?'))return;TR=TR.filter(function(t){return t.id!==id});saveTrades();rHist();updDash()}
+function delT(id){if(!confirm('¿Eliminar esta operación?'))return;TR=TR.filter(function(t){return t.id!==id});saveTrades();rHist();updDash();renderAcc()}
 function rPort(){
   var op=TR.filter(function(t){return!t.exit});
   var pl=document.getElementById('p-list'),pe=document.getElementById('p-emp');
@@ -474,6 +630,7 @@ function rStats(){
   dc('mon');CH['mon']=new Chart(document.getElementById('c-mon'),{type:'bar',data:{labels:ms.length?ms.map(function(m){return m.slice(5)+'/'+m.slice(2,4)}):['—'],datasets:[{data:mv.length?mv:[0],backgroundColor:'rgba(184,240,60,0.65)',borderWidth:0,borderRadius:5}]},options:co(function(v){return String(v)})})
 }
 document.getElementById('f-dt').value=new Date().toISOString().split('T')[0];
+renderAcc();
 updDash();
 </script>
 
