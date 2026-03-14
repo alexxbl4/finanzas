@@ -181,6 +181,7 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
 <body>
 
 <header class="topbar">
+
   <div class="logo-wrap" onclick="gp('dash',null,'Dashboard');renderNav()" style="cursor:pointer;-webkit-tap-highlight-color:transparent">
     <div class="logo-mark" style="width:32px;height:32px;border-radius:10px;overflow:hidden;background:var(--bg0);display:flex;align-items:center;justify-content:center">
       <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:32px;height:32px">
@@ -211,12 +212,11 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
     </div>
     <span class="page-badge" id="tb-lbl">Dashboard</span>
   </div>
+
 </header>
 
 <div class="content">
-
-  <!-- DASHBOARD -->
-
+<!-- DASHBOARD -->
   <div class="page on" id="p-dash">
     <div class="card" style="margin-bottom:12px">
       <div class="sec-h" style="margin-bottom:14px">
@@ -532,10 +532,452 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
       Nueva cuenta
     </button>
   </div>
+<!-- GLOBAL PAGE -->
+  <div class="page" id="p-global">
+    <div class="pg-t">Global</div>
+    <div class="pg-s">Todas las cuentas</div>
+    <div class="card" style="margin-bottom:10px">
+      <div style="font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--t3);margin-bottom:6px">Saldo total</div>
+      <div style="font-family:var(--mono);font-size:28px;font-weight:800" id="gl-saldo">—</div>
+      <div style="font-family:var(--mono);font-size:10px;color:var(--t3);margin-top:4px" id="gl-saldo-sub">—</div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:10px">
+      <div class="card" style="padding:12px">
+        <div style="font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--t3);margin-bottom:5px">Capital total</div>
+        <div style="font-family:var(--mono);font-size:16px;font-weight:700" id="gl-cap">—</div>
+      </div>
+      <div class="card" style="padding:12px">
+        <div style="font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--t3);margin-bottom:5px">PnL total</div>
+        <div style="font-family:var(--mono);font-size:16px;font-weight:700" id="gl-pnl">—</div>
+      </div>
+      <div class="card" style="padding:12px">
+        <div style="font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--t3);margin-bottom:5px">Trades</div>
+        <div style="font-family:var(--mono);font-size:16px;font-weight:700" id="gl-tr">—</div>
+      </div>
+    </div>
+    <div id="gl-accs-list"></div>
+  </div>
+
+  <!-- ALERTS PAGE -->
+
+  <div class="page" id="p-alerts">
+    <div class="pg-t">Alertas</div>
+    <div class="pg-s">Precio en tiempo real</div>
+    <div class="card" style="margin-bottom:10px">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px">
+        <div class="fg" style="margin:0"><label>Activo</label>
+          <select id="al-sym" style="width:100%;background:var(--bg3);border:1px solid var(--b1);border-radius:var(--r1);padding:11px 12px;font-size:13px;font-weight:600;color:var(--t1);font-family:var(--sans);outline:none;-webkit-appearance:none;cursor:pointer"></select>
+        </div>
+        <div class="fg" style="margin:0"><label>Tipo</label>
+          <select id="al-type" style="width:100%;background:var(--bg3);border:1px solid var(--b1);border-radius:var(--r1);padding:11px 12px;font-size:13px;font-weight:600;color:var(--t1);font-family:var(--sans);outline:none;-webkit-appearance:none;cursor:pointer">
+            <option value="above">Sube de</option>
+            <option value="below">Baja de</option>
+          </select>
+        </div>
+      </div>
+      <div class="fg" style="margin-bottom:10px"><label>Precio objetivo ($)</label>
+        <input type="number" id="al-price" placeholder="0.00" step="any" min="0" style="width:100%;background:var(--bg3);border:1px solid var(--b1);border-radius:var(--r1);padding:11px 14px;font-size:14px;font-weight:600;color:var(--t1);font-family:var(--mono);outline:none;-webkit-appearance:none">
+      </div>
+      <div class="fg" style="margin-bottom:10px"><label>Nota <span style="font-size:8px;color:var(--t3);font-weight:400;text-transform:none;letter-spacing:0">opcional</span></label>
+        <input type="text" id="al-note" placeholder="Ej: TP trade BTC..." style="width:100%;background:var(--bg3);border:1px solid var(--b1);border-radius:var(--r1);padding:11px 14px;font-size:13px;font-weight:500;color:var(--t1);font-family:var(--sans);outline:none;-webkit-appearance:none">
+      </div>
+      <button class="btn btn-a" onclick="addAlert()" style="margin:0">Añadir alerta</button>
+    </div>
+    <div id="al-prices-bar" style="display:none;background:var(--bg2);border:1px solid var(--b1);border-radius:var(--r2);padding:10px 14px;margin-bottom:10px;font-size:11px;color:var(--t3)">
+      <span id="al-prices-txt">Cargando precios...</span>
+      <span id="al-prices-ts" style="float:right;font-size:9px"></span>
+    </div>
+    <div id="al-list"></div>
+    <div id="al-empty" style="text-align:center;padding:32px 0;color:var(--t3);font-size:13px">No hay alertas activas</div>
+  </div>
+
+  <!-- DIARIO DE SESION -->
+
+  <div class="page" id="p-journal">
+    <div class="pg-t">Diario</div>
+    <div class="pg-s">Notas de sesión diaria</div>
+    <div class="card" style="margin-bottom:10px">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+        <input type="date" id="jn-date" style="flex:1;background:var(--bg3);border:1px solid var(--b1);border-radius:var(--r1);padding:10px 12px;font-size:13px;font-weight:600;color:var(--t1);font-family:var(--sans);outline:none">
+        <div id="jn-day-pnl" style="font-family:var(--mono);font-size:13px;font-weight:700;color:var(--t3);white-space:nowrap"></div>
+      </div>
+      <div style="display:flex;gap:6px;margin-bottom:10px">
+        <button class="pill on" id="jn-mood-0" onclick="setMood(0,this)">😐 Neutral</button>
+        <button class="pill" id="jn-mood-1" onclick="setMood(1,this)">🟢 Bien</button>
+        <button class="pill" id="jn-mood-2" onclick="setMood(2,this)">🔴 Mal</button>
+      </div>
+      <textarea id="jn-text" placeholder="¿Qué pasó hoy? Setup, errores, aprendizajes..." style="width:100%;min-height:130px;background:var(--bg3);border:1px solid var(--b1);border-radius:var(--r2);padding:12px;font-size:13px;font-weight:500;color:var(--t1);font-family:var(--sans);outline:none;resize:vertical;box-sizing:border-box;line-height:1.6"></textarea>
+      <button class="btn btn-a" onclick="saveJournal()" style="margin-top:10px">Guardar nota</button>
+    </div>
+    <div id="jn-list"></div>
+  </div>
+
+  <!-- BACKUP -->
+
+  <div class="page" id="p-backup">
+    <div class="pg-t">Backup</div>
+    <div class="pg-s">Copia de seguridad completa</div>
+    <div class="card" style="margin-bottom:10px">
+      <div style="font-size:13px;font-weight:600;color:var(--t1);margin-bottom:6px">Auto-backup</div>
+      <div style="font-size:11px;color:var(--t3);margin-bottom:12px">Se guarda automáticamente cada vez que abres la app</div>
+      <div id="bk-last" style="font-size:11px;color:var(--t2);margin-bottom:14px">—</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <button onclick="doBackup()" style="padding:14px 10px;background:var(--bg3);border:1px solid var(--b2);border-radius:var(--r2);font-size:12px;font-weight:700;font-family:var(--sans);color:var(--t1);cursor:pointer;text-align:left">
+          <div style="font-size:20px;margin-bottom:6px">💾</div>
+          <div>Exportar backup</div>
+          <div style="font-size:10px;font-weight:400;color:var(--t3);margin-top:2px">JSON completo</div>
+        </button>
+        <button onclick="triggerRestore()" style="padding:14px 10px;background:var(--bg3);border:1px solid var(--b2);border-radius:var(--r2);font-size:12px;font-weight:700;font-family:var(--sans);color:var(--acc);cursor:pointer;text-align:left">
+          <div style="font-size:20px;margin-bottom:6px">🔄</div>
+          <div>Restaurar</div>
+          <div style="font-size:10px;font-weight:400;color:var(--t3);margin-top:2px">Desde JSON</div>
+        </button>
+      </div>
+      <input type="file" id="restore-input" accept=".json" style="display:none" onchange="doRestore(this)">
+    </div>
+    <div class="card">
+      <div style="font-size:13px;font-weight:600;color:var(--t1);margin-bottom:10px">Backups automáticos guardados</div>
+      <div id="bk-slots"></div>
+    </div>
+  </div>
+
+  <!-- ESTRATEGIAS -->
+
+  <div class="page" id="p-strat">
+    <div class="pg-t">Estrategias</div>
+    <div class="pg-s">PineScript · Backtesting · Rendimiento</div>
+
+```
+<!-- Header bar -->
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+  <div style="display:flex;gap:6px;flex:1;overflow-x:auto">
+    <button class="pill on" id="st-filter-all" onclick="stFilter('all',this)">Todas</button>
+    <button class="pill" id="st-filter-sym" onclick="stFilterBySym()">Por activo</button>
+    <button class="pill" id="st-filter-tf" onclick="stFilterByTF()">Por TF</button>
+  </div>
+  <button onclick="openStratForm(null)" style="flex-shrink:0;margin-left:8px;background:var(--acc);border:none;border-radius:var(--r1);padding:8px 14px;font-size:11px;font-weight:700;color:var(--bg0);cursor:pointer;font-family:var(--sans)">+ Nueva</button>
+</div>
+
+<div id="st-list"></div>
+<div id="st-empty" style="display:none;text-align:center;padding:40px 0">
+  <div style="font-size:32px;margin-bottom:10px">📈</div>
+  <div style="font-size:14px;font-weight:700;color:var(--t2)">Sin estrategias</div>
+  <div style="font-size:12px;color:var(--t3);margin-top:4px">Añade tu primera estrategia</div>
+</div>
+```
+
+  </div>
+
+  <!-- ══ CONOCIMIENTOS ══════════════════════════════════════════════ -->
+
+  <div class="page" id="p-knowledge">
+    <div class="pg-t">Conocimientos</div>
+    <div class="pg-s">Conceptos técnicos de trading</div>
+
+```
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+  <div style="display:flex;gap:6px;overflow-x:auto;flex:1">
+    <button class="pill on" id="kn-cat-all" onclick="knFilter('',this)">Todos</button>
+    <button class="pill" onclick="knFilter('Patrones',this)">Patrones</button>
+    <button class="pill" onclick="knFilter('Indicadores',this)">Indicadores</button>
+    <button class="pill" onclick="knFilter('Riesgo',this)">Riesgo</button>
+    <button class="pill" onclick="knFilter('Psicología',this)">Psicología</button>
+    <button class="pill" onclick="knFilter('On-chain',this)">On-chain</button>
+    <button class="pill" onclick="knFilter('Otro',this)">Otro</button>
+  </div>
+  <button onclick="openKnForm(null)" style="flex-shrink:0;margin-left:8px;background:var(--acc);border:none;border-radius:var(--r1);padding:8px 14px;font-size:11px;font-weight:700;color:var(--bg0);cursor:pointer;font-family:var(--sans)">+ Nuevo</button>
+</div>
+
+<div style="position:relative;margin-bottom:10px">
+  <input type="text" id="kn-search" placeholder="Buscar concepto..." oninput="knRender()" style="width:100%;background:var(--bg2);border:1px solid var(--b1);border-radius:var(--r2);padding:10px 14px 10px 36px;font-size:13px;font-weight:500;color:var(--t1);font-family:var(--sans);outline:none;box-sizing:border-box">
+  <svg width="14" height="14" viewBox="0 0 20 20" fill="none" style="position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--t3)"><circle cx="9" cy="9" r="6" stroke="currentColor" stroke-width="1.4"/><path d="M15 15l3 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+</div>
+
+<div id="kn-list"></div>
+<div id="kn-empty" style="display:none;text-align:center;padding:40px 0">
+  <div style="font-size:32px;margin-bottom:10px">🧠</div>
+  <div style="font-size:14px;font-weight:700;color:var(--t2)">Sin conceptos</div>
+  <div style="font-size:12px;color:var(--t3);margin-top:4px">Empieza a guardar conocimientos</div>
+</div>
+```
+
+</div>
+
+<nav class="nav" id="main-nav">
+  <div class="ni" id="ni-t0" onclick="navTab(0)"></div>
+  <div class="ni" id="ni-t1" onclick="navTab(1)"></div>
+  <div class="ni ni-center" id="ni-menu" onclick="openNavMenu()">
+    <div class="nadd" style="background:var(--bg3);border:1.5px solid var(--b2)">
+      <svg viewBox="0 0 20 20" fill="none" style="width:20px;height:20px;color:var(--t1)"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+    </div>
+    <span style="font-size:8px;font-weight:700;color:var(--t3)">MENÚ</span>
+  </div>
+  <div class="ni" id="ni-t2" onclick="navTab(2)"></div>
+  <div class="ni" id="ni-t3" onclick="navTab(3)"></div>
+</nav>
+
+<div class="toast" id="toast"><div class="tdot"></div><span id="t-msg"></span></div>
+
+<!-- MODALS & SHEETS (outside .content for correct fixed positioning) -->
+
+<!-- ACCOUNT SHEET -->
+
+<div class="sheet" id="sheet-acc">
+  <div class="sheet-bg" onclick="closeAccSheet()"></div>
+  <div class="sheet-box">
+    <div class="sheet-handle"></div>
+    <div id="sheet-acc-content"></div>
+  </div>
+</div>
+
+<!-- CLOSE TRADE MODAL -->
+
+<div class="close-modal" id="close-modal">
+  <div class="close-modal-bg" onclick="closeQuickModal()"></div>
+  <div class="close-modal-box">
+    <div class="sheet-handle"></div>
+    <div id="close-modal-content"></div>
+  </div>
+</div>
+
+<!-- GOAL MODAL -->
+
+<div class="close-modal" id="goal-modal">
+  <div class="close-modal-bg" onclick="closeGoalModal()"></div>
+  <div class="close-modal-box">
+    <div class="sheet-handle"></div>
+    <div style="font-size:16px;font-weight:800;margin-bottom:16px">Meta mensual de PnL</div>
+    <div class="fg"><label>Meta ($)</label><input type="number" id="goal-input" placeholder="ej: 500" step="any" min="0" style="width:100%;background:var(--bg3);border:1px solid var(--b1);border-radius:var(--r1);padding:12px 14px;font-size:14px;font-weight:500;color:var(--t1);font-family:var(--sans);outline:none;-webkit-appearance:none"></div>
+    <div style="display:flex;gap:10px">
+      <button onclick="saveGoal()" class="btn btn-a" style="flex:1">Guardar</button>
+      <button onclick="clearGoal()" class="btn btn-g" style="width:auto;padding:14px 16px">Quitar meta</button>
+    </div>
+  </div>
+</div>
+
+  <!-- EXPORT/IMPORT SHEET -->
+
+  <div class="close-modal" id="sheet-export">
+    <div class="close-modal-bg" onclick="closeExportSheet()"></div>
+    <div class="close-modal-box" style="padding:20px 18px 36px">
+      <div class="sheet-handle"></div>
+      <div class="sheet-title">Datos</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
+        <button onclick="exportCSV('trades')" style="padding:14px 10px;background:var(--bg3);border:1px solid var(--b2);border-radius:var(--r2);font-size:12px;font-weight:700;font-family:var(--sans);color:var(--t1);cursor:pointer;text-align:left">
+          <div style="font-size:18px;margin-bottom:6px">📤</div>
+          <div>Exportar Trades</div>
+          <div style="font-size:10px;font-weight:400;color:var(--t3);margin-top:2px">CSV · cuenta activa</div>
+        </button>
+        <button onclick="exportCSV('all')" style="padding:14px 10px;background:var(--bg3);border:1px solid var(--b2);border-radius:var(--r2);font-size:12px;font-weight:700;font-family:var(--sans);color:var(--t1);cursor:pointer;text-align:left">
+          <div style="font-size:18px;margin-bottom:6px">📦</div>
+          <div>Exportar Todo</div>
+          <div style="font-size:10px;font-weight:400;color:var(--t3);margin-top:2px">CSV · todas las cuentas</div>
+        </button>
+        <button onclick="exportCSV('movs')" style="padding:14px 10px;background:var(--bg3);border:1px solid var(--b2);border-radius:var(--r2);font-size:12px;font-weight:700;font-family:var(--sans);color:var(--t1);cursor:pointer;text-align:left">
+          <div style="font-size:18px;margin-bottom:6px">💰</div>
+          <div>Exportar Movimientos</div>
+          <div style="font-size:10px;font-weight:400;color:var(--t3);margin-top:2px">CSV · cuenta activa</div>
+        </button>
+        <button onclick="triggerImport()" style="padding:14px 10px;background:var(--bg3);border:1px solid var(--b2);border-radius:var(--r2);font-size:12px;font-weight:700;font-family:var(--sans);color:var(--acc);cursor:pointer;text-align:left">
+          <div style="font-size:18px;margin-bottom:6px">📥</div>
+          <div>Importar Trades</div>
+          <div style="font-size:10px;font-weight:400;color:var(--t3);margin-top:2px">CSV con cabecera</div>
+        </button>
+      </div>
+      <input type="file" id="import-file-input" accept=".csv" style="display:none" onchange="importCSV(this)">
+      <div style="background:var(--bg3);border-radius:var(--r1);padding:10px 12px;font-size:10px;color:var(--t3);line-height:1.6">
+        <strong style="color:var(--t2)">Formato CSV de importación:</strong><br>
+        symbol, side, entry, exit, pnl, date, notes<br>
+        BTC, LONG, 95000, 97000, 50, 2025-01-15, setup alcista
+      </div>
+    </div>
+  </div>
+
+  <!-- Estrategia Form Sheet -->
+
+  <div class="close-modal" id="sheet-strat">
+    <div class="close-modal-bg" onclick="closeStratForm()"></div>
+    <div class="close-modal-box" style="padding:18px 18px 40px;max-height:90vh;overflow-y:auto">
+      <div class="sheet-handle"></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+        <div class="sheet-title" style="margin:0" id="strat-form-title">Nueva estrategia</div>
+        <button onclick="closeStratForm()" style="background:none;border:none;color:var(--t3);cursor:pointer;font-size:20px;line-height:1">×</button>
+      </div>
+
+```
+  <!-- Tabs: Manual / PasteTV -->
+  <div style="display:flex;gap:6px;margin-bottom:16px">
+    <button class="pill on" id="strat-tab-manual" onclick="switchStratTab('manual')">✏️ Manual</button>
+    <button class="pill" id="strat-tab-paste" onclick="switchStratTab('paste')">📋 Pegar TradingView</button>
+  </div>
+
+  <!-- PASTE TAB -->
+  <div id="strat-paste-tab" style="display:none">
+    <div style="font-size:11px;color:var(--t3);margin-bottom:8px;line-height:1.5">
+      Copia el resumen del <strong style="color:var(--t2)">Strategy Tester</strong> de TradingView y pégalo aquí. Extrae los datos automáticamente.
+    </div>
+    <textarea id="strat-paste-input" placeholder="Pega aquí el texto del Strategy Tester..." style="width:100%;min-height:120px;background:var(--bg3);border:1px solid var(--b1);border-radius:var(--r2);padding:12px;font-size:12px;color:var(--t1);font-family:var(--mono);outline:none;resize:vertical;box-sizing:border-box;line-height:1.5"></textarea>
+    <button onclick="parseTVpaste()" class="btn btn-a" style="margin:10px 0 16px;width:100%">Extraer datos</button>
+    <div id="strat-paste-result" style="display:none;background:var(--bg3);border:1px solid var(--grn);border-radius:var(--r1);padding:10px 12px;margin-bottom:14px;font-size:11px;color:var(--grn)"></div>
+  </div>
+
+  <!-- MANUAL TAB (always visible, populated by paste) -->
+  <div id="strat-manual-tab">
+    <div class="fg"><label>Nombre de la estrategia</label>
+      <input type="text" id="sf-name" placeholder="Ej: EMA Cross LONG" style="width:100%;background:var(--bg3);border:1px solid var(--b1);border-radius:var(--r1);padding:11px 14px;font-size:14px;font-weight:600;color:var(--t1);font-family:var(--sans);outline:none;box-sizing:border-box">
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div class="fg"><label>Activo</label>
+        <input type="text" id="sf-sym" placeholder="BTC, ETH, SOL..." style="width:100%;background:var(--bg3);border:1px solid var(--b1);border-radius:var(--r1);padding:11px 14px;font-size:13px;font-weight:600;color:var(--t1);font-family:var(--sans);outline:none;box-sizing:border-box">
+      </div>
+      <div class="fg"><label>Temporalidad</label>
+        <select id="sf-tf" style="width:100%;background:var(--bg3);border:1px solid var(--b1);border-radius:var(--r1);padding:11px 14px;font-size:13px;font-weight:600;color:var(--t1);font-family:var(--sans);outline:none;-webkit-appearance:none;cursor:pointer;box-sizing:border-box">
+          <option value="">— Seleccionar —</option>
+          <option>1m</option><option>3m</option><option>5m</option>
+          <option>15m</option><option>30m</option><option>1h</option>
+          <option>2h</option><option>4h</option><option>6h</option>
+          <option>8h</option><option>12h</option><option>1D</option>
+          <option>3D</option><option>1W</option><option>1M</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Performance metrics grid -->
+    <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--t3);margin:14px 0 8px">Rendimiento</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div class="fg" style="margin:0"><label>Win Rate (%)</label>
+        <input type="number" id="sf-wr" placeholder="65.5" step="0.1" min="0" max="100" style="width:100%;background:var(--bg3);border:1px solid var(--b1);border-radius:var(--r1);padding:11px 14px;font-size:13px;font-weight:600;color:var(--t1);font-family:var(--mono);outline:none;box-sizing:border-box">
+      </div>
+      <div class="fg" style="margin:0"><label>Profit Factor</label>
+        <input type="number" id="sf-pf" placeholder="1.85" step="0.01" min="0" style="width:100%;background:var(--bg3);border:1px solid var(--b1);border-radius:var(--r1);padding:11px 14px;font-size:13px;font-weight:600;color:var(--t1);font-family:var(--mono);outline:none;box-sizing:border-box">
+      </div>
+      <div class="fg" style="margin:0"><label>Net Profit (%)</label>
+        <input type="number" id="sf-np" placeholder="234.5" step="0.01" style="width:100%;background:var(--bg3);border:1px solid var(--b1);border-radius:var(--r1);padding:11px 14px;font-size:13px;font-weight:600;color:var(--t1);font-family:var(--mono);outline:none;box-sizing:border-box">
+      </div>
+      <div class="fg" style="margin:0"><label>Max Drawdown (%)</label>
+        <input type="number" id="sf-dd" placeholder="12.3" step="0.01" min="0" style="width:100%;background:var(--bg3);border:1px solid var(--b1);border-radius:var(--r1);padding:11px 14px;font-size:13px;font-weight:600;color:var(--t1);font-family:var(--mono);outline:none;box-sizing:border-box">
+      </div>
+      <div class="fg" style="margin:0"><label>Total Trades</label>
+        <input type="number" id="sf-tt" placeholder="142" step="1" min="0" style="width:100%;background:var(--bg3);border:1px solid var(--b1);border-radius:var(--r1);padding:11px 14px;font-size:13px;font-weight:600;color:var(--t1);font-family:var(--mono);outline:none;box-sizing:border-box">
+      </div>
+      <div class="fg" style="margin:0"><label>Avg Trade (%)</label>
+        <input type="number" id="sf-at" placeholder="1.65" step="0.01" style="width:100%;background:var(--bg3);border:1px solid var(--b1);border-radius:var(--r1);padding:11px 14px;font-size:13px;font-weight:600;color:var(--t1);font-family:var(--mono);outline:none;box-sizing:border-box">
+      </div>
+      <div class="fg" style="margin:0"><label>Rentab. mensual (%)</label>
+        <input type="number" id="sf-mo" placeholder="8.5" step="0.01" style="width:100%;background:var(--bg3);border:1px solid var(--b1);border-radius:var(--r1);padding:11px 14px;font-size:13px;font-weight:600;color:var(--t1);font-family:var(--mono);outline:none;box-sizing:border-box">
+      </div>
+      <div class="fg" style="margin:0"><label>Rentab. anual (%)</label>
+        <input type="number" id="sf-yr" placeholder="102.0" step="0.01" style="width:100%;background:var(--bg3);border:1px solid var(--b1);border-radius:var(--r1);padding:11px 14px;font-size:13px;font-weight:600;color:var(--t1);font-family:var(--mono);outline:none;box-sizing:border-box">
+      </div>
+    </div>
+
+    <div class="fg" style="margin-top:10px"><label>Periodo de backtest</label>
+      <input type="text" id="sf-period" placeholder="Ej: 2022-01-01 → 2025-01-01" style="width:100%;background:var(--bg3);border:1px solid var(--b1);border-radius:var(--r1);padding:11px 14px;font-size:13px;font-weight:500;color:var(--t1);font-family:var(--sans);outline:none;box-sizing:border-box">
+    </div>
+    <div class="fg"><label>Notas / descripción</label>
+      <textarea id="sf-notes" placeholder="Condiciones de entrada, salida, filtros..." style="width:100%;min-height:80px;background:var(--bg3);border:1px solid var(--b1);border-radius:var(--r2);padding:12px;font-size:13px;color:var(--t1);font-family:var(--sans);outline:none;resize:vertical;box-sizing:border-box;line-height:1.5"></textarea>
+    </div>
+    <div class="fg"><label>PineScript <span style="font-size:8px;color:var(--t3);font-weight:400;text-transform:none;letter-spacing:0">opcional</span></label>
+      <textarea id="sf-pine" placeholder="//@version=5&#10;strategy(...)" style="width:100%;min-height:100px;background:var(--bg3);border:1px solid var(--b1);border-radius:var(--r2);padding:12px;font-size:11px;color:var(--t1);font-family:var(--mono);outline:none;resize:vertical;box-sizing:border-box;line-height:1.6"></textarea>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr auto;gap:10px;margin-top:4px">
+    <button class="btn btn-a" onclick="saveStrat()" id="strat-save-btn">Guardar</button>
+    <button onclick="closeStratForm()" class="btn btn-g" style="padding:14px 16px;width:auto">Cancelar</button>
+  </div>
+</div>
+```
+
+  </div>
+
+  <!-- Estrategia Detail Sheet -->
+
+  <div class="close-modal" id="sheet-strat-detail">
+    <div class="close-modal-bg" onclick="closeStratDetail()"></div>
+    <div class="close-modal-box" style="padding:18px 18px 40px;max-height:92vh;overflow-y:auto" id="strat-detail-content"></div>
+  </div>
+
+  <!-- Knowledge Form Sheet -->
+
+  <div class="close-modal" id="sheet-kn">
+    <div class="close-modal-bg" onclick="closeKnForm()"></div>
+    <div class="close-modal-box" style="padding:18px 18px 40px;max-height:88vh;overflow-y:auto">
+      <div class="sheet-handle"></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+        <div class="sheet-title" style="margin:0" id="kn-form-title">Nuevo concepto</div>
+        <button onclick="closeKnForm()" style="background:none;border:none;color:var(--t3);cursor:pointer;font-size:20px;line-height:1">×</button>
+      </div>
+      <div class="fg"><label>Título</label>
+        <input type="text" id="kf-title" placeholder="Ej: Divergencia RSI bajista" style="width:100%;background:var(--bg3);border:1px solid var(--b1);border-radius:var(--r1);padding:11px 14px;font-size:14px;font-weight:600;color:var(--t1);font-family:var(--sans);outline:none;box-sizing:border-box">
+      </div>
+      <div class="fg"><label>Categoría</label>
+        <select id="kf-cat" style="width:100%;background:var(--bg3);border:1px solid var(--b1);border-radius:var(--r1);padding:11px 14px;font-size:13px;font-weight:600;color:var(--t1);font-family:var(--sans);outline:none;-webkit-appearance:none;cursor:pointer;box-sizing:border-box">
+          <option>Patrones</option>
+          <option>Indicadores</option>
+          <option>Riesgo</option>
+          <option>Psicología</option>
+          <option>On-chain</option>
+          <option>Otro</option>
+        </select>
+      </div>
+      <div class="fg"><label>Descripción</label>
+        <textarea id="kf-desc" placeholder="Explica el concepto con detalle..." style="width:100%;min-height:120px;background:var(--bg3);border:1px solid var(--b1);border-radius:var(--r2);padding:12px;font-size:13px;color:var(--t1);font-family:var(--sans);outline:none;resize:vertical;box-sizing:border-box;line-height:1.6"></textarea>
+      </div>
+      <div class="fg"><label>Ejemplo / Notas <span style="font-size:8px;color:var(--t3);font-weight:400;text-transform:none;letter-spacing:0">opcional</span></label>
+        <textarea id="kf-example" placeholder="Ejemplo práctico, condiciones, casos de uso..." style="width:100%;min-height:80px;background:var(--bg3);border:1px solid var(--b1);border-radius:var(--r2);padding:12px;font-size:13px;color:var(--t1);font-family:var(--sans);outline:none;resize:vertical;box-sizing:border-box;line-height:1.5"></textarea>
+      </div>
+      <div class="fg"><label>Tags <span style="font-size:8px;color:var(--t3);font-weight:400;text-transform:none;letter-spacing:0">separados por coma</span></label>
+        <input type="text" id="kf-tags" placeholder="RSI, divergencia, reversión..." style="width:100%;background:var(--bg3);border:1px solid var(--b1);border-radius:var(--r1);padding:11px 14px;font-size:13px;color:var(--t1);font-family:var(--sans);outline:none;box-sizing:border-box">
+      </div>
+      <!-- Imagen opcional -->
+      <div class="fg">
+        <label>Imagen <span style="font-size:8px;color:var(--t3);font-weight:400;text-transform:none;letter-spacing:0">opcional — gráfico, diagrama...</span></label>
+        <input type="file" id="kf-img-input" accept="image/*" style="display:none" onchange="onKnImgSelected(this)">
+        <div id="kf-img-preview" onclick="document.getElementById('kf-img-input').click()" style="border:1.5px dashed var(--b2);border-radius:var(--r2);padding:14px;text-align:center;cursor:pointer;color:var(--t3);font-size:12px;font-weight:500;background:var(--bg3)">
+          <svg width="18" height="18" viewBox="0 0 20 20" fill="none" style="display:block;margin:0 auto 5px"><rect x="2" y="4" width="16" height="12" rx="2" stroke="currentColor" stroke-width="1.3"/><circle cx="7" cy="9" r="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M2 14l4-4 3 3 3-3 4 4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Toca para añadir imagen
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr auto;gap:10px;margin-top:4px">
+        <button class="btn btn-a" onclick="saveKn()" id="kn-save-btn">Guardar</button>
+        <button onclick="closeKnForm()" class="btn btn-g" style="padding:14px 16px;width:auto">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- NAV MENU OVERLAY -->
+
+  <div id="nav-menu-overlay" style="display:none;position:fixed;inset:0;z-index:400;background:rgba(0,0,0,0.7)" onclick="closeNavMenu()"></div>
+
+  <!-- NAV MENU OVERLAY -->
+
+  <div id="nav-menu-overlay" style="display:none;position:fixed;inset:0;z-index:400;background:rgba(0,0,0,0.7)" onclick="closeNavMenu()"></div>
+  <div id="nav-menu-panel" style="display:none;position:fixed;bottom:62px;left:0;right:0;max-width:480px;margin:0 auto;background:var(--bg1);border-top:1px solid var(--b2);border-radius:var(--r3) var(--r3) 0 0;padding:16px 14px 20px;z-index:401;animation:slideUp 0.2s ease">
+    <div onclick="closeNavMenu()" style="width:36px;height:4px;background:var(--b2);border-radius:2px;margin:0 auto 10px;cursor:pointer"></div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+      <span style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--t3)">Todas las páginas</span>
+      <button onclick="closeNavMenu()" style="background:var(--bg3);border:1px solid var(--b1);border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--t2);font-size:14px;line-height:1;font-family:var(--sans)">×</button>
+    </div>
+    <div id="nav-menu-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:16px"></div>
+    <div style="border-top:1px solid var(--b1);padding-top:14px">
+      <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--t3);margin-bottom:10px">Nueva operación</div>
+      <button onclick="closeNavMenu();openNewForm()" class="btn btn-a" style="width:100%;display:flex;align-items:center;justify-content:center;gap:8px">
+        <svg width="14" height="14" viewBox="0 0 20 20" fill="none"><path d="M10 4v12M4 10h12" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+        Añadir trade
+      </button>
+    </div>
+    <div style="border-top:1px solid var(--b1);padding-top:14px;margin-top:14px">
+      <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--t3);margin-bottom:10px">Pestañas fijas</div>
+      <div id="nav-pin-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px"></div>
+      <div style="font-size:10px;color:var(--t3);margin-top:8px;text-align:center">Toca para fijar/desfijar en la barra</div>
+    </div>
+  </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 
 <script>
+
 // ── STORAGE ───────────────────────────────────────────────────────────────────
 function load(k,d){try{var v=localStorage.getItem(k);return v!==null?JSON.parse(v):JSON.parse(d);}catch(e){return JSON.parse(d);}}
 function save(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
@@ -3423,452 +3865,8 @@ updDash();
 autoBackup();
 initCal();
 renderNav();
+
 </script>
 
-  <!-- GLOBAL PAGE -->
-
-  <div class="page" id="p-global">
-    <div class="pg-t">Global</div>
-    <div class="pg-s">Todas las cuentas</div>
-    <div class="card" style="margin-bottom:10px">
-      <div style="font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--t3);margin-bottom:6px">Saldo total</div>
-      <div style="font-family:var(--mono);font-size:28px;font-weight:800" id="gl-saldo">—</div>
-      <div style="font-family:var(--mono);font-size:10px;color:var(--t3);margin-top:4px" id="gl-saldo-sub">—</div>
-    </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:10px">
-      <div class="card" style="padding:12px">
-        <div style="font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--t3);margin-bottom:5px">Capital total</div>
-        <div style="font-family:var(--mono);font-size:16px;font-weight:700" id="gl-cap">—</div>
-      </div>
-      <div class="card" style="padding:12px">
-        <div style="font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--t3);margin-bottom:5px">PnL total</div>
-        <div style="font-family:var(--mono);font-size:16px;font-weight:700" id="gl-pnl">—</div>
-      </div>
-      <div class="card" style="padding:12px">
-        <div style="font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--t3);margin-bottom:5px">Trades</div>
-        <div style="font-family:var(--mono);font-size:16px;font-weight:700" id="gl-tr">—</div>
-      </div>
-    </div>
-    <div id="gl-accs-list"></div>
-  </div>
-
-  <!-- ALERTS PAGE -->
-
-  <div class="page" id="p-alerts">
-    <div class="pg-t">Alertas</div>
-    <div class="pg-s">Precio en tiempo real</div>
-    <div class="card" style="margin-bottom:10px">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px">
-        <div class="fg" style="margin:0"><label>Activo</label>
-          <select id="al-sym" style="width:100%;background:var(--bg3);border:1px solid var(--b1);border-radius:var(--r1);padding:11px 12px;font-size:13px;font-weight:600;color:var(--t1);font-family:var(--sans);outline:none;-webkit-appearance:none;cursor:pointer"></select>
-        </div>
-        <div class="fg" style="margin:0"><label>Tipo</label>
-          <select id="al-type" style="width:100%;background:var(--bg3);border:1px solid var(--b1);border-radius:var(--r1);padding:11px 12px;font-size:13px;font-weight:600;color:var(--t1);font-family:var(--sans);outline:none;-webkit-appearance:none;cursor:pointer">
-            <option value="above">Sube de</option>
-            <option value="below">Baja de</option>
-          </select>
-        </div>
-      </div>
-      <div class="fg" style="margin-bottom:10px"><label>Precio objetivo ($)</label>
-        <input type="number" id="al-price" placeholder="0.00" step="any" min="0" style="width:100%;background:var(--bg3);border:1px solid var(--b1);border-radius:var(--r1);padding:11px 14px;font-size:14px;font-weight:600;color:var(--t1);font-family:var(--mono);outline:none;-webkit-appearance:none">
-      </div>
-      <div class="fg" style="margin-bottom:10px"><label>Nota <span style="font-size:8px;color:var(--t3);font-weight:400;text-transform:none;letter-spacing:0">opcional</span></label>
-        <input type="text" id="al-note" placeholder="Ej: TP trade BTC..." style="width:100%;background:var(--bg3);border:1px solid var(--b1);border-radius:var(--r1);padding:11px 14px;font-size:13px;font-weight:500;color:var(--t1);font-family:var(--sans);outline:none;-webkit-appearance:none">
-      </div>
-      <button class="btn btn-a" onclick="addAlert()" style="margin:0">Añadir alerta</button>
-    </div>
-    <div id="al-prices-bar" style="display:none;background:var(--bg2);border:1px solid var(--b1);border-radius:var(--r2);padding:10px 14px;margin-bottom:10px;font-size:11px;color:var(--t3)">
-      <span id="al-prices-txt">Cargando precios...</span>
-      <span id="al-prices-ts" style="float:right;font-size:9px"></span>
-    </div>
-    <div id="al-list"></div>
-    <div id="al-empty" style="text-align:center;padding:32px 0;color:var(--t3);font-size:13px">No hay alertas activas</div>
-  </div>
-
-  <!-- DIARIO DE SESION -->
-
-  <div class="page" id="p-journal">
-    <div class="pg-t">Diario</div>
-    <div class="pg-s">Notas de sesión diaria</div>
-    <div class="card" style="margin-bottom:10px">
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
-        <input type="date" id="jn-date" style="flex:1;background:var(--bg3);border:1px solid var(--b1);border-radius:var(--r1);padding:10px 12px;font-size:13px;font-weight:600;color:var(--t1);font-family:var(--sans);outline:none">
-        <div id="jn-day-pnl" style="font-family:var(--mono);font-size:13px;font-weight:700;color:var(--t3);white-space:nowrap"></div>
-      </div>
-      <div style="display:flex;gap:6px;margin-bottom:10px">
-        <button class="pill on" id="jn-mood-0" onclick="setMood(0,this)">😐 Neutral</button>
-        <button class="pill" id="jn-mood-1" onclick="setMood(1,this)">🟢 Bien</button>
-        <button class="pill" id="jn-mood-2" onclick="setMood(2,this)">🔴 Mal</button>
-      </div>
-      <textarea id="jn-text" placeholder="¿Qué pasó hoy? Setup, errores, aprendizajes..." style="width:100%;min-height:130px;background:var(--bg3);border:1px solid var(--b1);border-radius:var(--r2);padding:12px;font-size:13px;font-weight:500;color:var(--t1);font-family:var(--sans);outline:none;resize:vertical;box-sizing:border-box;line-height:1.6"></textarea>
-      <button class="btn btn-a" onclick="saveJournal()" style="margin-top:10px">Guardar nota</button>
-    </div>
-    <div id="jn-list"></div>
-  </div>
-
-  <!-- BACKUP -->
-
-  <div class="page" id="p-backup">
-    <div class="pg-t">Backup</div>
-    <div class="pg-s">Copia de seguridad completa</div>
-    <div class="card" style="margin-bottom:10px">
-      <div style="font-size:13px;font-weight:600;color:var(--t1);margin-bottom:6px">Auto-backup</div>
-      <div style="font-size:11px;color:var(--t3);margin-bottom:12px">Se guarda automáticamente cada vez que abres la app</div>
-      <div id="bk-last" style="font-size:11px;color:var(--t2);margin-bottom:14px">—</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-        <button onclick="doBackup()" style="padding:14px 10px;background:var(--bg3);border:1px solid var(--b2);border-radius:var(--r2);font-size:12px;font-weight:700;font-family:var(--sans);color:var(--t1);cursor:pointer;text-align:left">
-          <div style="font-size:20px;margin-bottom:6px">💾</div>
-          <div>Exportar backup</div>
-          <div style="font-size:10px;font-weight:400;color:var(--t3);margin-top:2px">JSON completo</div>
-        </button>
-        <button onclick="triggerRestore()" style="padding:14px 10px;background:var(--bg3);border:1px solid var(--b2);border-radius:var(--r2);font-size:12px;font-weight:700;font-family:var(--sans);color:var(--acc);cursor:pointer;text-align:left">
-          <div style="font-size:20px;margin-bottom:6px">🔄</div>
-          <div>Restaurar</div>
-          <div style="font-size:10px;font-weight:400;color:var(--t3);margin-top:2px">Desde JSON</div>
-        </button>
-      </div>
-      <input type="file" id="restore-input" accept=".json" style="display:none" onchange="doRestore(this)">
-    </div>
-    <div class="card">
-      <div style="font-size:13px;font-weight:600;color:var(--t1);margin-bottom:10px">Backups automáticos guardados</div>
-      <div id="bk-slots"></div>
-    </div>
-  </div>
-
-  <!-- ESTRATEGIAS -->
-
-  <div class="page" id="p-strat">
-    <div class="pg-t">Estrategias</div>
-    <div class="pg-s">PineScript · Backtesting · Rendimiento</div>
-
-```
-<!-- Header bar -->
-<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
-  <div style="display:flex;gap:6px;flex:1;overflow-x:auto">
-    <button class="pill on" id="st-filter-all" onclick="stFilter('all',this)">Todas</button>
-    <button class="pill" id="st-filter-sym" onclick="stFilterBySym()">Por activo</button>
-    <button class="pill" id="st-filter-tf" onclick="stFilterByTF()">Por TF</button>
-  </div>
-  <button onclick="openStratForm(null)" style="flex-shrink:0;margin-left:8px;background:var(--acc);border:none;border-radius:var(--r1);padding:8px 14px;font-size:11px;font-weight:700;color:var(--bg0);cursor:pointer;font-family:var(--sans)">+ Nueva</button>
-</div>
-
-<div id="st-list"></div>
-<div id="st-empty" style="display:none;text-align:center;padding:40px 0">
-  <div style="font-size:32px;margin-bottom:10px">📈</div>
-  <div style="font-size:14px;font-weight:700;color:var(--t2)">Sin estrategias</div>
-  <div style="font-size:12px;color:var(--t3);margin-top:4px">Añade tu primera estrategia</div>
-</div>
-```
-
-  </div>
-
-  <!-- ══ CONOCIMIENTOS ══════════════════════════════════════════════ -->
-
-  <div class="page" id="p-knowledge">
-    <div class="pg-t">Conocimientos</div>
-    <div class="pg-s">Conceptos técnicos de trading</div>
-
-```
-<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
-  <div style="display:flex;gap:6px;overflow-x:auto;flex:1">
-    <button class="pill on" id="kn-cat-all" onclick="knFilter('',this)">Todos</button>
-    <button class="pill" onclick="knFilter('Patrones',this)">Patrones</button>
-    <button class="pill" onclick="knFilter('Indicadores',this)">Indicadores</button>
-    <button class="pill" onclick="knFilter('Riesgo',this)">Riesgo</button>
-    <button class="pill" onclick="knFilter('Psicología',this)">Psicología</button>
-    <button class="pill" onclick="knFilter('On-chain',this)">On-chain</button>
-    <button class="pill" onclick="knFilter('Otro',this)">Otro</button>
-  </div>
-  <button onclick="openKnForm(null)" style="flex-shrink:0;margin-left:8px;background:var(--acc);border:none;border-radius:var(--r1);padding:8px 14px;font-size:11px;font-weight:700;color:var(--bg0);cursor:pointer;font-family:var(--sans)">+ Nuevo</button>
-</div>
-
-<div style="position:relative;margin-bottom:10px">
-  <input type="text" id="kn-search" placeholder="Buscar concepto..." oninput="knRender()" style="width:100%;background:var(--bg2);border:1px solid var(--b1);border-radius:var(--r2);padding:10px 14px 10px 36px;font-size:13px;font-weight:500;color:var(--t1);font-family:var(--sans);outline:none;box-sizing:border-box">
-  <svg width="14" height="14" viewBox="0 0 20 20" fill="none" style="position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--t3)"><circle cx="9" cy="9" r="6" stroke="currentColor" stroke-width="1.4"/><path d="M15 15l3 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
-</div>
-
-<div id="kn-list"></div>
-<div id="kn-empty" style="display:none;text-align:center;padding:40px 0">
-  <div style="font-size:32px;margin-bottom:10px">🧠</div>
-  <div style="font-size:14px;font-weight:700;color:var(--t2)">Sin conceptos</div>
-  <div style="font-size:12px;color:var(--t3);margin-top:4px">Empieza a guardar conocimientos</div>
-</div>
-```
-
-  </div>
-
-<!-- BUG FIX #2: Added "Cuentas" nav item replacing the missing link to p-accs -->
-
-<nav class="nav" id="main-nav">
-  <div class="ni" id="ni-t0" onclick="navTab(0)"></div>
-  <div class="ni" id="ni-t1" onclick="navTab(1)"></div>
-  <div class="ni ni-center" id="ni-menu" onclick="openNavMenu()">
-    <div class="nadd" style="background:var(--bg3);border:1.5px solid var(--b2)">
-      <svg viewBox="0 0 20 20" fill="none" style="width:20px;height:20px;color:var(--t1)"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
-    </div>
-    <span style="font-size:8px;font-weight:700;color:var(--t3)">MENÚ</span>
-  </div>
-  <div class="ni" id="ni-t2" onclick="navTab(2)"></div>
-  <div class="ni" id="ni-t3" onclick="navTab(3)"></div>
-</nav>
-
-<div class="toast" id="toast"><div class="tdot"></div><span id="t-msg"></span></div>
-
-<!-- MODALS & SHEETS (outside .content for correct fixed positioning) -->
-
-<!-- ACCOUNT SHEET -->
-
-<div class="sheet" id="sheet-acc">
-  <div class="sheet-bg" onclick="closeAccSheet()"></div>
-  <div class="sheet-box">
-    <div class="sheet-handle"></div>
-    <div id="sheet-acc-content"></div>
-  </div>
-</div>
-
-<!-- CLOSE TRADE MODAL -->
-
-<div class="close-modal" id="close-modal">
-  <div class="close-modal-bg" onclick="closeQuickModal()"></div>
-  <div class="close-modal-box">
-    <div class="sheet-handle"></div>
-    <div id="close-modal-content"></div>
-  </div>
-</div>
-
-<!-- GOAL MODAL -->
-
-<div class="close-modal" id="goal-modal">
-  <div class="close-modal-bg" onclick="closeGoalModal()"></div>
-  <div class="close-modal-box">
-    <div class="sheet-handle"></div>
-    <div style="font-size:16px;font-weight:800;margin-bottom:16px">Meta mensual de PnL</div>
-    <div class="fg"><label>Meta ($)</label><input type="number" id="goal-input" placeholder="ej: 500" step="any" min="0" style="width:100%;background:var(--bg3);border:1px solid var(--b1);border-radius:var(--r1);padding:12px 14px;font-size:14px;font-weight:500;color:var(--t1);font-family:var(--sans);outline:none;-webkit-appearance:none"></div>
-    <div style="display:flex;gap:10px">
-      <button onclick="saveGoal()" class="btn btn-a" style="flex:1">Guardar</button>
-      <button onclick="clearGoal()" class="btn btn-g" style="width:auto;padding:14px 16px">Quitar meta</button>
-    </div>
-  </div>
-</div>
-
-  <!-- EXPORT/IMPORT SHEET -->
-
-  <div class="close-modal" id="sheet-export">
-    <div class="close-modal-bg" onclick="closeExportSheet()"></div>
-    <div class="close-modal-box" style="padding:20px 18px 36px">
-      <div class="sheet-handle"></div>
-      <div class="sheet-title">Datos</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
-        <button onclick="exportCSV('trades')" style="padding:14px 10px;background:var(--bg3);border:1px solid var(--b2);border-radius:var(--r2);font-size:12px;font-weight:700;font-family:var(--sans);color:var(--t1);cursor:pointer;text-align:left">
-          <div style="font-size:18px;margin-bottom:6px">📤</div>
-          <div>Exportar Trades</div>
-          <div style="font-size:10px;font-weight:400;color:var(--t3);margin-top:2px">CSV · cuenta activa</div>
-        </button>
-        <button onclick="exportCSV('all')" style="padding:14px 10px;background:var(--bg3);border:1px solid var(--b2);border-radius:var(--r2);font-size:12px;font-weight:700;font-family:var(--sans);color:var(--t1);cursor:pointer;text-align:left">
-          <div style="font-size:18px;margin-bottom:6px">📦</div>
-          <div>Exportar Todo</div>
-          <div style="font-size:10px;font-weight:400;color:var(--t3);margin-top:2px">CSV · todas las cuentas</div>
-        </button>
-        <button onclick="exportCSV('movs')" style="padding:14px 10px;background:var(--bg3);border:1px solid var(--b2);border-radius:var(--r2);font-size:12px;font-weight:700;font-family:var(--sans);color:var(--t1);cursor:pointer;text-align:left">
-          <div style="font-size:18px;margin-bottom:6px">💰</div>
-          <div>Exportar Movimientos</div>
-          <div style="font-size:10px;font-weight:400;color:var(--t3);margin-top:2px">CSV · cuenta activa</div>
-        </button>
-        <button onclick="triggerImport()" style="padding:14px 10px;background:var(--bg3);border:1px solid var(--b2);border-radius:var(--r2);font-size:12px;font-weight:700;font-family:var(--sans);color:var(--acc);cursor:pointer;text-align:left">
-          <div style="font-size:18px;margin-bottom:6px">📥</div>
-          <div>Importar Trades</div>
-          <div style="font-size:10px;font-weight:400;color:var(--t3);margin-top:2px">CSV con cabecera</div>
-        </button>
-      </div>
-      <input type="file" id="import-file-input" accept=".csv" style="display:none" onchange="importCSV(this)">
-      <div style="background:var(--bg3);border-radius:var(--r1);padding:10px 12px;font-size:10px;color:var(--t3);line-height:1.6">
-        <strong style="color:var(--t2)">Formato CSV de importación:</strong><br>
-        symbol, side, entry, exit, pnl, date, notes<br>
-        BTC, LONG, 95000, 97000, 50, 2025-01-15, setup alcista
-      </div>
-    </div>
-  </div>
-
-  <!-- Estrategia Form Sheet -->
-
-  <div class="close-modal" id="sheet-strat">
-    <div class="close-modal-bg" onclick="closeStratForm()"></div>
-    <div class="close-modal-box" style="padding:18px 18px 40px;max-height:90vh;overflow-y:auto">
-      <div class="sheet-handle"></div>
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
-        <div class="sheet-title" style="margin:0" id="strat-form-title">Nueva estrategia</div>
-        <button onclick="closeStratForm()" style="background:none;border:none;color:var(--t3);cursor:pointer;font-size:20px;line-height:1">×</button>
-      </div>
-
-```
-  <!-- Tabs: Manual / PasteTV -->
-  <div style="display:flex;gap:6px;margin-bottom:16px">
-    <button class="pill on" id="strat-tab-manual" onclick="switchStratTab('manual')">✏️ Manual</button>
-    <button class="pill" id="strat-tab-paste" onclick="switchStratTab('paste')">📋 Pegar TradingView</button>
-  </div>
-
-  <!-- PASTE TAB -->
-  <div id="strat-paste-tab" style="display:none">
-    <div style="font-size:11px;color:var(--t3);margin-bottom:8px;line-height:1.5">
-      Copia el resumen del <strong style="color:var(--t2)">Strategy Tester</strong> de TradingView y pégalo aquí. Extrae los datos automáticamente.
-    </div>
-    <textarea id="strat-paste-input" placeholder="Pega aquí el texto del Strategy Tester..." style="width:100%;min-height:120px;background:var(--bg3);border:1px solid var(--b1);border-radius:var(--r2);padding:12px;font-size:12px;color:var(--t1);font-family:var(--mono);outline:none;resize:vertical;box-sizing:border-box;line-height:1.5"></textarea>
-    <button onclick="parseTVpaste()" class="btn btn-a" style="margin:10px 0 16px;width:100%">Extraer datos</button>
-    <div id="strat-paste-result" style="display:none;background:var(--bg3);border:1px solid var(--grn);border-radius:var(--r1);padding:10px 12px;margin-bottom:14px;font-size:11px;color:var(--grn)"></div>
-  </div>
-
-  <!-- MANUAL TAB (always visible, populated by paste) -->
-  <div id="strat-manual-tab">
-    <div class="fg"><label>Nombre de la estrategia</label>
-      <input type="text" id="sf-name" placeholder="Ej: EMA Cross LONG" style="width:100%;background:var(--bg3);border:1px solid var(--b1);border-radius:var(--r1);padding:11px 14px;font-size:14px;font-weight:600;color:var(--t1);font-family:var(--sans);outline:none;box-sizing:border-box">
-    </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-      <div class="fg"><label>Activo</label>
-        <input type="text" id="sf-sym" placeholder="BTC, ETH, SOL..." style="width:100%;background:var(--bg3);border:1px solid var(--b1);border-radius:var(--r1);padding:11px 14px;font-size:13px;font-weight:600;color:var(--t1);font-family:var(--sans);outline:none;box-sizing:border-box">
-      </div>
-      <div class="fg"><label>Temporalidad</label>
-        <select id="sf-tf" style="width:100%;background:var(--bg3);border:1px solid var(--b1);border-radius:var(--r1);padding:11px 14px;font-size:13px;font-weight:600;color:var(--t1);font-family:var(--sans);outline:none;-webkit-appearance:none;cursor:pointer;box-sizing:border-box">
-          <option value="">— Seleccionar —</option>
-          <option>1m</option><option>3m</option><option>5m</option>
-          <option>15m</option><option>30m</option><option>1h</option>
-          <option>2h</option><option>4h</option><option>6h</option>
-          <option>8h</option><option>12h</option><option>1D</option>
-          <option>3D</option><option>1W</option><option>1M</option>
-        </select>
-      </div>
-    </div>
-
-    <!-- Performance metrics grid -->
-    <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--t3);margin:14px 0 8px">Rendimiento</div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-      <div class="fg" style="margin:0"><label>Win Rate (%)</label>
-        <input type="number" id="sf-wr" placeholder="65.5" step="0.1" min="0" max="100" style="width:100%;background:var(--bg3);border:1px solid var(--b1);border-radius:var(--r1);padding:11px 14px;font-size:13px;font-weight:600;color:var(--t1);font-family:var(--mono);outline:none;box-sizing:border-box">
-      </div>
-      <div class="fg" style="margin:0"><label>Profit Factor</label>
-        <input type="number" id="sf-pf" placeholder="1.85" step="0.01" min="0" style="width:100%;background:var(--bg3);border:1px solid var(--b1);border-radius:var(--r1);padding:11px 14px;font-size:13px;font-weight:600;color:var(--t1);font-family:var(--mono);outline:none;box-sizing:border-box">
-      </div>
-      <div class="fg" style="margin:0"><label>Net Profit (%)</label>
-        <input type="number" id="sf-np" placeholder="234.5" step="0.01" style="width:100%;background:var(--bg3);border:1px solid var(--b1);border-radius:var(--r1);padding:11px 14px;font-size:13px;font-weight:600;color:var(--t1);font-family:var(--mono);outline:none;box-sizing:border-box">
-      </div>
-      <div class="fg" style="margin:0"><label>Max Drawdown (%)</label>
-        <input type="number" id="sf-dd" placeholder="12.3" step="0.01" min="0" style="width:100%;background:var(--bg3);border:1px solid var(--b1);border-radius:var(--r1);padding:11px 14px;font-size:13px;font-weight:600;color:var(--t1);font-family:var(--mono);outline:none;box-sizing:border-box">
-      </div>
-      <div class="fg" style="margin:0"><label>Total Trades</label>
-        <input type="number" id="sf-tt" placeholder="142" step="1" min="0" style="width:100%;background:var(--bg3);border:1px solid var(--b1);border-radius:var(--r1);padding:11px 14px;font-size:13px;font-weight:600;color:var(--t1);font-family:var(--mono);outline:none;box-sizing:border-box">
-      </div>
-      <div class="fg" style="margin:0"><label>Avg Trade (%)</label>
-        <input type="number" id="sf-at" placeholder="1.65" step="0.01" style="width:100%;background:var(--bg3);border:1px solid var(--b1);border-radius:var(--r1);padding:11px 14px;font-size:13px;font-weight:600;color:var(--t1);font-family:var(--mono);outline:none;box-sizing:border-box">
-      </div>
-      <div class="fg" style="margin:0"><label>Rentab. mensual (%)</label>
-        <input type="number" id="sf-mo" placeholder="8.5" step="0.01" style="width:100%;background:var(--bg3);border:1px solid var(--b1);border-radius:var(--r1);padding:11px 14px;font-size:13px;font-weight:600;color:var(--t1);font-family:var(--mono);outline:none;box-sizing:border-box">
-      </div>
-      <div class="fg" style="margin:0"><label>Rentab. anual (%)</label>
-        <input type="number" id="sf-yr" placeholder="102.0" step="0.01" style="width:100%;background:var(--bg3);border:1px solid var(--b1);border-radius:var(--r1);padding:11px 14px;font-size:13px;font-weight:600;color:var(--t1);font-family:var(--mono);outline:none;box-sizing:border-box">
-      </div>
-    </div>
-
-    <div class="fg" style="margin-top:10px"><label>Periodo de backtest</label>
-      <input type="text" id="sf-period" placeholder="Ej: 2022-01-01 → 2025-01-01" style="width:100%;background:var(--bg3);border:1px solid var(--b1);border-radius:var(--r1);padding:11px 14px;font-size:13px;font-weight:500;color:var(--t1);font-family:var(--sans);outline:none;box-sizing:border-box">
-    </div>
-    <div class="fg"><label>Notas / descripción</label>
-      <textarea id="sf-notes" placeholder="Condiciones de entrada, salida, filtros..." style="width:100%;min-height:80px;background:var(--bg3);border:1px solid var(--b1);border-radius:var(--r2);padding:12px;font-size:13px;color:var(--t1);font-family:var(--sans);outline:none;resize:vertical;box-sizing:border-box;line-height:1.5"></textarea>
-    </div>
-    <div class="fg"><label>PineScript <span style="font-size:8px;color:var(--t3);font-weight:400;text-transform:none;letter-spacing:0">opcional</span></label>
-      <textarea id="sf-pine" placeholder="//@version=5&#10;strategy(...)" style="width:100%;min-height:100px;background:var(--bg3);border:1px solid var(--b1);border-radius:var(--r2);padding:12px;font-size:11px;color:var(--t1);font-family:var(--mono);outline:none;resize:vertical;box-sizing:border-box;line-height:1.6"></textarea>
-    </div>
-  </div>
-
-  <div style="display:grid;grid-template-columns:1fr auto;gap:10px;margin-top:4px">
-    <button class="btn btn-a" onclick="saveStrat()" id="strat-save-btn">Guardar</button>
-    <button onclick="closeStratForm()" class="btn btn-g" style="padding:14px 16px;width:auto">Cancelar</button>
-  </div>
-</div>
-```
-
-  </div>
-
-  <!-- Estrategia Detail Sheet -->
-
-  <div class="close-modal" id="sheet-strat-detail">
-    <div class="close-modal-bg" onclick="closeStratDetail()"></div>
-    <div class="close-modal-box" style="padding:18px 18px 40px;max-height:92vh;overflow-y:auto" id="strat-detail-content"></div>
-  </div>
-
-  <!-- Knowledge Form Sheet -->
-
-  <div class="close-modal" id="sheet-kn">
-    <div class="close-modal-bg" onclick="closeKnForm()"></div>
-    <div class="close-modal-box" style="padding:18px 18px 40px;max-height:88vh;overflow-y:auto">
-      <div class="sheet-handle"></div>
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
-        <div class="sheet-title" style="margin:0" id="kn-form-title">Nuevo concepto</div>
-        <button onclick="closeKnForm()" style="background:none;border:none;color:var(--t3);cursor:pointer;font-size:20px;line-height:1">×</button>
-      </div>
-      <div class="fg"><label>Título</label>
-        <input type="text" id="kf-title" placeholder="Ej: Divergencia RSI bajista" style="width:100%;background:var(--bg3);border:1px solid var(--b1);border-radius:var(--r1);padding:11px 14px;font-size:14px;font-weight:600;color:var(--t1);font-family:var(--sans);outline:none;box-sizing:border-box">
-      </div>
-      <div class="fg"><label>Categoría</label>
-        <select id="kf-cat" style="width:100%;background:var(--bg3);border:1px solid var(--b1);border-radius:var(--r1);padding:11px 14px;font-size:13px;font-weight:600;color:var(--t1);font-family:var(--sans);outline:none;-webkit-appearance:none;cursor:pointer;box-sizing:border-box">
-          <option>Patrones</option>
-          <option>Indicadores</option>
-          <option>Riesgo</option>
-          <option>Psicología</option>
-          <option>On-chain</option>
-          <option>Otro</option>
-        </select>
-      </div>
-      <div class="fg"><label>Descripción</label>
-        <textarea id="kf-desc" placeholder="Explica el concepto con detalle..." style="width:100%;min-height:120px;background:var(--bg3);border:1px solid var(--b1);border-radius:var(--r2);padding:12px;font-size:13px;color:var(--t1);font-family:var(--sans);outline:none;resize:vertical;box-sizing:border-box;line-height:1.6"></textarea>
-      </div>
-      <div class="fg"><label>Ejemplo / Notas <span style="font-size:8px;color:var(--t3);font-weight:400;text-transform:none;letter-spacing:0">opcional</span></label>
-        <textarea id="kf-example" placeholder="Ejemplo práctico, condiciones, casos de uso..." style="width:100%;min-height:80px;background:var(--bg3);border:1px solid var(--b1);border-radius:var(--r2);padding:12px;font-size:13px;color:var(--t1);font-family:var(--sans);outline:none;resize:vertical;box-sizing:border-box;line-height:1.5"></textarea>
-      </div>
-      <div class="fg"><label>Tags <span style="font-size:8px;color:var(--t3);font-weight:400;text-transform:none;letter-spacing:0">separados por coma</span></label>
-        <input type="text" id="kf-tags" placeholder="RSI, divergencia, reversión..." style="width:100%;background:var(--bg3);border:1px solid var(--b1);border-radius:var(--r1);padding:11px 14px;font-size:13px;color:var(--t1);font-family:var(--sans);outline:none;box-sizing:border-box">
-      </div>
-      <!-- Imagen opcional -->
-      <div class="fg">
-        <label>Imagen <span style="font-size:8px;color:var(--t3);font-weight:400;text-transform:none;letter-spacing:0">opcional — gráfico, diagrama...</span></label>
-        <input type="file" id="kf-img-input" accept="image/*" style="display:none" onchange="onKnImgSelected(this)">
-        <div id="kf-img-preview" onclick="document.getElementById('kf-img-input').click()" style="border:1.5px dashed var(--b2);border-radius:var(--r2);padding:14px;text-align:center;cursor:pointer;color:var(--t3);font-size:12px;font-weight:500;background:var(--bg3)">
-          <svg width="18" height="18" viewBox="0 0 20 20" fill="none" style="display:block;margin:0 auto 5px"><rect x="2" y="4" width="16" height="12" rx="2" stroke="currentColor" stroke-width="1.3"/><circle cx="7" cy="9" r="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M2 14l4-4 3 3 3-3 4 4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          Toca para añadir imagen
-        </div>
-      </div>
-      <div style="display:grid;grid-template-columns:1fr auto;gap:10px;margin-top:4px">
-        <button class="btn btn-a" onclick="saveKn()" id="kn-save-btn">Guardar</button>
-        <button onclick="closeKnForm()" class="btn btn-g" style="padding:14px 16px;width:auto">Cancelar</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- NAV MENU OVERLAY -->
-
-  <div id="nav-menu-overlay" style="display:none;position:fixed;inset:0;z-index:400;background:rgba(0,0,0,0.7)" onclick="closeNavMenu()"></div>
-
-  <!-- NAV MENU OVERLAY -->
-
-  <div id="nav-menu-overlay" style="display:none;position:fixed;inset:0;z-index:400;background:rgba(0,0,0,0.7)" onclick="closeNavMenu()"></div>
-  <div id="nav-menu-panel" style="display:none;position:fixed;bottom:62px;left:0;right:0;max-width:480px;margin:0 auto;background:var(--bg1);border-top:1px solid var(--b2);border-radius:var(--r3) var(--r3) 0 0;padding:16px 14px 20px;z-index:401;animation:slideUp 0.2s ease">
-    <div onclick="closeNavMenu()" style="width:36px;height:4px;background:var(--b2);border-radius:2px;margin:0 auto 10px;cursor:pointer"></div>
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
-      <span style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--t3)">Todas las páginas</span>
-      <button onclick="closeNavMenu()" style="background:var(--bg3);border:1px solid var(--b1);border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--t2);font-size:14px;line-height:1;font-family:var(--sans)">×</button>
-    </div>
-    <div id="nav-menu-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:16px"></div>
-    <div style="border-top:1px solid var(--b1);padding-top:14px">
-      <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--t3);margin-bottom:10px">Nueva operación</div>
-      <button onclick="closeNavMenu();openNewForm()" class="btn btn-a" style="width:100%;display:flex;align-items:center;justify-content:center;gap:8px">
-        <svg width="14" height="14" viewBox="0 0 20 20" fill="none"><path d="M10 4v12M4 10h12" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
-        Añadir trade
-      </button>
-    </div>
-    <div style="border-top:1px solid var(--b1);padding-top:14px;margin-top:14px">
-      <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--t3);margin-bottom:10px">Pestañas fijas</div>
-      <div id="nav-pin-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px"></div>
-      <div style="font-size:10px;color:var(--t3);margin-top:8px;text-align:center">Toca para fijar/desfijar en la barra</div>
-    </div>
-  </div>
 </body>
-
 </html>
