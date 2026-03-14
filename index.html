@@ -171,13 +171,8 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
 .close-modal-box{position:relative;background:var(--bg1);border-radius:var(--r3) var(--r3) 0 0;padding:8px 18px 32px;width:100%;max-width:480px;margin:0 auto;animation:slideUp 0.22s ease}
 </style>
 
-  <meta name="theme-color" content="#07090e">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="MoonTrade">
-  <link rel="manifest" href="#" id="pwa-manifest-link">
-  <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23b8f03c'/><text y='72' x='50' text-anchor='middle' font-size='62' font-family='system-ui' font-weight='900' fill='%2307090e'>M</text></svg>">
 </head>
+<body>
 <body>
 
 <header class="topbar">
@@ -216,8 +211,8 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
 </header>
 
 <div class="content">
-<!-- DASHBOARD -->
-  <div class="page on" id="p-dash">
+
+<div class="page on" id="p-dash">
     <div class="card" style="margin-bottom:12px">
       <div class="sec-h" style="margin-bottom:14px">
         <span class="sec-t">Mi cuenta</span>
@@ -300,7 +295,6 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
   </div>
 
   <!-- NUEVA / EDITAR -->
-
   <div class="page" id="p-new">
     <div class="pg-t" id="form-title">Nueva operación</div>
     <div class="pg-s" id="form-sub">Cargando...</div>
@@ -399,7 +393,6 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
   </div>
 
   <!-- BUSQUEDA GLOBAL -->
-
   <div class="page" id="p-search">
     <div class="pg-t">Buscar</div>
     <div class="pg-s">Trades, movimientos y cuentas</div>
@@ -412,7 +405,6 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
   </div>
 
   <!-- HISTORIAL -->
-
   <div class="page" id="p-hist">
     <div class="pg-t">Historial</div>
     <div class="pg-s" id="h-sub">Todas las operaciones</div>
@@ -437,7 +429,6 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
   </div>
 
   <!-- PORTFOLIO -->
-
   <div class="page" id="p-port">
     <div class="pg-t">Portfolio</div>
     <div class="pg-s">Posiciones abiertas</div>
@@ -455,7 +446,6 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
   </div>
 
   <!-- ESTADISTICAS -->
-
   <div class="page" id="p-stats">
     <div class="pg-t">Estadisticas</div>
     <div class="pg-s">Analisis de rendimiento</div>
@@ -522,7 +512,6 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
   </div>
 
   <!-- CUENTAS -->
-
   <div class="page" id="p-accs">
     <div class="pg-t">Cuentas</div>
     <div class="pg-s">Gestiona tus cuentas de trading</div>
@@ -558,8 +547,8 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
     <div id="gl-accs-list"></div>
   </div>
 
-  <!-- ALERTS PAGE -->
 
+  <!-- ALERTS PAGE -->
   <div class="page" id="p-alerts">
     <div class="pg-t">Alertas</div>
     <div class="pg-s">Precio en tiempo real</div>
@@ -591,8 +580,8 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
     <div id="al-empty" style="text-align:center;padding:32px 0;color:var(--t3);font-size:13px">No hay alertas activas</div>
   </div>
 
-  <!-- DIARIO DE SESION -->
 
+  <!-- DIARIO DE SESION -->
   <div class="page" id="p-journal">
     <div class="pg-t">Diario</div>
     <div class="pg-s">Notas de sesión diaria</div>
@@ -613,7 +602,6 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
   </div>
 
   <!-- BACKUP -->
-
   <div class="page" id="p-backup">
     <div class="pg-t">Backup</div>
     <div class="pg-s">Copia de seguridad completa</div>
@@ -642,64 +630,59 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
   </div>
 
   <!-- ESTRATEGIAS -->
-
   <div class="page" id="p-strat">
     <div class="pg-t">Estrategias</div>
     <div class="pg-s">PineScript · Backtesting · Rendimiento</div>
 
-```
-<!-- Header bar -->
-<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
-  <div style="display:flex;gap:6px;flex:1;overflow-x:auto">
-    <button class="pill on" id="st-filter-all" onclick="stFilter('all',this)">Todas</button>
-    <button class="pill" id="st-filter-sym" onclick="stFilterBySym()">Por activo</button>
-    <button class="pill" id="st-filter-tf" onclick="stFilterByTF()">Por TF</button>
-  </div>
-  <button onclick="openStratForm(null)" style="flex-shrink:0;margin-left:8px;background:var(--acc);border:none;border-radius:var(--r1);padding:8px 14px;font-size:11px;font-weight:700;color:var(--bg0);cursor:pointer;font-family:var(--sans)">+ Nueva</button>
-</div>
+    <!-- Header bar -->
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+      <div style="display:flex;gap:6px;flex:1;overflow-x:auto">
+        <button class="pill on" id="st-filter-all" onclick="stFilter('all',this)">Todas</button>
+        <button class="pill" id="st-filter-sym" onclick="stFilterBySym()">Por activo</button>
+        <button class="pill" id="st-filter-tf" onclick="stFilterByTF()">Por TF</button>
+      </div>
+      <button onclick="openStratForm(null)" style="flex-shrink:0;margin-left:8px;background:var(--acc);border:none;border-radius:var(--r1);padding:8px 14px;font-size:11px;font-weight:700;color:var(--bg0);cursor:pointer;font-family:var(--sans)">+ Nueva</button>
+    </div>
 
-<div id="st-list"></div>
-<div id="st-empty" style="display:none;text-align:center;padding:40px 0">
-  <div style="font-size:32px;margin-bottom:10px">📈</div>
-  <div style="font-size:14px;font-weight:700;color:var(--t2)">Sin estrategias</div>
-  <div style="font-size:12px;color:var(--t3);margin-top:4px">Añade tu primera estrategia</div>
-</div>
-```
-
+    <div id="st-list"></div>
+    <div id="st-empty" style="display:none;text-align:center;padding:40px 0">
+      <div style="font-size:32px;margin-bottom:10px">📈</div>
+      <div style="font-size:14px;font-weight:700;color:var(--t2)">Sin estrategias</div>
+      <div style="font-size:12px;color:var(--t3);margin-top:4px">Añade tu primera estrategia</div>
+    </div>
+  
   </div>
 
   <!-- ══ CONOCIMIENTOS ══════════════════════════════════════════════ -->
-
   <div class="page" id="p-knowledge">
     <div class="pg-t">Conocimientos</div>
     <div class="pg-s">Conceptos técnicos de trading</div>
 
-```
-<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
-  <div style="display:flex;gap:6px;overflow-x:auto;flex:1">
-    <button class="pill on" id="kn-cat-all" onclick="knFilter('',this)">Todos</button>
-    <button class="pill" onclick="knFilter('Patrones',this)">Patrones</button>
-    <button class="pill" onclick="knFilter('Indicadores',this)">Indicadores</button>
-    <button class="pill" onclick="knFilter('Riesgo',this)">Riesgo</button>
-    <button class="pill" onclick="knFilter('Psicología',this)">Psicología</button>
-    <button class="pill" onclick="knFilter('On-chain',this)">On-chain</button>
-    <button class="pill" onclick="knFilter('Otro',this)">Otro</button>
-  </div>
-  <button onclick="openKnForm(null)" style="flex-shrink:0;margin-left:8px;background:var(--acc);border:none;border-radius:var(--r1);padding:8px 14px;font-size:11px;font-weight:700;color:var(--bg0);cursor:pointer;font-family:var(--sans)">+ Nuevo</button>
-</div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+      <div style="display:flex;gap:6px;overflow-x:auto;flex:1">
+        <button class="pill on" id="kn-cat-all" onclick="knFilter('',this)">Todos</button>
+        <button class="pill" onclick="knFilter('Patrones',this)">Patrones</button>
+        <button class="pill" onclick="knFilter('Indicadores',this)">Indicadores</button>
+        <button class="pill" onclick="knFilter('Riesgo',this)">Riesgo</button>
+        <button class="pill" onclick="knFilter('Psicología',this)">Psicología</button>
+        <button class="pill" onclick="knFilter('On-chain',this)">On-chain</button>
+        <button class="pill" onclick="knFilter('Otro',this)">Otro</button>
+      </div>
+      <button onclick="openKnForm(null)" style="flex-shrink:0;margin-left:8px;background:var(--acc);border:none;border-radius:var(--r1);padding:8px 14px;font-size:11px;font-weight:700;color:var(--bg0);cursor:pointer;font-family:var(--sans)">+ Nuevo</button>
+    </div>
 
-<div style="position:relative;margin-bottom:10px">
-  <input type="text" id="kn-search" placeholder="Buscar concepto..." oninput="knRender()" style="width:100%;background:var(--bg2);border:1px solid var(--b1);border-radius:var(--r2);padding:10px 14px 10px 36px;font-size:13px;font-weight:500;color:var(--t1);font-family:var(--sans);outline:none;box-sizing:border-box">
-  <svg width="14" height="14" viewBox="0 0 20 20" fill="none" style="position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--t3)"><circle cx="9" cy="9" r="6" stroke="currentColor" stroke-width="1.4"/><path d="M15 15l3 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
-</div>
+    <div style="position:relative;margin-bottom:10px">
+      <input type="text" id="kn-search" placeholder="Buscar concepto..." oninput="knRender()" style="width:100%;background:var(--bg2);border:1px solid var(--b1);border-radius:var(--r2);padding:10px 14px 10px 36px;font-size:13px;font-weight:500;color:var(--t1);font-family:var(--sans);outline:none;box-sizing:border-box">
+      <svg width="14" height="14" viewBox="0 0 20 20" fill="none" style="position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--t3)"><circle cx="9" cy="9" r="6" stroke="currentColor" stroke-width="1.4"/><path d="M15 15l3 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+    </div>
 
-<div id="kn-list"></div>
-<div id="kn-empty" style="display:none;text-align:center;padding:40px 0">
-  <div style="font-size:32px;margin-bottom:10px">🧠</div>
-  <div style="font-size:14px;font-weight:700;color:var(--t2)">Sin conceptos</div>
-  <div style="font-size:12px;color:var(--t3);margin-top:4px">Empieza a guardar conocimientos</div>
+    <div id="kn-list"></div>
+    <div id="kn-empty" style="display:none;text-align:center;padding:40px 0">
+      <div style="font-size:32px;margin-bottom:10px">🧠</div>
+      <div style="font-size:14px;font-weight:700;color:var(--t2)">Sin conceptos</div>
+      <div style="font-size:12px;color:var(--t3);margin-top:4px">Empieza a guardar conocimientos</div>
+    </div>
 </div>
-```
 
 </div>
 
@@ -718,10 +701,6 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
 
 <div class="toast" id="toast"><div class="tdot"></div><span id="t-msg"></span></div>
 
-<!-- MODALS & SHEETS (outside .content for correct fixed positioning) -->
-
-<!-- ACCOUNT SHEET -->
-
 <div class="sheet" id="sheet-acc">
   <div class="sheet-bg" onclick="closeAccSheet()"></div>
   <div class="sheet-box">
@@ -730,8 +709,8 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
   </div>
 </div>
 
-<!-- CLOSE TRADE MODAL -->
 
+<!-- CLOSE TRADE MODAL -->
 <div class="close-modal" id="close-modal">
   <div class="close-modal-bg" onclick="closeQuickModal()"></div>
   <div class="close-modal-box">
@@ -740,8 +719,8 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
   </div>
 </div>
 
-<!-- GOAL MODAL -->
 
+<!-- GOAL MODAL -->
 <div class="close-modal" id="goal-modal">
   <div class="close-modal-bg" onclick="closeGoalModal()"></div>
   <div class="close-modal-box">
@@ -755,8 +734,9 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
   </div>
 </div>
 
-  <!-- EXPORT/IMPORT SHEET -->
 
+
+  <!-- EXPORT/IMPORT SHEET -->
   <div class="close-modal" id="sheet-export">
     <div class="close-modal-bg" onclick="closeExportSheet()"></div>
     <div class="close-modal-box" style="padding:20px 18px 36px">
@@ -793,8 +773,8 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
     </div>
   </div>
 
-  <!-- Estrategia Form Sheet -->
 
+  <!-- Estrategia Form Sheet -->
   <div class="close-modal" id="sheet-strat">
     <div class="close-modal-bg" onclick="closeStratForm()"></div>
     <div class="close-modal-box" style="padding:18px 18px 40px;max-height:90vh;overflow-y:auto">
@@ -804,102 +784,99 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
         <button onclick="closeStratForm()" style="background:none;border:none;color:var(--t3);cursor:pointer;font-size:20px;line-height:1">×</button>
       </div>
 
-```
-  <!-- Tabs: Manual / PasteTV -->
-  <div style="display:flex;gap:6px;margin-bottom:16px">
-    <button class="pill on" id="strat-tab-manual" onclick="switchStratTab('manual')">✏️ Manual</button>
-    <button class="pill" id="strat-tab-paste" onclick="switchStratTab('paste')">📋 Pegar TradingView</button>
+      <!-- Tabs: Manual / PasteTV -->
+      <div style="display:flex;gap:6px;margin-bottom:16px">
+        <button class="pill on" id="strat-tab-manual" onclick="switchStratTab('manual')">✏️ Manual</button>
+        <button class="pill" id="strat-tab-paste" onclick="switchStratTab('paste')">📋 Pegar TradingView</button>
+      </div>
+
+      <!-- PASTE TAB -->
+      <div id="strat-paste-tab" style="display:none">
+        <div style="font-size:11px;color:var(--t3);margin-bottom:8px;line-height:1.5">
+          Copia el resumen del <strong style="color:var(--t2)">Strategy Tester</strong> de TradingView y pégalo aquí. Extrae los datos automáticamente.
+        </div>
+        <textarea id="strat-paste-input" placeholder="Pega aquí el texto del Strategy Tester..." style="width:100%;min-height:120px;background:var(--bg3);border:1px solid var(--b1);border-radius:var(--r2);padding:12px;font-size:12px;color:var(--t1);font-family:var(--mono);outline:none;resize:vertical;box-sizing:border-box;line-height:1.5"></textarea>
+        <button onclick="parseTVpaste()" class="btn btn-a" style="margin:10px 0 16px;width:100%">Extraer datos</button>
+        <div id="strat-paste-result" style="display:none;background:var(--bg3);border:1px solid var(--grn);border-radius:var(--r1);padding:10px 12px;margin-bottom:14px;font-size:11px;color:var(--grn)"></div>
+      </div>
+
+      <!-- MANUAL TAB (always visible, populated by paste) -->
+      <div id="strat-manual-tab">
+        <div class="fg"><label>Nombre de la estrategia</label>
+          <input type="text" id="sf-name" placeholder="Ej: EMA Cross LONG" style="width:100%;background:var(--bg3);border:1px solid var(--b1);border-radius:var(--r1);padding:11px 14px;font-size:14px;font-weight:600;color:var(--t1);font-family:var(--sans);outline:none;box-sizing:border-box">
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <div class="fg"><label>Activo</label>
+            <input type="text" id="sf-sym" placeholder="BTC, ETH, SOL..." style="width:100%;background:var(--bg3);border:1px solid var(--b1);border-radius:var(--r1);padding:11px 14px;font-size:13px;font-weight:600;color:var(--t1);font-family:var(--sans);outline:none;box-sizing:border-box">
+          </div>
+          <div class="fg"><label>Temporalidad</label>
+            <select id="sf-tf" style="width:100%;background:var(--bg3);border:1px solid var(--b1);border-radius:var(--r1);padding:11px 14px;font-size:13px;font-weight:600;color:var(--t1);font-family:var(--sans);outline:none;-webkit-appearance:none;cursor:pointer;box-sizing:border-box">
+              <option value="">— Seleccionar —</option>
+              <option>1m</option><option>3m</option><option>5m</option>
+              <option>15m</option><option>30m</option><option>1h</option>
+              <option>2h</option><option>4h</option><option>6h</option>
+              <option>8h</option><option>12h</option><option>1D</option>
+              <option>3D</option><option>1W</option><option>1M</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Performance metrics grid -->
+        <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--t3);margin:14px 0 8px">Rendimiento</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <div class="fg" style="margin:0"><label>Win Rate (%)</label>
+            <input type="number" id="sf-wr" placeholder="65.5" step="0.1" min="0" max="100" style="width:100%;background:var(--bg3);border:1px solid var(--b1);border-radius:var(--r1);padding:11px 14px;font-size:13px;font-weight:600;color:var(--t1);font-family:var(--mono);outline:none;box-sizing:border-box">
+          </div>
+          <div class="fg" style="margin:0"><label>Profit Factor</label>
+            <input type="number" id="sf-pf" placeholder="1.85" step="0.01" min="0" style="width:100%;background:var(--bg3);border:1px solid var(--b1);border-radius:var(--r1);padding:11px 14px;font-size:13px;font-weight:600;color:var(--t1);font-family:var(--mono);outline:none;box-sizing:border-box">
+          </div>
+          <div class="fg" style="margin:0"><label>Net Profit (%)</label>
+            <input type="number" id="sf-np" placeholder="234.5" step="0.01" style="width:100%;background:var(--bg3);border:1px solid var(--b1);border-radius:var(--r1);padding:11px 14px;font-size:13px;font-weight:600;color:var(--t1);font-family:var(--mono);outline:none;box-sizing:border-box">
+          </div>
+          <div class="fg" style="margin:0"><label>Max Drawdown (%)</label>
+            <input type="number" id="sf-dd" placeholder="12.3" step="0.01" min="0" style="width:100%;background:var(--bg3);border:1px solid var(--b1);border-radius:var(--r1);padding:11px 14px;font-size:13px;font-weight:600;color:var(--t1);font-family:var(--mono);outline:none;box-sizing:border-box">
+          </div>
+          <div class="fg" style="margin:0"><label>Total Trades</label>
+            <input type="number" id="sf-tt" placeholder="142" step="1" min="0" style="width:100%;background:var(--bg3);border:1px solid var(--b1);border-radius:var(--r1);padding:11px 14px;font-size:13px;font-weight:600;color:var(--t1);font-family:var(--mono);outline:none;box-sizing:border-box">
+          </div>
+          <div class="fg" style="margin:0"><label>Avg Trade (%)</label>
+            <input type="number" id="sf-at" placeholder="1.65" step="0.01" style="width:100%;background:var(--bg3);border:1px solid var(--b1);border-radius:var(--r1);padding:11px 14px;font-size:13px;font-weight:600;color:var(--t1);font-family:var(--mono);outline:none;box-sizing:border-box">
+          </div>
+          <div class="fg" style="margin:0"><label>Rentab. mensual (%)</label>
+            <input type="number" id="sf-mo" placeholder="8.5" step="0.01" style="width:100%;background:var(--bg3);border:1px solid var(--b1);border-radius:var(--r1);padding:11px 14px;font-size:13px;font-weight:600;color:var(--t1);font-family:var(--mono);outline:none;box-sizing:border-box">
+          </div>
+          <div class="fg" style="margin:0"><label>Rentab. anual (%)</label>
+            <input type="number" id="sf-yr" placeholder="102.0" step="0.01" style="width:100%;background:var(--bg3);border:1px solid var(--b1);border-radius:var(--r1);padding:11px 14px;font-size:13px;font-weight:600;color:var(--t1);font-family:var(--mono);outline:none;box-sizing:border-box">
+          </div>
+        </div>
+
+        <div class="fg" style="margin-top:10px"><label>Periodo de backtest</label>
+          <input type="text" id="sf-period" placeholder="Ej: 2022-01-01 → 2025-01-01" style="width:100%;background:var(--bg3);border:1px solid var(--b1);border-radius:var(--r1);padding:11px 14px;font-size:13px;font-weight:500;color:var(--t1);font-family:var(--sans);outline:none;box-sizing:border-box">
+        </div>
+        <div class="fg"><label>Notas / descripción</label>
+          <textarea id="sf-notes" placeholder="Condiciones de entrada, salida, filtros..." style="width:100%;min-height:80px;background:var(--bg3);border:1px solid var(--b1);border-radius:var(--r2);padding:12px;font-size:13px;color:var(--t1);font-family:var(--sans);outline:none;resize:vertical;box-sizing:border-box;line-height:1.5"></textarea>
+        </div>
+        <div class="fg"><label>PineScript <span style="font-size:8px;color:var(--t3);font-weight:400;text-transform:none;letter-spacing:0">opcional</span></label>
+          <textarea id="sf-pine" placeholder="//@version=5&#10;strategy(...)" style="width:100%;min-height:100px;background:var(--bg3);border:1px solid var(--b1);border-radius:var(--r2);padding:12px;font-size:11px;color:var(--t1);font-family:var(--mono);outline:none;resize:vertical;box-sizing:border-box;line-height:1.6"></textarea>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr auto;gap:10px;margin-top:4px">
+        <button class="btn btn-a" onclick="saveStrat()" id="strat-save-btn">Guardar</button>
+        <button onclick="closeStratForm()" class="btn btn-g" style="padding:14px 16px;width:auto">Cancelar</button>
+      </div>
+    </div>
   </div>
 
-  <!-- PASTE TAB -->
-  <div id="strat-paste-tab" style="display:none">
-    <div style="font-size:11px;color:var(--t3);margin-bottom:8px;line-height:1.5">
-      Copia el resumen del <strong style="color:var(--t2)">Strategy Tester</strong> de TradingView y pégalo aquí. Extrae los datos automáticamente.
-    </div>
-    <textarea id="strat-paste-input" placeholder="Pega aquí el texto del Strategy Tester..." style="width:100%;min-height:120px;background:var(--bg3);border:1px solid var(--b1);border-radius:var(--r2);padding:12px;font-size:12px;color:var(--t1);font-family:var(--mono);outline:none;resize:vertical;box-sizing:border-box;line-height:1.5"></textarea>
-    <button onclick="parseTVpaste()" class="btn btn-a" style="margin:10px 0 16px;width:100%">Extraer datos</button>
-    <div id="strat-paste-result" style="display:none;background:var(--bg3);border:1px solid var(--grn);border-radius:var(--r1);padding:10px 12px;margin-bottom:14px;font-size:11px;color:var(--grn)"></div>
-  </div>
-
-  <!-- MANUAL TAB (always visible, populated by paste) -->
-  <div id="strat-manual-tab">
-    <div class="fg"><label>Nombre de la estrategia</label>
-      <input type="text" id="sf-name" placeholder="Ej: EMA Cross LONG" style="width:100%;background:var(--bg3);border:1px solid var(--b1);border-radius:var(--r1);padding:11px 14px;font-size:14px;font-weight:600;color:var(--t1);font-family:var(--sans);outline:none;box-sizing:border-box">
-    </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-      <div class="fg"><label>Activo</label>
-        <input type="text" id="sf-sym" placeholder="BTC, ETH, SOL..." style="width:100%;background:var(--bg3);border:1px solid var(--b1);border-radius:var(--r1);padding:11px 14px;font-size:13px;font-weight:600;color:var(--t1);font-family:var(--sans);outline:none;box-sizing:border-box">
-      </div>
-      <div class="fg"><label>Temporalidad</label>
-        <select id="sf-tf" style="width:100%;background:var(--bg3);border:1px solid var(--b1);border-radius:var(--r1);padding:11px 14px;font-size:13px;font-weight:600;color:var(--t1);font-family:var(--sans);outline:none;-webkit-appearance:none;cursor:pointer;box-sizing:border-box">
-          <option value="">— Seleccionar —</option>
-          <option>1m</option><option>3m</option><option>5m</option>
-          <option>15m</option><option>30m</option><option>1h</option>
-          <option>2h</option><option>4h</option><option>6h</option>
-          <option>8h</option><option>12h</option><option>1D</option>
-          <option>3D</option><option>1W</option><option>1M</option>
-        </select>
-      </div>
-    </div>
-
-    <!-- Performance metrics grid -->
-    <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--t3);margin:14px 0 8px">Rendimiento</div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-      <div class="fg" style="margin:0"><label>Win Rate (%)</label>
-        <input type="number" id="sf-wr" placeholder="65.5" step="0.1" min="0" max="100" style="width:100%;background:var(--bg3);border:1px solid var(--b1);border-radius:var(--r1);padding:11px 14px;font-size:13px;font-weight:600;color:var(--t1);font-family:var(--mono);outline:none;box-sizing:border-box">
-      </div>
-      <div class="fg" style="margin:0"><label>Profit Factor</label>
-        <input type="number" id="sf-pf" placeholder="1.85" step="0.01" min="0" style="width:100%;background:var(--bg3);border:1px solid var(--b1);border-radius:var(--r1);padding:11px 14px;font-size:13px;font-weight:600;color:var(--t1);font-family:var(--mono);outline:none;box-sizing:border-box">
-      </div>
-      <div class="fg" style="margin:0"><label>Net Profit (%)</label>
-        <input type="number" id="sf-np" placeholder="234.5" step="0.01" style="width:100%;background:var(--bg3);border:1px solid var(--b1);border-radius:var(--r1);padding:11px 14px;font-size:13px;font-weight:600;color:var(--t1);font-family:var(--mono);outline:none;box-sizing:border-box">
-      </div>
-      <div class="fg" style="margin:0"><label>Max Drawdown (%)</label>
-        <input type="number" id="sf-dd" placeholder="12.3" step="0.01" min="0" style="width:100%;background:var(--bg3);border:1px solid var(--b1);border-radius:var(--r1);padding:11px 14px;font-size:13px;font-weight:600;color:var(--t1);font-family:var(--mono);outline:none;box-sizing:border-box">
-      </div>
-      <div class="fg" style="margin:0"><label>Total Trades</label>
-        <input type="number" id="sf-tt" placeholder="142" step="1" min="0" style="width:100%;background:var(--bg3);border:1px solid var(--b1);border-radius:var(--r1);padding:11px 14px;font-size:13px;font-weight:600;color:var(--t1);font-family:var(--mono);outline:none;box-sizing:border-box">
-      </div>
-      <div class="fg" style="margin:0"><label>Avg Trade (%)</label>
-        <input type="number" id="sf-at" placeholder="1.65" step="0.01" style="width:100%;background:var(--bg3);border:1px solid var(--b1);border-radius:var(--r1);padding:11px 14px;font-size:13px;font-weight:600;color:var(--t1);font-family:var(--mono);outline:none;box-sizing:border-box">
-      </div>
-      <div class="fg" style="margin:0"><label>Rentab. mensual (%)</label>
-        <input type="number" id="sf-mo" placeholder="8.5" step="0.01" style="width:100%;background:var(--bg3);border:1px solid var(--b1);border-radius:var(--r1);padding:11px 14px;font-size:13px;font-weight:600;color:var(--t1);font-family:var(--mono);outline:none;box-sizing:border-box">
-      </div>
-      <div class="fg" style="margin:0"><label>Rentab. anual (%)</label>
-        <input type="number" id="sf-yr" placeholder="102.0" step="0.01" style="width:100%;background:var(--bg3);border:1px solid var(--b1);border-radius:var(--r1);padding:11px 14px;font-size:13px;font-weight:600;color:var(--t1);font-family:var(--mono);outline:none;box-sizing:border-box">
-      </div>
-    </div>
-
-    <div class="fg" style="margin-top:10px"><label>Periodo de backtest</label>
-      <input type="text" id="sf-period" placeholder="Ej: 2022-01-01 → 2025-01-01" style="width:100%;background:var(--bg3);border:1px solid var(--b1);border-radius:var(--r1);padding:11px 14px;font-size:13px;font-weight:500;color:var(--t1);font-family:var(--sans);outline:none;box-sizing:border-box">
-    </div>
-    <div class="fg"><label>Notas / descripción</label>
-      <textarea id="sf-notes" placeholder="Condiciones de entrada, salida, filtros..." style="width:100%;min-height:80px;background:var(--bg3);border:1px solid var(--b1);border-radius:var(--r2);padding:12px;font-size:13px;color:var(--t1);font-family:var(--sans);outline:none;resize:vertical;box-sizing:border-box;line-height:1.5"></textarea>
-    </div>
-    <div class="fg"><label>PineScript <span style="font-size:8px;color:var(--t3);font-weight:400;text-transform:none;letter-spacing:0">opcional</span></label>
-      <textarea id="sf-pine" placeholder="//@version=5&#10;strategy(...)" style="width:100%;min-height:100px;background:var(--bg3);border:1px solid var(--b1);border-radius:var(--r2);padding:12px;font-size:11px;color:var(--t1);font-family:var(--mono);outline:none;resize:vertical;box-sizing:border-box;line-height:1.6"></textarea>
-    </div>
-  </div>
-
-  <div style="display:grid;grid-template-columns:1fr auto;gap:10px;margin-top:4px">
-    <button class="btn btn-a" onclick="saveStrat()" id="strat-save-btn">Guardar</button>
-    <button onclick="closeStratForm()" class="btn btn-g" style="padding:14px 16px;width:auto">Cancelar</button>
-  </div>
-</div>
-```
-
-  </div>
 
   <!-- Estrategia Detail Sheet -->
-
   <div class="close-modal" id="sheet-strat-detail">
     <div class="close-modal-bg" onclick="closeStratDetail()"></div>
     <div class="close-modal-box" style="padding:18px 18px 40px;max-height:92vh;overflow-y:auto" id="strat-detail-content"></div>
   </div>
 
-  <!-- Knowledge Form Sheet -->
 
+  <!-- Knowledge Form Sheet -->
   <div class="close-modal" id="sheet-kn">
     <div class="close-modal-bg" onclick="closeKnForm()"></div>
     <div class="close-modal-box" style="padding:18px 18px 40px;max-height:88vh;overflow-y:auto">
@@ -946,13 +923,11 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
     </div>
   </div>
 
-  <!-- NAV MENU OVERLAY -->
 
-  <div id="nav-menu-overlay" style="display:none;position:fixed;inset:0;z-index:400;background:rgba(0,0,0,0.7)" onclick="closeNavMenu()"></div>
 
   <!-- NAV MENU OVERLAY -->
-
   <div id="nav-menu-overlay" style="display:none;position:fixed;inset:0;z-index:400;background:rgba(0,0,0,0.7)" onclick="closeNavMenu()"></div>
+
   <div id="nav-menu-panel" style="display:none;position:fixed;bottom:62px;left:0;right:0;max-width:480px;margin:0 auto;background:var(--bg1);border-top:1px solid var(--b2);border-radius:var(--r3) var(--r3) 0 0;padding:16px 14px 20px;z-index:401;animation:slideUp 0.2s ease">
     <div onclick="closeNavMenu()" style="width:36px;height:4px;background:var(--b2);border-radius:2px;margin:0 auto 10px;cursor:pointer"></div>
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
@@ -975,9 +950,7 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
   </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
-
 <script>
-
 // ── STORAGE ───────────────────────────────────────────────────────────────────
 function load(k,d){try{var v=localStorage.getItem(k);return v!==null?JSON.parse(v):JSON.parse(d);}catch(e){return JSON.parse(d);}}
 function save(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
@@ -2721,66 +2694,6 @@ function startAlertPoll() {
 }
 
 
-// ── PWA ───────────────────────────────────────────────────────────────────────
-(function(){
-  var manifest = {
-    name: 'MoonTrade',
-    short_name: 'MoonTrade',
-    description: 'Tu diario de trading crypto',
-    start_url: '.',
-    display: 'standalone',
-    background_color: '#07090e',
-    theme_color: '#b8f03c',
-    orientation: 'portrait',
-    icons: [{
-      src: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192"><rect width="192" height="192" rx="40" fill="%23b8f03c"/><text y="140" x="96" text-anchor="middle" font-size="120" font-family="system-ui" font-weight="900" fill="%2307090e">M</text></svg>',
-      sizes: '192x192', type: 'image/svg+xml'
-    }]
-  };
-  var blob = new Blob([JSON.stringify(manifest)], {type:'application/json'});
-  var url = URL.createObjectURL(blob);
-  var link = document.getElementById('pwa-manifest-link');
-  if(link) link.href = url;
-
-  if('serviceWorker' in navigator){
-    var swCode = "self.addEventListener('install',function(e){self.skipWaiting();});self.addEventListener('fetch',function(e){e.respondWith(caches.open('mt-v1').then(function(c){return c.match(e.request).then(function(r){return r||fetch(e.request).then(function(nr){if(e.request.url.startsWith('http'))c.put(e.request,nr.clone());return nr;}).catch(function(){return r;});});}));});";
-    var swBlob = new Blob([swCode], {type:'text/javascript'});
-    navigator.serviceWorker.register(URL.createObjectURL(swBlob)).catch(function(){});
-  }
-
-  var deferredPrompt = null;
-  window.addEventListener('beforeinstallprompt', function(e){
-    e.preventDefault();
-    deferredPrompt = e;
-    showInstallBanner();
-  });
-
-  function showInstallBanner(){
-    if(localStorage.getItem('mt6_pwa_dismissed')) return;
-    var b = document.createElement('div');
-    b.id = 'pwa-banner';
-    b.style.cssText = 'position:fixed;bottom:68px;left:50%;transform:translateX(-50%);width:calc(100% - 28px);max-width:452px;background:var(--bg2);border:1px solid var(--acc);border-radius:var(--r2);padding:12px 14px;display:flex;align-items:center;gap:12px;z-index:500;box-shadow:0 4px 20px rgba(0,0,0,0.4)';
-    b.innerHTML = '<div style="width:36px;height:36px;background:var(--acc);border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M10 3v10M6 9l4 4 4-4M3 15h14" stroke="#07090e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>'
-      + '<div style="flex:1"><div style="font-size:12px;font-weight:700;color:var(--t1)">Añadir a pantalla de inicio</div><div style="font-size:10px;color:var(--t3)">Accede a MoonTrade como una app</div></div>'
-      + '<button onclick="installPWA()" style="background:var(--acc);border:none;border-radius:var(--r1);padding:8px 12px;font-size:11px;font-weight:700;color:var(--bg0);cursor:pointer;font-family:var(--sans);white-space:nowrap">Instalar</button>'
-      + '<button onclick="dismissPWA()" style="background:none;border:none;color:var(--t3);cursor:pointer;padding:4px;font-size:16px">×</button>';
-    document.body.appendChild(b);
-  }
-
-  window.installPWA = function(){
-    if(!deferredPrompt) return;
-    deferredPrompt.prompt();
-    deferredPrompt.userChoice.then(function(r){
-      if(r.outcome==='accepted') dismissPWA();
-      deferredPrompt = null;
-    });
-  };
-  window.dismissPWA = function(){
-    localStorage.setItem('mt6_pwa_dismissed','1');
-    var b = document.getElementById('pwa-banner');
-    if(b) b.remove();
-  };
-})();
 
 // ── DIARIO DE SESIÓN ──────────────────────────────────────────────────────────
 var JOURNAL = JSON.parse(localStorage.getItem('mt6_journal')||'{}');
@@ -3479,393 +3392,391 @@ function openStratDetail(id){
     + (s.pine?'<div style="margin-bottom:12px"><div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--acc);margin-bottom:6px">PineScript</div>'
       + '<pre style="background:var(--bg3);border-radius:var(--r2);padding:12px;font-size:10px;font-family:var(--mono);color:var(--t2);overflow-x:auto;white-space:pre-wrap;margin:0;line-height:1.5">'
       + s.pine.replace(/</g,'&lt;').replace(/>/g,'&gt;') + '</pre></div>':'');
-
-document.getElementById(‘sheet-strat-detail’).classList.add(‘on’);
+  document.getElementById('sheet-strat-detail').classList.add('on');
 }
 
 function detMetric(label, val, color){
-return ‘<div style="background:var(--bg3);border-radius:8px;padding:12px">’
-+ ‘<div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--t3);margin-bottom:5px">’+label+’</div>’
-+ ‘<div style="font-family:var(--mono);font-size:18px;font-weight:800;color:'+color+'">’+val+’</div>’
-+ ‘</div>’;
+  return '<div style="background:var(--bg3);border-radius:8px;padding:12px">'
+    + '<div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--t3);margin-bottom:5px">'+label+'</div>'
+    + '<div style="font-family:var(--mono);font-size:18px;font-weight:800;color:'+color+'">'+val+'</div>'
+    + '</div>';
 }
 
 function closeStratDetail(){
-document.getElementById(‘sheet-strat-detail’).classList.remove(‘on’);
+  document.getElementById('sheet-strat-detail').classList.remove('on');
 }
 
 function openStratForm(id){
-closeStratDetail();
-stratEditId = id;
-var s = id ? STRATS.find(function(x){return x.id===id;}) : null;
-document.getElementById(‘strat-form-title’).textContent = s ? ‘Editar estrategia’ : ‘Nueva estrategia’;
-document.getElementById(‘strat-save-btn’).textContent = s ? ‘Actualizar’ : ‘Guardar’;
-document.getElementById(‘sf-name’).value = s ? s.name||’’ : ‘’;
-document.getElementById(‘sf-sym’).value = s ? s.sym||’’ : ‘’;
-document.getElementById(‘sf-tf’).value = s ? s.tf||’’ : ‘’;
-document.getElementById(‘sf-wr’).value = s ? s.wr||’’ : ‘’;
-document.getElementById(‘sf-pf’).value = s ? s.pf||’’ : ‘’;
-document.getElementById(‘sf-np’).value = s ? s.np||’’ : ‘’;
-document.getElementById(‘sf-dd’).value = s ? s.dd||’’ : ‘’;
-document.getElementById(‘sf-tt’).value = s ? s.tt||’’ : ‘’;
-document.getElementById(‘sf-at’).value = s ? s.at||’’ : ‘’;
-document.getElementById(‘sf-mo’).value = s ? s.mo||’’ : ‘’;
-document.getElementById(‘sf-yr’).value = s ? s.yr||’’ : ‘’;
-document.getElementById(‘sf-period’).value = s ? s.period||’’ : ‘’;
-document.getElementById(‘sf-notes’).value = s ? s.notes||’’ : ‘’;
-document.getElementById(‘sf-pine’).value = s ? s.pine||’’ : ‘’;
-document.getElementById(‘strat-paste-input’).value = ‘’;
-document.getElementById(‘strat-paste-result’).style.display = ‘none’;
-switchStratTab(‘manual’);
-document.getElementById(‘sheet-strat’).classList.add(‘on’);
+  closeStratDetail();
+  stratEditId = id;
+  var s = id ? STRATS.find(function(x){return x.id===id;}) : null;
+  document.getElementById('strat-form-title').textContent = s ? 'Editar estrategia' : 'Nueva estrategia';
+  document.getElementById('strat-save-btn').textContent = s ? 'Actualizar' : 'Guardar';
+  document.getElementById('sf-name').value = s ? s.name||'' : '';
+  document.getElementById('sf-sym').value = s ? s.sym||'' : '';
+  document.getElementById('sf-tf').value = s ? s.tf||'' : '';
+  document.getElementById('sf-wr').value = s ? s.wr||'' : '';
+  document.getElementById('sf-pf').value = s ? s.pf||'' : '';
+  document.getElementById('sf-np').value = s ? s.np||'' : '';
+  document.getElementById('sf-dd').value = s ? s.dd||'' : '';
+  document.getElementById('sf-tt').value = s ? s.tt||'' : '';
+  document.getElementById('sf-at').value = s ? s.at||'' : '';
+  document.getElementById('sf-mo').value = s ? s.mo||'' : '';
+  document.getElementById('sf-yr').value = s ? s.yr||'' : '';
+  document.getElementById('sf-period').value = s ? s.period||'' : '';
+  document.getElementById('sf-notes').value = s ? s.notes||'' : '';
+  document.getElementById('sf-pine').value = s ? s.pine||'' : '';
+  document.getElementById('strat-paste-input').value = '';
+  document.getElementById('strat-paste-result').style.display = 'none';
+  switchStratTab('manual');
+  document.getElementById('sheet-strat').classList.add('on');
 }
 
 function closeStratForm(){
-document.getElementById(‘sheet-strat’).classList.remove(‘on’);
+  document.getElementById('sheet-strat').classList.remove('on');
 }
 
 function switchStratTab(tab){
-document.getElementById(‘strat-tab-manual’).classList.toggle(‘on’, tab===‘manual’);
-document.getElementById(‘strat-tab-paste’).classList.toggle(‘on’, tab===‘paste’);
-document.getElementById(‘strat-manual-tab’).style.display = tab===‘manual’ ? ‘block’ : ‘none’;
-document.getElementById(‘strat-paste-tab’).style.display = tab===‘paste’ ? ‘block’ : ‘none’;
+  document.getElementById('strat-tab-manual').classList.toggle('on', tab==='manual');
+  document.getElementById('strat-tab-paste').classList.toggle('on', tab==='paste');
+  document.getElementById('strat-manual-tab').style.display = tab==='manual' ? 'block' : 'none';
+  document.getElementById('strat-paste-tab').style.display = tab==='paste' ? 'block' : 'none';
 }
 
 function parseTVpaste(){
-var raw = document.getElementById(‘strat-paste-input’).value;
-if(!raw.trim()) return toast(‘Pega el texto primero’, false);
+  var raw = document.getElementById('strat-paste-input').value;
+  if(!raw.trim()) return toast('Pega el texto primero', false);
 
-var extract = function(patterns, txt){
-for(var i=0; i<patterns.length; i++){
-var m = txt.match(patterns[i]);
-if(m) return m[1].replace(’,’,’.’).trim();
-}
-return ‘’;
-};
+  var extract = function(patterns, txt){
+    for(var i=0; i<patterns.length; i++){
+      var m = txt.match(patterns[i]);
+      if(m) return m[1].replace(',','.').trim();
+    }
+    return '';
+  };
 
-var txt = raw;
-var name   = extract([/Strategy\s*[:-]?\s*(.+?)(?:\n|$)/i, /Estrategia\s*[:-]?\s*(.+?)(?:\n|$)/i], txt);
-var wr     = extract([/Win\s*Rate[^\d]*([\d.,]+)\s*%/i, /Trades\s+ganadores[^\d]*([\d.,]+)\s*%/i, /% Rentable[^\d]*([\d.,]+)/i], txt);
-var pf     = extract([/Profit\s*Factor[^\d]*([\d.,]+)/i, /Factor\s+de\s+beneficio[^\d]*([\d.,]+)/i], txt);
-var np     = extract([/Net\s*Profit[^\d%]*([\d.,-]+)\s*%/i, /Beneficio\s+neto[^\d%]*([\d.,-]+)\s*%/i, /Net\s+profit[^\d]*([\d.,-]+)/i], txt);
-var dd     = extract([/Max[\s.]*Draw[\s.]*Down[^\d]*([\d.,]+)\s*%/i, /Caída\s+máx[^\d]*([\d.,]+)\s*%/i, /Drowdown\s+máximo[^\d]*([\d.,]+)/i], txt);
-var tt     = extract([/Total\s*Trades[^\d]*(\d+)/i, /Total\s+de\s+operaciones[^\d]*(\d+)/i, /Operaciones\s+cerradas[^\d]*(\d+)/i], txt);
-var at     = extract([/Avg[\s.]*Trade[^\d%]*([\d.,-]+)\s*%/i, /Operación\s+prom[^\d%]*([\d.,-]+)\s*%/i], txt);
+  var txt = raw;
+  var name   = extract([/Strategy\s*[:\-]?\s*(.+?)(?:\n|$)/i, /Estrategia\s*[:\-]?\s*(.+?)(?:\n|$)/i], txt);
+  var wr     = extract([/Win\s*Rate[^\d]*([\d.,]+)\s*%/i, /Trades\s+ganadores[^\d]*([\d.,]+)\s*%/i, /% Rentable[^\d]*([\d.,]+)/i], txt);
+  var pf     = extract([/Profit\s*Factor[^\d]*([\d.,]+)/i, /Factor\s+de\s+beneficio[^\d]*([\d.,]+)/i], txt);
+  var np     = extract([/Net\s*Profit[^\d%]*([\d.,\-]+)\s*%/i, /Beneficio\s+neto[^\d%]*([\d.,\-]+)\s*%/i, /Net\s+profit[^\d]*([\d.,\-]+)/i], txt);
+  var dd     = extract([/Max[\s.]*Draw[\s.]*Down[^\d]*([\d.,]+)\s*%/i, /Caída\s+máx[^\d]*([\d.,]+)\s*%/i, /Drowdown\s+máximo[^\d]*([\d.,]+)/i], txt);
+  var tt     = extract([/Total\s*Trades[^\d]*(\d+)/i, /Total\s+de\s+operaciones[^\d]*(\d+)/i, /Operaciones\s+cerradas[^\d]*(\d+)/i], txt);
+  var at     = extract([/Avg[\s.]*Trade[^\d%]*([\d.,\-]+)\s*%/i, /Operación\s+prom[^\d%]*([\d.,\-]+)\s*%/i], txt);
 
-var found = [name,wr,pf,np,dd,tt,at].filter(Boolean).length;
+  var found = [name,wr,pf,np,dd,tt,at].filter(Boolean).length;
 
-if(wr) document.getElementById(‘sf-wr’).value = wr;
-if(pf) document.getElementById(‘sf-pf’).value = pf;
-if(np) document.getElementById(‘sf-np’).value = np;
-if(dd) document.getElementById(‘sf-dd’).value = dd;
-if(tt) document.getElementById(‘sf-tt’).value = tt;
-if(at) document.getElementById(‘sf-at’).value = at;
-if(name && !document.getElementById(‘sf-name’).value) document.getElementById(‘sf-name’).value = name;
+  if(wr) document.getElementById('sf-wr').value = wr;
+  if(pf) document.getElementById('sf-pf').value = pf;
+  if(np) document.getElementById('sf-np').value = np;
+  if(dd) document.getElementById('sf-dd').value = dd;
+  if(tt) document.getElementById('sf-tt').value = tt;
+  if(at) document.getElementById('sf-at').value = at;
+  if(name && !document.getElementById('sf-name').value) document.getElementById('sf-name').value = name;
 
-var res = document.getElementById(‘strat-paste-result’);
-res.style.display = ‘block’;
-if(found >= 2){
-res.textContent = ‘✓ Extraídos ’ + found + ’ campos. Revisa y completa los que falten.’;
-res.style.borderColor = ‘var(–grn)’;
-res.style.color = ‘var(–grn)’;
-switchStratTab(‘manual’);
-} else {
-res.textContent = ‘No se reconoció el formato. Rellena los campos manualmente.’;
-res.style.borderColor = ‘var(–amb)’;
-res.style.color = ‘var(–amb)’;
-}
+  var res = document.getElementById('strat-paste-result');
+  res.style.display = 'block';
+  if(found >= 2){
+    res.textContent = '✓ Extraídos ' + found + ' campos. Revisa y completa los que falten.';
+    res.style.borderColor = 'var(--grn)';
+    res.style.color = 'var(--grn)';
+    switchStratTab('manual');
+  } else {
+    res.textContent = 'No se reconoció el formato. Rellena los campos manualmente.';
+    res.style.borderColor = 'var(--amb)';
+    res.style.color = 'var(--amb)';
+  }
 }
 
 function saveStrat(){
-var name = document.getElementById(‘sf-name’).value.trim();
-if(!name) return toast(‘Introduce un nombre para la estrategia’, false);
-var s = {
-id: stratEditId || Date.now(),
-name: name,
-sym: document.getElementById(‘sf-sym’).value.trim().toUpperCase(),
-tf: document.getElementById(‘sf-tf’).value,
-wr: document.getElementById(‘sf-wr’).value,
-pf: document.getElementById(‘sf-pf’).value,
-np: document.getElementById(‘sf-np’).value,
-dd: document.getElementById(‘sf-dd’).value,
-tt: document.getElementById(‘sf-tt’).value,
-at: document.getElementById(‘sf-at’).value,
-mo: document.getElementById(‘sf-mo’).value,
-yr: document.getElementById(‘sf-yr’).value,
-period: document.getElementById(‘sf-period’).value.trim(),
-notes: document.getElementById(‘sf-notes’).value.trim(),
-pine: document.getElementById(‘sf-pine’).value.trim(),
-updatedAt: new Date().toISOString()
-};
-if(stratEditId){
-var idx = STRATS.findIndex(function(x){return x.id===stratEditId;});
-if(idx>=0) STRATS[idx]=s; else STRATS.unshift(s);
-} else {
-STRATS.unshift(s);
-}
-saveStrats();
-closeStratForm();
-renderStratList();
-toast((stratEditId?‘Estrategia actualizada’:‘Estrategia guardada’), true);
-stratEditId = null;
+  var name = document.getElementById('sf-name').value.trim();
+  if(!name) return toast('Introduce un nombre para la estrategia', false);
+  var s = {
+    id: stratEditId || Date.now(),
+    name: name,
+    sym: document.getElementById('sf-sym').value.trim().toUpperCase(),
+    tf: document.getElementById('sf-tf').value,
+    wr: document.getElementById('sf-wr').value,
+    pf: document.getElementById('sf-pf').value,
+    np: document.getElementById('sf-np').value,
+    dd: document.getElementById('sf-dd').value,
+    tt: document.getElementById('sf-tt').value,
+    at: document.getElementById('sf-at').value,
+    mo: document.getElementById('sf-mo').value,
+    yr: document.getElementById('sf-yr').value,
+    period: document.getElementById('sf-period').value.trim(),
+    notes: document.getElementById('sf-notes').value.trim(),
+    pine: document.getElementById('sf-pine').value.trim(),
+    updatedAt: new Date().toISOString()
+  };
+  if(stratEditId){
+    var idx = STRATS.findIndex(function(x){return x.id===stratEditId;});
+    if(idx>=0) STRATS[idx]=s; else STRATS.unshift(s);
+  } else {
+    STRATS.unshift(s);
+  }
+  saveStrats();
+  closeStratForm();
+  renderStratList();
+  toast((stratEditId?'Estrategia actualizada':'Estrategia guardada'), true);
+  stratEditId = null;
 }
 
 function delStrat(id){
-if(!confirm(‘Eliminar esta estrategia?’)) return;
-STRATS = STRATS.filter(function(s){return s.id!==id;});
-saveStrats();
-renderStratList();
-toast(‘Estrategia eliminada’, true);
+  if(!confirm('Eliminar esta estrategia?')) return;
+  STRATS = STRATS.filter(function(s){return s.id!==id;});
+  saveStrats();
+  renderStratList();
+  toast('Estrategia eliminada', true);
 }
 
 // ── CONOCIMIENTOS ─────────────────────────────────────────────────────────────
-var KNOWLEDGE = JSON.parse(localStorage.getItem(‘mt6_kn’)||’[]’);
+var KNOWLEDGE = JSON.parse(localStorage.getItem('mt6_kn')||'[]');
 var knEditId = null;
-var knCatFilter = ‘’;
+var knCatFilter = '';
 var pendingKnImgData = null;
 
-function saveKnowledge(){ localStorage.setItem(‘mt6_kn’, JSON.stringify(KNOWLEDGE)); }
+function saveKnowledge(){ localStorage.setItem('mt6_kn', JSON.stringify(KNOWLEDGE)); }
 
 function rKnowledge(){ knRender(); }
 
 function knFilter(cat, el){
-knCatFilter = cat;
-document.querySelectorAll(’[id^=“kn-cat”]’).forEach(function(b){b.classList.remove(‘on’);});
-if(el) el.classList.add(‘on’);
-knRender();
+  knCatFilter = cat;
+  document.querySelectorAll('[id^="kn-cat"]').forEach(function(b){b.classList.remove('on');});
+  if(el) el.classList.add('on');
+  knRender();
 }
 
 function knRender(){
-var el = document.getElementById(‘kn-list’);
-var emp = document.getElementById(‘kn-empty’);
-el.innerHTML = ‘’;
-var q = (document.getElementById(‘kn-search’).value||’’).toLowerCase().trim();
-var list = KNOWLEDGE;
-if(knCatFilter) list = list.filter(function(k){return k.cat===knCatFilter;});
-if(q) list = list.filter(function(k){
-return (k.title||’’).toLowerCase().includes(q)
-|| (k.desc||’’).toLowerCase().includes(q)
-|| (k.tags||’’).toLowerCase().includes(q);
-});
-if(!list.length){ emp.style.display=‘block’; return; }
-emp.style.display = ‘none’;
+  var el = document.getElementById('kn-list');
+  var emp = document.getElementById('kn-empty');
+  el.innerHTML = '';
+  var q = (document.getElementById('kn-search').value||'').toLowerCase().trim();
+  var list = KNOWLEDGE;
+  if(knCatFilter) list = list.filter(function(k){return k.cat===knCatFilter;});
+  if(q) list = list.filter(function(k){
+    return (k.title||'').toLowerCase().includes(q)
+      || (k.desc||'').toLowerCase().includes(q)
+      || (k.tags||'').toLowerCase().includes(q);
+  });
+  if(!list.length){ emp.style.display='block'; return; }
+  emp.style.display = 'none';
 
-// Group by category
-var groups = {};
-list.forEach(function(k){ if(!groups[k.cat]) groups[k.cat]=[]; groups[k.cat].push(k); });
-var CAT_COLORS = {Patrones:’#5b9cf6’,Indicadores:’#b8f03c’,Riesgo:’#f05050’,Psicología:’#a78bfa’,Onchain:’#2dda7a’,‘On-chain’:’#2dda7a’,Otro:’#f0a830’};
+  // Group by category
+  var groups = {};
+  list.forEach(function(k){ if(!groups[k.cat]) groups[k.cat]=[]; groups[k.cat].push(k); });
+  var CAT_COLORS = {Patrones:'#5b9cf6',Indicadores:'#b8f03c',Riesgo:'#f05050',Psicología:'#a78bfa',Onchain:'#2dda7a','On-chain':'#2dda7a',Otro:'#f0a830'};
 
-Object.keys(groups).forEach(function(cat){
-var hdr = document.createElement(‘div’);
-hdr.style.cssText = ‘display:flex;align-items:center;gap:6px;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(–t3);margin:12px 0 7px;padding-bottom:6px;border-bottom:1px solid var(–b1)’;
-var dot = document.createElement(‘div’);
-dot.style.cssText = ‘width:7px;height:7px;border-radius:50%;background:’+(CAT_COLORS[cat]||‘var(–t3)’);
-hdr.appendChild(dot);
-hdr.appendChild(document.createTextNode(cat + ’ (’ + groups[cat].length + ‘)’));
-el.appendChild(hdr);
+  Object.keys(groups).forEach(function(cat){
+    var hdr = document.createElement('div');
+    hdr.style.cssText = 'display:flex;align-items:center;gap:6px;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--t3);margin:12px 0 7px;padding-bottom:6px;border-bottom:1px solid var(--b1)';
+    var dot = document.createElement('div');
+    dot.style.cssText = 'width:7px;height:7px;border-radius:50%;background:'+(CAT_COLORS[cat]||'var(--t3)');
+    hdr.appendChild(dot);
+    hdr.appendChild(document.createTextNode(cat + ' (' + groups[cat].length + ')'));
+    el.appendChild(hdr);
 
-```
-groups[cat].forEach(function(k){ el.appendChild(knCard(k)); });
-```
-
-});
+    groups[cat].forEach(function(k){ el.appendChild(knCard(k)); });
+  });
 }
 
 function knCard(k){
-var card = document.createElement(‘div’);
-card.className = ‘card’;
-card.style.cssText = ‘margin-bottom:8px;cursor:pointer’;
-var imgData = localStorage.getItem(‘mt6_kn_img_’+k.id);
-var tags = (k.tags||’’).split(’,’).map(function(t){return t.trim();}).filter(Boolean);
+  var card = document.createElement('div');
+  card.className = 'card';
+  card.style.cssText = 'margin-bottom:8px;cursor:pointer';
+  var imgData = localStorage.getItem('mt6_kn_img_'+k.id);
+  var tags = (k.tags||'').split(',').map(function(t){return t.trim();}).filter(Boolean);
 
-card.innerHTML = ‘<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px">’
-+ ‘<div style="flex:1;min-width:0">’
-+ ‘<div style="font-size:14px;font-weight:700;margin-bottom:4px">’ + (k.title||’’) + ‘</div>’
-+ (k.desc?’<div style="font-size:12px;color:var(--t2);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">’ + k.desc + ‘</div>’:’’)
-+ (tags.length?’<div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:6px">’ + tags.map(function(t){return ‘<span style="font-size:9px;font-weight:600;background:var(--bg3);border:1px solid var(--b1);border-radius:4px;padding:2px 6px;color:var(--t3)">#’+t+’</span>’;}).join(’’) + ‘</div>’:’’)
-+ ‘</div>’
-+ ‘<div style="display:flex;gap:6px;flex-shrink:0">’
-+ (imgData?’<div style="width:40px;height:40px;border-radius:6px;overflow:hidden;flex-shrink:0"><img src="'+imgData+'" style="width:100%;height:100%;object-fit:cover"></div>’:’’)
-+ ‘</div></div>’
-+ ‘<div style="display:flex;gap:8px;margin-top:8px;justify-content:flex-end">’
-+ ‘<button onclick="event.stopPropagation();openKnForm(\''+k.id+'\')" style="background:none;border:none;color:var(--t3);cursor:pointer;padding:3px">’
-+ ‘<svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M10 2l2 2-7 7H3v-2l7-7z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>’
-+ ‘<button onclick="event.stopPropagation();delKn(\''+k.id+'\')" style="background:none;border:none;color:var(--t3);cursor:pointer;padding:3px">’
-+ ‘<svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M1 3h12M5 3V2a1 1 0 014 0v1M3.5 3l.8 8.5h5.4l.8-8.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>’
-+ ‘</div>’;
+  card.innerHTML = '<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px">'
+    + '<div style="flex:1;min-width:0">'
+    + '<div style="font-size:14px;font-weight:700;margin-bottom:4px">' + (k.title||'') + '</div>'
+    + (k.desc?'<div style="font-size:12px;color:var(--t2);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">' + k.desc + '</div>':'')
+    + (tags.length?'<div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:6px">' + tags.map(function(t){return '<span style="font-size:9px;font-weight:600;background:var(--bg3);border:1px solid var(--b1);border-radius:4px;padding:2px 6px;color:var(--t3)">#'+t+'</span>';}).join('') + '</div>':'')
+    + '</div>'
+    + '<div style="display:flex;gap:6px;flex-shrink:0">'
+    + (imgData?'<div style="width:40px;height:40px;border-radius:6px;overflow:hidden;flex-shrink:0"><img src="'+imgData+'" style="width:100%;height:100%;object-fit:cover"></div>':'')
+    + '</div></div>'
+    + '<div style="display:flex;gap:8px;margin-top:8px;justify-content:flex-end">'
+    + '<button onclick="event.stopPropagation();openKnForm(\''+k.id+'\')" style="background:none;border:none;color:var(--t3);cursor:pointer;padding:3px">'
+    + '<svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M10 2l2 2-7 7H3v-2l7-7z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>'
+    + '<button onclick="event.stopPropagation();delKn(\''+k.id+'\')" style="background:none;border:none;color:var(--t3);cursor:pointer;padding:3px">'
+    + '<svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M1 3h12M5 3V2a1 1 0 014 0v1M3.5 3l.8 8.5h5.4l.8-8.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>'
+    + '</div>';
 
-// Click to expand
-card.onclick = function(e){
-if(e.target.closest(‘button’)) return;
-openKnDetail(k.id);
-};
-return card;
+  // Click to expand
+  card.onclick = function(e){
+    if(e.target.closest('button')) return;
+    openKnDetail(k.id);
+  };
+  return card;
 }
 
 function openKnDetail(id){
-var k = KNOWLEDGE.find(function(x){return x.id===id;});
-if(!k) return;
-var imgData = localStorage.getItem(‘mt6_kn_img_’+k.id);
-var tags = (k.tags||’’).split(’,’).map(function(t){return t.trim();}).filter(Boolean);
-var CAT_COLORS = {Patrones:’#5b9cf6’,Indicadores:’#b8f03c’,Riesgo:’#f05050’,Psicología:’#a78bfa’,Onchain:’#2dda7a’,‘On-chain’:’#2dda7a’,Otro:’#f0a830’};
+  var k = KNOWLEDGE.find(function(x){return x.id===id;});
+  if(!k) return;
+  var imgData = localStorage.getItem('mt6_kn_img_'+k.id);
+  var tags = (k.tags||'').split(',').map(function(t){return t.trim();}).filter(Boolean);
+  var CAT_COLORS = {Patrones:'#5b9cf6',Indicadores:'#b8f03c',Riesgo:'#f05050',Psicología:'#a78bfa',Onchain:'#2dda7a','On-chain':'#2dda7a',Otro:'#f0a830'};
 
-// Create a full-screen sheet using close-modal
-var existing = document.getElementById(‘kn-detail-overlay’);
-if(existing) existing.remove();
-var overlay = document.createElement(‘div’);
-overlay.id = ‘kn-detail-overlay’;
-overlay.className = ‘close-modal on’;
-overlay.innerHTML = ‘<div class="close-modal-bg" onclick="this.parentNode.remove()"></div>’
-+ ‘<div class="close-modal-box" style="padding:18px 18px 40px;max-height:92vh;overflow-y:auto">’
-+ ‘<div class="sheet-handle"></div>’
-+ ‘<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">’
-+ ‘<div><div style="font-size:17px;font-weight:800">’ + k.title + ‘</div>’
-+ ‘<span style="font-size:10px;font-weight:700;padding:2px 8px;border-radius:4px;background:'+(CAT_COLORS[k.cat]||'var(--bg3)')+'22;color:'+(CAT_COLORS[k.cat]||'var(--t3)')+'">’ + k.cat + ‘</span></div>’
-+ ‘<div style="display:flex;gap:8px"><button onclick="openKnForm(\''+k.id+'\')" style="background:var(--bg3);border:1px solid var(--b2);border-radius:var(--r1);padding:7px 12px;font-size:11px;font-weight:700;color:var(--t2);cursor:pointer;font-family:var(--sans)">Editar</button>’
-+ ‘<button onclick="this.closest(\'.close-modal\').remove()" style="background:none;border:none;color:var(--t3);cursor:pointer;font-size:20px">×</button></div></div>’
-+ (imgData?’<img src="'+imgData+'" style="width:100%;border-radius:var(--r2);margin-bottom:14px;display:block;max-height:220px;object-fit:cover;cursor:pointer" onclick="(function(d){var ov=document.createElement(\'div\');ov.style.cssText=\'position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:999;display:flex;align-items:center;justify-content:center\';ov.onclick=function(){ov.remove();};var i=document.createElement(\'img\');i.src=d;i.style.cssText=\'max-width:96vw;max-height:90vh;border-radius:8px;object-fit:contain\';ov.appendChild(i);document.body.appendChild(ov);})(\''+imgData+'\')">’:’’)
-+ (k.desc?’<div style="font-size:13px;color:var(--t1);line-height:1.7;margin-bottom:14px">’+k.desc.replace(/\n/g,’<br>’)+’</div>’:’’)
-+ (k.example?’<div style="background:var(--bg3);border-left:3px solid var(--acc);border-radius:0 var(--r1) var(--r1) 0;padding:12px;font-size:12px;color:var(--t2);line-height:1.6;margin-bottom:14px">’+k.example.replace(/\n/g,’<br>’)+’</div>’:’’)
-+ (tags.length?’<div style="display:flex;flex-wrap:wrap;gap:5px">’ + tags.map(function(t){return ‘<span style="font-size:10px;font-weight:600;background:var(--bg3);border:1px solid var(--b1);border-radius:5px;padding:3px 8px;color:var(--t2)">#’+t+’</span>’;}).join(’’) + ‘</div>’:’’)
-+ ‘</div>’;
-document.body.appendChild(overlay);
+  // Create a full-screen sheet using close-modal
+  var existing = document.getElementById('kn-detail-overlay');
+  if(existing) existing.remove();
+  var overlay = document.createElement('div');
+  overlay.id = 'kn-detail-overlay';
+  overlay.className = 'close-modal on';
+  overlay.innerHTML = '<div class="close-modal-bg" onclick="this.parentNode.remove()"></div>'
+    + '<div class="close-modal-box" style="padding:18px 18px 40px;max-height:92vh;overflow-y:auto">'
+    + '<div class="sheet-handle"></div>'
+    + '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">'
+    + '<div><div style="font-size:17px;font-weight:800">' + k.title + '</div>'
+    + '<span style="font-size:10px;font-weight:700;padding:2px 8px;border-radius:4px;background:'+(CAT_COLORS[k.cat]||'var(--bg3)')+'22;color:'+(CAT_COLORS[k.cat]||'var(--t3)')+'">' + k.cat + '</span></div>'
+    + '<div style="display:flex;gap:8px"><button onclick="openKnForm(\''+k.id+'\')" style="background:var(--bg3);border:1px solid var(--b2);border-radius:var(--r1);padding:7px 12px;font-size:11px;font-weight:700;color:var(--t2);cursor:pointer;font-family:var(--sans)">Editar</button>'
+    + '<button onclick="this.closest(\'.close-modal\').remove()" style="background:none;border:none;color:var(--t3);cursor:pointer;font-size:20px">×</button></div></div>'
+    + (imgData?'<img src="'+imgData+'" style="width:100%;border-radius:var(--r2);margin-bottom:14px;display:block;max-height:220px;object-fit:cover;cursor:pointer" onclick="(function(d){var ov=document.createElement(\'div\');ov.style.cssText=\'position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:999;display:flex;align-items:center;justify-content:center\';ov.onclick=function(){ov.remove();};var i=document.createElement(\'img\');i.src=d;i.style.cssText=\'max-width:96vw;max-height:90vh;border-radius:8px;object-fit:contain\';ov.appendChild(i);document.body.appendChild(ov);})(\''+imgData+'\')">':'')
+    + (k.desc?'<div style="font-size:13px;color:var(--t1);line-height:1.7;margin-bottom:14px">'+k.desc.replace(/\n/g,'<br>')+'</div>':'')
+    + (k.example?'<div style="background:var(--bg3);border-left:3px solid var(--acc);border-radius:0 var(--r1) var(--r1) 0;padding:12px;font-size:12px;color:var(--t2);line-height:1.6;margin-bottom:14px">'+k.example.replace(/\n/g,'<br>')+'</div>':'')
+    + (tags.length?'<div style="display:flex;flex-wrap:wrap;gap:5px">' + tags.map(function(t){return '<span style="font-size:10px;font-weight:600;background:var(--bg3);border:1px solid var(--b1);border-radius:5px;padding:3px 8px;color:var(--t2)">#'+t+'</span>';}).join('') + '</div>':'')
+    + '</div>';
+  document.body.appendChild(overlay);
 }
 
 function openKnForm(id){
-knEditId = id;
-pendingKnImgData = null;
-var k = id ? KNOWLEDGE.find(function(x){return x.id===id;}) : null;
-document.getElementById(‘kn-form-title’).textContent = k ? ‘Editar concepto’ : ‘Nuevo concepto’;
-document.getElementById(‘kn-save-btn’).textContent = k ? ‘Actualizar’ : ‘Guardar’;
-document.getElementById(‘kf-title’).value = k ? k.title||’’ : ‘’;
-document.getElementById(‘kf-cat’).value = k ? k.cat||‘Patrones’ : ‘Patrones’;
-document.getElementById(‘kf-desc’).value = k ? k.desc||’’ : ‘’;
-document.getElementById(‘kf-example’).value = k ? k.example||’’ : ‘’;
-document.getElementById(‘kf-tags’).value = k ? k.tags||’’ : ‘’;
-document.getElementById(‘kf-img-input’).value = ‘’;
-var prev = document.getElementById(‘kf-img-preview’);
-var existingImg = id ? localStorage.getItem(‘mt6_kn_img_’+id) : null;
-if(existingImg){
-pendingKnImgData = existingImg;
-prev.innerHTML = ‘<img src="'+existingImg+'" style="width:100%;max-height:120px;object-fit:cover;border-radius:var(--r1)">’
-+ ‘<div style="text-align:center;margin-top:5px;font-size:10px;color:var(--t3);cursor:pointer" onclick="clearKnImg()">Quitar imagen</div>’;
-prev.style.padding=‘6px’; prev.style.border=‘1.5px solid var(–b2)’;
-} else {
-clearKnImg();
-}
-// Close kn-detail-overlay if open
-var det = document.getElementById(‘kn-detail-overlay’);
-if(det) det.remove();
-document.getElementById(‘sheet-kn’).classList.add(‘on’);
+  knEditId = id;
+  pendingKnImgData = null;
+  var k = id ? KNOWLEDGE.find(function(x){return x.id===id;}) : null;
+  document.getElementById('kn-form-title').textContent = k ? 'Editar concepto' : 'Nuevo concepto';
+  document.getElementById('kn-save-btn').textContent = k ? 'Actualizar' : 'Guardar';
+  document.getElementById('kf-title').value = k ? k.title||'' : '';
+  document.getElementById('kf-cat').value = k ? k.cat||'Patrones' : 'Patrones';
+  document.getElementById('kf-desc').value = k ? k.desc||'' : '';
+  document.getElementById('kf-example').value = k ? k.example||'' : '';
+  document.getElementById('kf-tags').value = k ? k.tags||'' : '';
+  document.getElementById('kf-img-input').value = '';
+  var prev = document.getElementById('kf-img-preview');
+  var existingImg = id ? localStorage.getItem('mt6_kn_img_'+id) : null;
+  if(existingImg){
+    pendingKnImgData = existingImg;
+    prev.innerHTML = '<img src="'+existingImg+'" style="width:100%;max-height:120px;object-fit:cover;border-radius:var(--r1)">'
+      + '<div style="text-align:center;margin-top:5px;font-size:10px;color:var(--t3);cursor:pointer" onclick="clearKnImg()">Quitar imagen</div>';
+    prev.style.padding='6px'; prev.style.border='1.5px solid var(--b2)';
+  } else {
+    clearKnImg();
+  }
+  // Close kn-detail-overlay if open
+  var det = document.getElementById('kn-detail-overlay');
+  if(det) det.remove();
+  document.getElementById('sheet-kn').classList.add('on');
 }
 
 function closeKnForm(){
-document.getElementById(‘sheet-kn’).classList.remove(‘on’);
+  document.getElementById('sheet-kn').classList.remove('on');
 }
 
 function onKnImgSelected(input){
-var file = input.files[0];
-if(!file) return;
-if(file.size > 3*1024*1024) return toast(‘Imagen demasiado grande (max 3MB)’, false);
-var reader = new FileReader();
-reader.onload = function(e){
-pendingKnImgData = e.target.result;
-var prev = document.getElementById(‘kf-img-preview’);
-prev.innerHTML = ‘<img src="'+pendingKnImgData+'" style="width:100%;max-height:120px;object-fit:cover;border-radius:var(--r1)">’
-+ ‘<div style="text-align:center;margin-top:5px;font-size:10px;color:var(--t3);cursor:pointer" onclick="clearKnImg()">Quitar imagen</div>’;
-prev.style.padding=‘6px’; prev.style.border=‘1.5px solid var(–b2)’;
-};
-reader.readAsDataURL(file);
+  var file = input.files[0];
+  if(!file) return;
+  if(file.size > 3*1024*1024) return toast('Imagen demasiado grande (max 3MB)', false);
+  var reader = new FileReader();
+  reader.onload = function(e){
+    pendingKnImgData = e.target.result;
+    var prev = document.getElementById('kf-img-preview');
+    prev.innerHTML = '<img src="'+pendingKnImgData+'" style="width:100%;max-height:120px;object-fit:cover;border-radius:var(--r1)">'
+      + '<div style="text-align:center;margin-top:5px;font-size:10px;color:var(--t3);cursor:pointer" onclick="clearKnImg()">Quitar imagen</div>';
+    prev.style.padding='6px'; prev.style.border='1.5px solid var(--b2)';
+  };
+  reader.readAsDataURL(file);
 }
 
 function clearKnImg(){
-pendingKnImgData = null;
-var prev = document.getElementById(‘kf-img-preview’);
-prev.innerHTML = ‘<svg width="18" height="18" viewBox="0 0 20 20" fill="none" style="display:block;margin:0 auto 5px"><rect x="2" y="4" width="16" height="12" rx="2" stroke="currentColor" stroke-width="1.3"/><circle cx="7" cy="9" r="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M2 14l4-4 3 3 3-3 4 4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>Toca para añadir imagen’;
-prev.style.padding=‘14px’; prev.style.border=‘1.5px dashed var(–b2)’;
-document.getElementById(‘kf-img-input’).value=’’;
+  pendingKnImgData = null;
+  var prev = document.getElementById('kf-img-preview');
+  prev.innerHTML = '<svg width="18" height="18" viewBox="0 0 20 20" fill="none" style="display:block;margin:0 auto 5px"><rect x="2" y="4" width="16" height="12" rx="2" stroke="currentColor" stroke-width="1.3"/><circle cx="7" cy="9" r="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M2 14l4-4 3 3 3-3 4 4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>Toca para añadir imagen';
+  prev.style.padding='14px'; prev.style.border='1.5px dashed var(--b2)';
+  document.getElementById('kf-img-input').value='';
 }
 
 function saveKn(){
-var title = document.getElementById(‘kf-title’).value.trim();
-if(!title) return toast(‘El título es obligatorio’, false);
-var k = {
-id: knEditId || Date.now(),
-title: title,
-cat: document.getElementById(‘kf-cat’).value,
-desc: document.getElementById(‘kf-desc’).value.trim(),
-example: document.getElementById(‘kf-example’).value.trim(),
-tags: document.getElementById(‘kf-tags’).value.trim(),
-updatedAt: new Date().toISOString()
-};
-if(pendingKnImgData !== null){
-localStorage.setItem(‘mt6_kn_img_’+k.id, pendingKnImgData);
-} else if(!knEditId){
-localStorage.removeItem(‘mt6_kn_img_’+k.id);
-}
-if(knEditId){
-var idx = KNOWLEDGE.findIndex(function(x){return x.id===knEditId;});
-if(idx>=0) KNOWLEDGE[idx]=k; else KNOWLEDGE.unshift(k);
-} else {
-KNOWLEDGE.unshift(k);
-}
-saveKnowledge();
-closeKnForm();
-knRender();
-toast((knEditId?‘Concepto actualizado’:‘Concepto guardado’), true);
-knEditId = null;
+  var title = document.getElementById('kf-title').value.trim();
+  if(!title) return toast('El título es obligatorio', false);
+  var k = {
+    id: knEditId || Date.now(),
+    title: title,
+    cat: document.getElementById('kf-cat').value,
+    desc: document.getElementById('kf-desc').value.trim(),
+    example: document.getElementById('kf-example').value.trim(),
+    tags: document.getElementById('kf-tags').value.trim(),
+    updatedAt: new Date().toISOString()
+  };
+  if(pendingKnImgData !== null){
+    localStorage.setItem('mt6_kn_img_'+k.id, pendingKnImgData);
+  } else if(!knEditId){
+    localStorage.removeItem('mt6_kn_img_'+k.id);
+  }
+  if(knEditId){
+    var idx = KNOWLEDGE.findIndex(function(x){return x.id===knEditId;});
+    if(idx>=0) KNOWLEDGE[idx]=k; else KNOWLEDGE.unshift(k);
+  } else {
+    KNOWLEDGE.unshift(k);
+  }
+  saveKnowledge();
+  closeKnForm();
+  knRender();
+  toast((knEditId?'Concepto actualizado':'Concepto guardado'), true);
+  knEditId = null;
 }
 
 function delKn(id){
-if(!confirm(‘Eliminar este concepto?’)) return;
-KNOWLEDGE = KNOWLEDGE.filter(function(k){return k.id!==id;});
-localStorage.removeItem(‘mt6_kn_img_’+id);
-saveKnowledge();
-knRender();
-toast(‘Concepto eliminado’, true);
+  if(!confirm('Eliminar este concepto?')) return;
+  KNOWLEDGE = KNOWLEDGE.filter(function(k){return k.id!==id;});
+  localStorage.removeItem('mt6_kn_img_'+id);
+  saveKnowledge();
+  knRender();
+  toast('Concepto eliminado', true);
 }
+
+
 
 function showPickerSheet(title, options, cb){
-var existing = document.getElementById(‘picker-sheet-overlay’);
-if(existing) existing.remove();
-var overlay = document.createElement(‘div’);
-overlay.id = ‘picker-sheet-overlay’;
-overlay.className = ‘close-modal on’;
-var box = document.createElement(‘div’);
-box.className = ‘close-modal-box’;
-box.style.cssText = ‘padding:18px 18px 32px’;
-var handle = document.createElement(‘div’);
-handle.className = ‘sheet-handle’;
-var titleEl = document.createElement(‘div’);
-titleEl.style.cssText = ‘font-size:14px;font-weight:800;margin-bottom:14px’;
-titleEl.textContent = title;
-var bg = document.createElement(‘div’);
-bg.className = ‘close-modal-bg’;
-bg.onclick = function(){ overlay.remove(); };
-box.appendChild(handle);
-box.appendChild(titleEl);
-options.forEach(function(opt){
-var btn = document.createElement(‘button’);
-btn.style.cssText = ‘display:block;width:100%;text-align:left;padding:12px 14px;background:var(–bg3);border:1px solid var(–b1);border-radius:var(–r1);font-size:13px;font-weight:600;color:var(–t1);cursor:pointer;font-family:var(–sans);margin-bottom:6px;box-sizing:border-box’;
-btn.textContent = opt;
-btn.onclick = function(){ overlay.remove(); cb(opt); };
-box.appendChild(btn);
-});
-overlay.appendChild(bg);
-overlay.appendChild(box);
-document.body.appendChild(overlay);
+  var existing = document.getElementById('picker-sheet-overlay');
+  if(existing) existing.remove();
+  var overlay = document.createElement('div');
+  overlay.id = 'picker-sheet-overlay';
+  overlay.className = 'close-modal on';
+  var box = document.createElement('div');
+  box.className = 'close-modal-box';
+  box.style.cssText = 'padding:18px 18px 32px';
+  var handle = document.createElement('div');
+  handle.className = 'sheet-handle';
+  var titleEl = document.createElement('div');
+  titleEl.style.cssText = 'font-size:14px;font-weight:800;margin-bottom:14px';
+  titleEl.textContent = title;
+  var bg = document.createElement('div');
+  bg.className = 'close-modal-bg';
+  bg.onclick = function(){ overlay.remove(); };
+  box.appendChild(handle);
+  box.appendChild(titleEl);
+  options.forEach(function(opt){
+    var btn = document.createElement('button');
+    btn.style.cssText = 'display:block;width:100%;text-align:left;padding:12px 14px;background:var(--bg3);border:1px solid var(--b1);border-radius:var(--r1);font-size:13px;font-weight:600;color:var(--t1);cursor:pointer;font-family:var(--sans);margin-bottom:6px;box-sizing:border-box';
+    btn.textContent = opt;
+    btn.onclick = function(){ overlay.remove(); cb(opt); };
+    box.appendChild(btn);
+  });
+  overlay.appendChild(bg);
+  overlay.appendChild(box);
+  document.body.appendChild(overlay);
 }
 
+
 // ── INIT ──────────────────────────────────────────────────────────────────────
-document.getElementById(‘f-dt’).value=new Date().toISOString().split(‘T’)[0];
-document.getElementById(‘mov-date’).value=new Date().toISOString().split(‘T’)[0];
+document.getElementById('f-dt').value=new Date().toISOString().split('T')[0];
+document.getElementById('mov-date').value=new Date().toISOString().split('T')[0];
 updateTopbar();
 renderAcc();
 updDash();
 autoBackup();
 initCal();
 renderNav();
-
 </script>
 
 </body>
