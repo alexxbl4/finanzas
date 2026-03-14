@@ -20,8 +20,8 @@
   --sans:'Montserrat',sans-serif;--mono:'JetBrains Mono',monospace
 }
 html{scroll-behavior:smooth}
-body{background:var(--bg0);color:var(--t1);font-family:var(--sans);-webkit-font-smoothing:antialiased;min-height:100vh;display:flex;flex-direction:column;max-width:480px;margin:0 auto}
-.topbar{background:var(--bg1);border-bottom:1px solid var(--b1);display:flex;align-items:center;justify-content:space-between;padding:0 14px;height:52px;flex-shrink:0;position:sticky;top:0;z-index:100}
+body{margin:0 auto;padding:0;background:var(--bg0);color:var(--t1);font-family:var(--sans);height:100dvh;height:100vh;display:flex;flex-direction:column;max-width:480px;overflow:hidden;}
+.topbar{background:var(--bg1);border-bottom:1px solid var(--b1);display:flex;align-items:center;justify-content:space-between;padding:0 14px;height:52px;flex-shrink:0;position:relative;z-index:100}
 .logo-wrap{display:flex;align-items:center;gap:8px;flex-shrink:0}
 .logo-mark{width:28px;height:28px;background:var(--acc);border-radius:7px;display:flex;align-items:center;justify-content:center}
 .logo-mark svg{width:14px;height:14px}
@@ -33,7 +33,7 @@ body{background:var(--bg0);color:var(--t1);font-family:var(--sans);-webkit-font-
 .acc-pill-name{font-size:11px;font-weight:700;color:var(--t1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .acc-pill-chevron{color:var(--t3);flex-shrink:0}
 .page-badge{font-size:11px;font-weight:600;color:var(--t2);letter-spacing:0.4px}
-.content{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch}
+.content{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;min-height:0;}
 .page{display:none;padding:18px 16px 100px;animation:fi 0.2s ease}
 .page.on{display:block}
 @keyframes fi{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
@@ -156,7 +156,7 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
 .goal-bar-wrap{margin-top:10px}
 .goal-bar-bg{height:6px;background:var(--bg4);border-radius:3px;overflow:hidden}
 .goal-bar-fill{height:100%;border-radius:3px;transition:width 0.4s ease}
-.gsrch-wrap{padding:10px 16px 0;position:sticky;top:52px;z-index:90;background:var(--bg0)}
+.gsrch-wrap{padding:10px 16px 0;position:sticky;top:0;z-index:90;background:var(--bg0)}
 .gsrch-inner{display:flex;align-items:center;gap:8px;background:var(--bg2);border:1px solid var(--b1);border-radius:var(--r2);padding:10px 14px}
 .gsrch-inner svg{flex-shrink:0;color:var(--t3)}
 .gsrch-input{flex:1;background:none;border:none;outline:none;font-size:14px;font-weight:500;color:var(--t1);font-family:var(--sans)}
@@ -629,7 +629,7 @@ function refreshAll(){
   if(id==='alerts'){rAlerts();startAlertPoll();}
   if(id==='journal')rJournal();
   if(id==='backup')renderBackup();
-  if(id==='stats')rStats();
+  renderNav();
 }
 
 // ── ACCOUNT SHEET ─────────────────────────────────────────────────────────────
@@ -757,7 +757,7 @@ function renderAccsList(){
     var dep=mov.reduce(function(x,m){return x+(m.type==='dep'?m.amt:-m.amt);},0);
     var card=document.createElement('div');
     card.style.cssText='background:var(--bg2);border:2px solid '+(isActive?a.color:'var(--b1)')+';border-radius:var(--r3);padding:16px;margin-bottom:10px;cursor:pointer;';
-    card.onclick=function(){switchAcc(a.id);gp('dash',document.getElementById('ni-d'),'Dashboard');};
+    card.onclick=function(){switchAcc(a.id);gp('dash',null,'Dashboard');renderNav();};
     card.innerHTML='<div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">'+
       '<div style="width:40px;height:40px;border-radius:11px;background:'+a.color+'22;display:flex;align-items:center;justify-content:center;flex-shrink:0">'+
       '<div style="width:16px;height:16px;border-radius:50%;background:'+a.color+'"></div></div>'+
@@ -846,21 +846,70 @@ var CRYPTOS=[
 ];
 function cColor(s){var c=CRYPTOS.find(function(x){return x.s===s;});return c?c.c:'#6e8299';}
 function cName(s){var c=CRYPTOS.find(function(x){return x.s===s;});return c?c.n:s;}
+var LOGO_CACHE={};
+var CG_IDS={BTC:'bitcoin',ETH:'ethereum',SOL:'solana',BNB:'binancecoin',XRP:'ripple',
+  ADA:'cardano',AVAX:'avalanche-2',DOGE:'dogecoin',TRX:'tron',TON:'the-open-network',
+  DOT:'polkadot',LINK:'chainlink',LTC:'litecoin',ATOM:'cosmos',UNI:'uniswap',
+  NEAR:'near',OP:'optimism',ARB:'arbitrum',SUI:'sui',APT:'aptos',
+  INJ:'injective-protocol',SEI:'sei-network',TIA:'celestia',MATIC:'matic-network',
+  FTM:'fantom',HYPE:'hyperliquid',ENA:'ethena',ETHFI:'ether-fi',
+  EIGEN:'eigenlayer',W:'wormhole',STRK:'starknet',ZK:'zksync',
+  JUP:'jupiter-exchange-solana',JTO:'jito-governance-token',
+  PYTH:'pyth-network',RAY:'raydium',ORCA:'orca',DRIFT:'drift-protocol',
+  AAVE:'aave',CRV:'curve-dao-token',MKR:'maker',SNX:'havven',
+  LDO:'lido-dao',PENDLE:'pendle',GMX:'gmx',DYDX:'dydx-chain',
+  GRT:'the-graph',RPL:'rocket-pool',COMP:'compound-governance-token',
+  BAL:'balancer',SUSHI:'sushi',YFI:'yearn-finance',IMX:'immutable-x',
+  SAND:'the-sandbox',MANA:'decentraland',AXS:'axie-infinity',
+  GALA:'gala',RON:'ronin',MAGIC:'magic',BEAM:'beam-2',ILV:'illuvium',
+  PEPE:'pepe',BONK:'bonk',WIF:'dogwifhat',SHIB:'shiba-inu',
+  FLOKI:'floki',BRETT:'based-brett',NOT:'notcoin',DOGS:'dogs-2',
+  TAO:'bittensor',FET:'fetch-ai',RNDR:'render-token',WLD:'worldcoin-wld',
+  AGIX:'singularitynet',KAVA:'kava',ALGO:'algorand',VET:'vechain',
+  XLM:'stellar',XMR:'monero',EGLD:'elrond-erd-2',THETA:'theta-token',
+  ZIL:'zilliqa',ZEC:'zcash',DASH:'dash',ENS:'ethereum-name-service',
+  MASK:'mask-network',ROSE:'oasis-network',CFX:'conflux-token',
+  CELO:'celo',ANKR:'ankr',RSR:'reserve-rights-token',
+  LQTY:'liquity',JASMY:'jasmycoin',PERP:'perpetual-protocol',
+  DODO:'dodo',BICO:'biconomy',AUDIO:'audius',BADGER:'badger-dao',
+  BNT:'bancor',MLN:'enzyme',FIDA:'bonfida',USDC:'usd-coin',
+  USDT:'tether',DAI:'dai',FRAX:'frax',
+  DYM:'dymension',ZETA:'zetachain',SAGA:'saga-2',OMNI:'omni-network',
+  ALT:'altlayer',REZ:'renzo',IO:'io-net',HMSTR:'hamster-kombat',
+  PIXEL:'pixels',PORTAL:'portal-fantasy',TURBO:'turbo-2',
+  POPCAT:'popcat',NEIRO:'neiro-on-eth',MEME:'memecoin-2',
+  BLUR:'blur',PURR:'purr-4'
+};
 function logoEl(sym,size){
   size=size||32;
   var col=cColor(sym);
-  var url='https://cdn.jsdelivr.net/gh/spothq/cryptocurrency-icons@master/32/color/'+sym.toLowerCase()+'.png';
   var d=document.createElement('div');
   d.style.cssText='width:'+size+'px;height:'+size+'px;border-radius:50%;background:'+col+'22;border:1.5px solid '+col+'55;display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;';
-  var img=document.createElement('img');
-  img.src=url; img.width=size-8; img.height=size-8;
-  img.style.cssText='object-fit:contain;';
   var fb=document.createElement('span');
-  fb.style.cssText='font-size:'+(size<=24?8:10)+'px;font-weight:700;color:'+col+';font-family:var(--mono);display:none;';
-  fb.textContent=sym.slice(0,3);
-  img.onerror=function(){this.style.display='none';fb.style.display='flex';};
-  img.onload=function(){fb.style.display='none';};
-  d.appendChild(img); d.appendChild(fb);
+  fb.style.cssText='font-size:'+(size<=24?8:10)+'px;font-weight:700;color:'+col+';font-family:var(--mono);display:flex;align-items:center;justify-content:center;width:100%;height:100%;';
+  fb.textContent=sym.slice(0,4);
+  d.appendChild(fb);
+  // Try spothq first (fast CDN, ~200 coins)
+  var url1='https://cdn.jsdelivr.net/gh/spothq/cryptocurrency-icons@master/32/color/'+sym.toLowerCase()+'.png';
+  // CoinGecko fallback
+  var cgId=CG_IDS[sym];
+  var url2=cgId?'https://assets.coingecko.com/coins/images/1/thumb/'+cgId+'.png':null;
+  var img=document.createElement('img');
+  img.width=size-8; img.height=size-8;
+  img.style.cssText='object-fit:contain;position:absolute;';
+  img.onerror=function(){
+    if(cgId && this.src.indexOf('jsdelivr')>=0){
+      // Try CoinGecko thumb
+      this.style.display='none';
+      this.onerror=function(){ this.style.display='none'; };
+    } else {
+      this.style.display='none';
+    }
+  };
+  img.onload=function(){ fb.style.display='none'; };
+  img.src=url1;
+  d.style.position='relative';
+  d.appendChild(img);
   return d;
 }
 var FAVS=load('mt6_favs','[]');
@@ -915,7 +964,6 @@ function gp(id,el,title){
   if(id==='alerts'){rAlerts();startAlertPoll();}
   if(id==='journal')rJournal();
   if(id==='backup')renderBackup();
-  if(id==='stats')rStats();
 }
 
 // ── FORM ──────────────────────────────────────────────────────────────────────
@@ -925,7 +973,8 @@ function openNewForm(){
   resetForm();
   document.getElementById('form-title').textContent='Nueva operacion';
   document.getElementById('form-save-btn').textContent='Guardar';
-  gp('new',document.getElementById('ni-n'),'Nueva operacion');
+  gp('new',null,'Nueva operacion');
+  renderNav();
 }
 function openEditForm(id){
   var TR=getTR();
@@ -977,7 +1026,8 @@ renderNav();
 }
 function cancelForm(){
   editId=null; resetForm();
-  gp('dash',document.getElementById('ni-d'),'Dashboard');
+  gp('dash',null,'Dashboard');
+  renderNav();
 }
 function setSide(s){
   side=s;
@@ -1012,7 +1062,8 @@ function saveTrade(){
   var p=cpnl(t);
   toast(editId?'Trade actualizado':'Guardado'+(p!==null?' · PnL '+fm(p):''),true);
   editId=null; resetForm();
-  gp('hist',document.getElementById('ni-h'),'Historial');
+  gp('hist',null,'Historial');
+  renderNav();
 }
 function lp(){
   var pb=document.getElementById('prev-box');
@@ -1875,7 +1926,7 @@ function runGlobalSearch(q){
       var t=r.t; var p=cpnl(t);
       var item=document.createElement('div');
       item.className='gsr-item';
-      item.onclick=function(){gp('hist',document.getElementById('ni-h'),'Historial');};
+      item.onclick=function(){gp('hist',null,'Historial');renderNav();};
       var ico=document.createElement('div');
       ico.style.cssText='width:32px;height:32px;border-radius:50%;background:'+cColor(t.symbol)+'22;border:1.5px solid '+cColor(t.symbol)+'55;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:'+cColor(t.symbol)+';flex-shrink:0';
       ico.textContent=t.symbol.slice(0,3);
@@ -1901,7 +1952,7 @@ function runGlobalSearch(q){
       var tr=load('mt6_'+a.id+'_tr','[]');
       var item=document.createElement('div');
       item.className='gsr-item';
-      item.onclick=function(){switchAcc(a.id);gp('dash',document.getElementById('ni-d'),'Dashboard');};
+      item.onclick=function(){switchAcc(a.id);gp('dash',null,'Dashboard');renderNav();};
       var ico=document.createElement('div');
       ico.style.cssText='width:32px;height:32px;border-radius:9px;background:'+a.color+'22;display:flex;align-items:center;justify-content:center;flex-shrink:0';
       var dot=document.createElement('div');
@@ -1973,7 +2024,7 @@ function rGlobal(){
     card.style.marginBottom='8px';
     card.style.cursor='pointer';
     card.style.borderLeft='3px solid '+a.color;
-    card.onclick=function(){switchAcc(a.id);gp('dash',document.getElementById('ni-d'),'Dashboard');};
+    card.onclick=function(){switchAcc(a.id);gp('dash',null,'Dashboard');renderNav();};
     card.innerHTML='<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">'
       +'<div><div style="font-size:14px;font-weight:800">'+a.name+'</div>'
       +(a.platform?'<div style="font-size:10px;color:var(--t3)">'+a.platform+'</div>':'')+'</div>'
@@ -2879,17 +2930,7 @@ function renderPinGrid(){
   });
 }
 
-// Override gp to update nav highlight
-var _gp_orig = gp;
-gp = function(id, el, title){
-  _gp_orig(id, el, title);
-  // Update active state on tab slots
-  for(var i=0;i<4;i++){
-    var slot = document.getElementById('ni-t'+i);
-    if(slot) slot.classList.toggle('on', PINNED_TABS[i] === id);
-  }
-  document.getElementById('ni-menu').classList.remove('on');
-};
+// Nav highlight update is handled by renderNav() calls
 
 // ── INIT ──────────────────────────────────────────────────────────────────────
 document.getElementById('f-dt').value=new Date().toISOString().split('T')[0];
